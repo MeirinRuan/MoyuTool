@@ -8,6 +8,8 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Reflection;
+using System.Drawing.Design;
 
 namespace MyTool
 {
@@ -30,7 +32,7 @@ namespace MyTool
         private TenCount _TenCount = new TenCount();
         private Option _Option = new Option();
         
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
             Description("【必填】奖池对应的cq_lua_data 表的type（存储物品产出量）。"),]
         public int LuaType
@@ -38,7 +40,7 @@ namespace MyTool
             get { return _LuaType; }
             set { _LuaType = value; }
         }
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("幸运榜类型"),
             Description("【必填】十连抽幸运榜对应的cq_lua_data表的type。"),]
         public int RankType
@@ -46,7 +48,7 @@ namespace MyTool
             get { return _RankType; }
             set { _RankType = value; }
         }
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("版本号类型"),
             Description("【必填】版本号对应的cq_lua_data表的type。"),]
         public int VerType
@@ -54,7 +56,7 @@ namespace MyTool
             get { return _VerType; }
             set { _VerType = value; }
         }
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("掩码id"),
             Description("【必填】本次活动抽奖的掩码。"),]
         public int TaskId
@@ -62,7 +64,7 @@ namespace MyTool
             get { return _TaskId; }
             set { _TaskId = value; }
         }
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("每日次数限制"),
             Description("【必填】每日次数限制。"),]
         public int LimitCount
@@ -70,7 +72,7 @@ namespace MyTool
             get { return _LimitCount; }
             set { _LimitCount = value; }
         }
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("版本号"),
             Description("【必填】版本号。（每一次重新启用需要配置和之前不同的版本号，否则第二次启用掩码不会被重置）。"),]
         public int Ver
@@ -78,7 +80,7 @@ namespace MyTool
             get { return _Ver; }
             set { _Ver = value; }
         }
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("几连抽配置"),
             Description("【必填】几连抽配置（目前客户端不支持，请配置10）默认10。"),]
         public int DrawCount
@@ -86,7 +88,7 @@ namespace MyTool
             get { return _DrawCount; }
             set { _DrawCount = value; }
         }
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("幸运榜名称"),
             Description("【必填】右侧幸运榜显示的名称。"),]
         public string RankName
@@ -94,7 +96,7 @@ namespace MyTool
             get { return _RankName; }
             set { _RankName = value; }
         }
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("活动标题"),
             Description("【必填】显示在界面上方的活动标题。"),]
         public string Title
@@ -102,7 +104,7 @@ namespace MyTool
             get { return _Titile; }
             set { _Titile = value; }
         }
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("官方logid"),
             Description("【必填】官方logid。"),]
         public int LogId
@@ -110,7 +112,7 @@ namespace MyTool
             get { return _LogId; }
             set { _LogId = value; }
         }
-        [Category("基础数据配置表"),
+        [Category("\t基础数据配置表"),
             DisplayName("西山居logid"),
             Description("【必填】西山居logid。"),]
         public int LogId_XSJ
@@ -131,6 +133,7 @@ namespace MyTool
         [Category("抽奖规则表"),
             TypeConverter(typeof(OptionConvert)),
             DisplayName("阶段性保底抽奖"),
+            Browsable(false),
             Description("【选填】阶段性保底抽奖")]
         public LeastSettings Ls
         {
@@ -140,6 +143,7 @@ namespace MyTool
         [Category("抽奖规则表"),
             TypeConverter(typeof(OptionConvert)),
             DisplayName("循环类保底抽奖"),
+            Browsable(false),
             Description("【选填】循环类保底抽奖"),]
         public LstAwdSettings LstAwd
         {
@@ -148,8 +152,9 @@ namespace MyTool
         }
         [Category("抽奖规则表"),
             TypeConverter(typeof(OptionConvert)),
-                    DisplayName("十连抽追加抽奖次数"),
-                    Description("【选填】十连抽追加抽奖次数"),]
+            DisplayName("十连抽追加抽奖次数"),
+            Browsable(false),
+            Description("【选填】十连抽追加抽奖次数"),]
         public TenCount TC
         {
             get { return _TenCount; }
@@ -162,11 +167,31 @@ namespace MyTool
     }
 
     //tOption 控制规则的类
+    /*
+     ------tOption:控制作用的规则限制 【必填】
+--------{
+----------isOpen: 1:该活动开启，0：该活动关闭。【必填】
+----------sStartTime：活动开始时间 【选填】
+----------sEndTime: 活动结束时间【选填】
+----------tServer: 运用于哪些服务器。【必填】tServer = {0, 1, 2}  (=0官方；=1APP；=2应用宝；3=渠道服；10=西山居西瓜渠道)
+----------tCost： 消耗的筹码币 【必填】
+------------{
+---------------nItemId ：物品id（购买的道具ID） 【必填】
+---------------nNum ： 消耗数量 【必填】
+---------------nShowId: 道具展示形象物品id(一般都是筹码币ID) 【必填】
+---------------isBuy: 是否开启购买系统。=2:连接魔石商店 =1：开启直接购买，=0：不开启【必填】 （如果开启，魔石价格必填）
+---------------nCost: 魔石价格【必填】
+---------------isBind：是否出售绑定【必填】(默认为1，绑定)
+------------}
+--------}
+         */
     public class Option
     {
-        private bool _IsOpen = true;
+        private int _IsOpen = 1;
 
-        public bool IsOpen
+        [DisplayName("该活动是否开启"),
+            Description("【必填】1:该活动开启，0：该活动关闭。"),]
+        public int IsOpen
         {
             get { return _IsOpen; }
             set { _IsOpen = value; }
@@ -175,14 +200,12 @@ namespace MyTool
 
     }
 
-
-
     //tTenCount 十连抽追加抽奖次数【选填】。
     public class TenCount
     {
         private int _TenCount = 0;
         [DisplayName("十连抽追加抽奖次数"),
-                     Description("【选填】十连抽追加抽奖次数"),]
+            Description("【选填】十连抽追加抽奖次数"),]
         public int TenCounts
         {
             get { return _TenCount; }

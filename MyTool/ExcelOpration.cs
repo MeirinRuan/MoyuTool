@@ -67,9 +67,9 @@ namespace MyTool
         }
 
         //根据第一行单个表头读取列内容
-        public ArrayList GetColumnValues(Worksheet ws, string ColumnName)
+        public List<String> GetColumnValues(Worksheet ws, string ColumnName)
         {
-            ArrayList sColumnsValues = new ArrayList();
+            List<String> sColumnsValues = new List<String>();
 
             //遍历第一行表头的数据判断是否有该内容的表头
             int nColumns = 0;
@@ -107,9 +107,9 @@ namespace MyTool
         }
 
         //返回单行内容
-        public ArrayList GetRowValues(Worksheet ws, int nRow)
+        public List<String> GetRowValues(Worksheet ws, int nRow)
         {
-            ArrayList sRowValues = new ArrayList();
+            List<String> sRowValues = new List<String>();
             int nRows = nRow;
             int i = 1;
             //行的第一个内容不为空
@@ -145,11 +145,11 @@ namespace MyTool
         }
 
         //拼接单行sql语句
-        public string GetStatement(Worksheet ws, ArrayList RowValues)
+        public string GetStatement(Worksheet ws, List<String> RowValues)
         {
             string sSqlStatement = "";
-            ArrayList sTempList = RowValues;
-            sSqlStatement = string.Join(",", (string[])sTempList.ToArray(typeof(string)));
+            List<String> sTempList = RowValues;
+            sSqlStatement = string.Join(",", sTempList);
             return sSqlStatement;
         }
 
@@ -161,7 +161,7 @@ namespace MyTool
         }
 
         //排序行内容
-        public ArrayList LuaShopStatementSort(ArrayList sStatement, int RowCount)
+        public List<String> LuaShopStatementSort(List<String> sStatement, int RowCount)
         {
             //判断数组长度
             if (sStatement.Count != 15)
@@ -172,7 +172,7 @@ namespace MyTool
                 return null;
             }
 
-            ArrayList sTempStatement = new ArrayList()
+            List<String> sTempStatement = new List<String>()
             {
                 "0",              //id
                 "11",             //type

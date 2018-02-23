@@ -22,6 +22,7 @@ namespace MyTool
         {
             TenRollSettings trs = new TenRollSettings();
             propertyGrid1.SelectedObject = trs;
+
             //修改类的属性可见
             //var item = propertyGrid1.SelectedObject;
             //bool bVisiable = true;

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel;
-
+using System.Diagnostics;
 
 namespace MyTool
 {
@@ -60,9 +60,13 @@ namespace MyTool
 
         private void CreateSql_button1_Click(object sender, EventArgs e)
         {
+            //Stopwatch watch = new Stopwatch();
+            //watch.Start();
             textBox1.Clear();
             textBox1.Text = eo.GetLuaDataTitle();
             textBox1.Text = textBox1.Text + "\r\n" + eo.GetLuaShopSql(eo.ws);
+            //watch.Stop();
+            //MessageBox.Show(watch.ElapsedMilliseconds.ToString());
         }
 
         private void CreateLua_button2_Click(object sender, EventArgs e)

@@ -31,6 +31,7 @@ namespace MyTool
         private LstAwdSettings _LstAwdSettings = new LstAwdSettings();
         private TenCount _TenCount = new TenCount();
         private Option _Option = new Option();
+        private string _SelectableTable = "";
         
         [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
@@ -130,6 +131,18 @@ namespace MyTool
             get { return _Option; }
             set { _Option = value; }
         }
+
+        [Category("抽奖规则表"),
+            TypeConverter(typeof(ListBoxConvert)),
+            Editor(typeof(CheckBoxConvert), typeof(UITypeEditor)),
+            DisplayName("可选配置"),
+            Description("【选填】可选配置"),]
+        public String SelectableTable
+        {
+            get { return _SelectableTable; }
+            set { _SelectableTable = value; }
+        }
+
         [Category("抽奖规则表"),
             TypeConverter(typeof(OptionConvert)),
             DisplayName("阶段性保底抽奖"),
@@ -353,7 +366,7 @@ namespace MyTool
         }
     }
 
-    //自定义类型转换类的自定义数据
+    //自定义类型转换类的自定义方法
     public class OptionConvert : ExpandableObjectConverter
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, System.Type destinationType)
@@ -374,4 +387,37 @@ namespace MyTool
         }
     }
 
+    //checkbox属性类的自定义方法
+    public class CheckBoxConvert : UITypeEditor
+    {
+        public override bool GetPaintValueSupported(ITypeDescriptorContext context)
+        {
+            return true;
+        }
+
+        public override void PaintValue(PaintValueEventArgs e)
+        {
+            ControlPaint.DrawCheckBox(e.Graphics, e.Bounds, ButtonState.Normal);
+        }
+
+    }
+
+    //下拉框属性类的自定义方法
+    public class ListBoxConvert : StringConverter
+    {
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
+        {
+            return true;
+        }
+
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
+            return new StandardValuesCollection(new List<String> { "阶段性保底抽奖", "循环类保底抽奖" , "十连抽追加抽奖次数" });
+        }
+
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
+        {
+            return true;
+        }
+    }
 }

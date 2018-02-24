@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
 using System.Globalization;
 using System.Reflection;
 using System.Drawing.Design;

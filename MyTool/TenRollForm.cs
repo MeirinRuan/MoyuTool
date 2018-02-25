@@ -25,7 +25,6 @@ namespace MyTool
             propertyGrid1.SelectedObject = trs;
 
 
-
             //修改类的属性可见
             //var item = propertyGrid1.SelectedObject;
             //bool bVisiable = true;
@@ -47,8 +46,7 @@ namespace MyTool
         {
             if (e.ChangedItem.Label == "可选配置")
             {
-                
-                
+
                 //MessageBox.Show(e.ChangedItem.PropertyDescriptor.GetEditor(typeof(UITypeEditor)).ToString());
                 //MessageBox.Show("aa");
             }

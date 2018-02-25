@@ -11,6 +11,7 @@ using System.Windows.Forms.Design;
 using System.Globalization;
 using System.Reflection;
 using System.Drawing.Design;
+using System.Collections;
 
 namespace MyTool
 {
@@ -33,7 +34,7 @@ namespace MyTool
         private TenCount _TenCount = new TenCount();
         private Option _Option = new Option();
         private string _SelectableTable = "";
-        
+
         [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
             Description("【必填】奖池对应的cq_lua_data 表的type（存储物品产出量）。"),]
@@ -134,8 +135,8 @@ namespace MyTool
         }
 
         [Category("抽奖规则表"),
-            TypeConverter(typeof(ListBoxConvert)),
-            Editor(typeof(CheckBoxConvert), typeof(UITypeEditor)),
+            //TypeConverter(typeof(ListBoxConvert)),
+            Editor(typeof(ListBoxUCConverter), typeof(UITypeEditor)),
             DisplayName("可选配置"),
             Description("【选填】可选配置"),]
         public String SelectableTable
@@ -210,7 +211,7 @@ namespace MyTool
             get { return _IsOpen; }
             set { _IsOpen = value; }
         }
-        
+
 
     }
 
@@ -413,12 +414,44 @@ namespace MyTool
 
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            return new StandardValuesCollection(new List<String> { "阶段性保底抽奖", "循环类保底抽奖" , "十连抽追加抽奖次数" });
+            return new StandardValuesCollection(new List<String> { "阶段性保底抽奖", "循环类保底抽奖", "十连抽追加抽奖次数" });
         }
 
         public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
         {
             return true;
+        }
+    }
+
+    //下拉框自定义控件
+    public class ListBoxUCConverter : UITypeEditor
+    {
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        {
+            return UITypeEditorEditStyle.DropDown;
+        }
+
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            IWindowsFormsEditorService iws = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+            if (iws != null)
+            {
+                MyCheckListBox clb = new MyCheckListBox(iws);
+                iws.DropDownControl(clb);
+                return clb;
+            }
+            return value;
+        }
+
+
+    }
+
+    //自定义一个checklistbox
+    public class MyCheckListBox : CheckedListBox
+    {
+        public MyCheckListBox(IWindowsFormsEditorService iws)
+        {
+            
         }
     }
 }

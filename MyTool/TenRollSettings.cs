@@ -33,8 +33,8 @@ namespace MyTool
         private LstAwdSettings _LstAwdSettings = new LstAwdSettings();
         private TenCount _TenCount = new TenCount();
         private Option _Option = new Option();
-        private string _SelectableTable = "";
-
+        private CheckedListBox _SelectableTable = new CheckedListBox();
+        
         [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
             Description("【必填】奖池对应的cq_lua_data 表的type（存储物品产出量）。"),]
@@ -135,11 +135,11 @@ namespace MyTool
         }
 
         [Category("抽奖规则表"),
-            //TypeConverter(typeof(ListBoxConvert)),
+            TypeConverter(typeof(ListBoxConvert)),
             Editor(typeof(ListBoxUCConverter), typeof(UITypeEditor)),
             DisplayName("可选配置"),
             Description("【选填】可选配置"),]
-        public String SelectableTable
+        public CheckedListBox SelectableTable
         {
             get { return _SelectableTable; }
             set { _SelectableTable = value; }
@@ -368,7 +368,7 @@ namespace MyTool
         }
     }
 
-    //自定义类型转换类的自定义方法
+    //自定义类型转换类的自定义属性类
     public class OptionConvert : ExpandableObjectConverter
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, System.Type destinationType)
@@ -389,37 +389,26 @@ namespace MyTool
         }
     }
 
-    //checkbox属性类的自定义方法
-    public class CheckBoxConvert : UITypeEditor
+    //自定义类型转换类的自定义方法
+    public class ListBoxConvert : ExpandableObjectConverter
     {
-        public override bool GetPaintValueSupported(ITypeDescriptorContext context)
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
-            return true;
+            if (destinationType == typeof(String))
+            {
+                return true;
+            }
+            return base.CanConvertTo(context, destinationType);
         }
-
-        public override void PaintValue(PaintValueEventArgs e)
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            ControlPaint.DrawCheckBox(e.Graphics, e.Bounds, ButtonState.Normal);
-        }
+            if (destinationType == typeof(String))
+            {
+                CheckedListBox ckb = (CheckedListBox)value;
+                return ckb.SelectedItem;
+            }
 
-    }
-
-    //下拉框属性类的自定义方法
-    public class ListBoxConvert : StringConverter
-    {
-        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-        {
-            return true;
-        }
-
-        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
-        {
-            return new StandardValuesCollection(new List<String> { "阶段性保底抽奖", "循环类保底抽奖", "十连抽追加抽奖次数" });
-        }
-
-        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
-        {
-            return true;
+            return base.ConvertTo(context, culture, value, destinationType);
         }
     }
 
@@ -436,7 +425,8 @@ namespace MyTool
             IWindowsFormsEditorService iws = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
             if (iws != null)
             {
-                MyCheckListBox clb = new MyCheckListBox(iws);
+                CheckedListBox clb = new CheckedListBox();
+                clb.Items.AddRange(new object[] { "阶段性保底抽奖", "循环类保底抽奖", "十连抽追加抽奖次数" });
                 iws.DropDownControl(clb);
                 return clb;
             }
@@ -446,12 +436,4 @@ namespace MyTool
 
     }
 
-    //自定义一个checklistbox
-    public class MyCheckListBox : CheckedListBox
-    {
-        public MyCheckListBox(IWindowsFormsEditorService iws)
-        {
-            
-        }
-    }
 }

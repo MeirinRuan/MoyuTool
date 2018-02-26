@@ -46,6 +46,8 @@ namespace MyTool
         {
             if (e.ChangedItem.Label == "可选配置")
             {
+                MessageBox.Show(e.ChangedItem.Value.ToString());
+
 
                 //MessageBox.Show(e.ChangedItem.PropertyDescriptor.GetEditor(typeof(UITypeEditor)).ToString());
                 //MessageBox.Show("aa");

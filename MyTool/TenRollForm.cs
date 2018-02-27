@@ -23,13 +23,6 @@ namespace MyTool
         {
             TenRollSettings trs = new TenRollSettings();
             propertyGrid1.SelectedObject = trs;
-
-
-            //修改类的属性可见
-            //var item = propertyGrid1.SelectedObject;
-            //bool bVisiable = true;
-            //SetPropertyVisibility(item, "Ls", bVisiable);
-            //propertyGrid1.SelectedObject = item;
         }
 
         //可见属性的修改
@@ -46,11 +39,32 @@ namespace MyTool
         {
             if (e.ChangedItem.Label == "可选配置")
             {
-                MessageBox.Show(e.ChangedItem.Value.ToString());
-
-
-                //MessageBox.Show(e.ChangedItem.PropertyDescriptor.GetEditor(typeof(UITypeEditor)).ToString());
-                //MessageBox.Show("aa");
+                var item = propertyGrid1.SelectedObject;
+                if (e.ChangedItem.Value.ToString().Contains("阶段性保底抽奖"))
+                {
+                    SetPropertyVisibility(item, "Ls", true);
+                }
+                else
+                {
+                    SetPropertyVisibility(item, "Ls", false);
+                }
+                if (e.ChangedItem.Value.ToString().Contains("循环类保底抽奖"))
+                {
+                    SetPropertyVisibility(item, "LstAwd", true);
+                }
+                else
+                {
+                    SetPropertyVisibility(item, "LstAwd", false);
+                }
+                if (e.ChangedItem.Value.ToString().Contains("十连抽追加抽奖次数"))
+                {
+                    SetPropertyVisibility(item, "TC", true);
+                }
+                else
+                {
+                    SetPropertyVisibility(item, "TC", false);
+                }
+                propertyGrid1.SelectedObject = item;
             }
         }
 

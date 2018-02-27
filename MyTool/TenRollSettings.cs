@@ -33,7 +33,7 @@ namespace MyTool
         private LstAwdSettings _LstAwdSettings = new LstAwdSettings();
         private TenCount _TenCount = new TenCount();
         private Option _Option = new Option();
-        private CheckedListBox _SelectableTable = new CheckedListBox();
+        private String _SelectableTable = "";
         
         [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
@@ -135,11 +135,10 @@ namespace MyTool
         }
 
         [Category("抽奖规则表"),
-            TypeConverter(typeof(ListBoxConvert)),
             Editor(typeof(ListBoxUCConverter), typeof(UITypeEditor)),
             DisplayName("可选配置"),
             Description("【选填】可选配置"),]
-        public CheckedListBox SelectableTable
+        public String SelectableTable
         {
             get { return _SelectableTable; }
             set { _SelectableTable = value; }
@@ -203,6 +202,7 @@ namespace MyTool
     public class Option
     {
         private int _IsOpen = 1;
+        private DateTime _Date = new DateTime();
 
         [DisplayName("该活动是否开启"),
             Description("【必填】1:该活动开启，0：该活动关闭。"),]
@@ -210,6 +210,13 @@ namespace MyTool
         {
             get { return _IsOpen; }
             set { _IsOpen = value; }
+        }
+        [DisplayName("活动开始时间"),
+            Description("【选填】活动开始时间"),]
+        public DateTime Date
+        {
+            get { return _Date; }
+            set { _Date = value; }
         }
 
 
@@ -389,29 +396,6 @@ namespace MyTool
         }
     }
 
-    //自定义类型转换类的自定义方法
-    public class ListBoxConvert : ExpandableObjectConverter
-    {
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-        {
-            if (destinationType == typeof(String))
-            {
-                return true;
-            }
-            return base.CanConvertTo(context, destinationType);
-        }
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-        {
-            if (destinationType == typeof(String))
-            {
-                CheckedListBox ckb = (CheckedListBox)value;
-                return ckb.SelectedItem;
-            }
-
-            return base.ConvertTo(context, culture, value, destinationType);
-        }
-    }
-
     //下拉框自定义控件
     public class ListBoxUCConverter : UITypeEditor
     {
@@ -425,15 +409,82 @@ namespace MyTool
             IWindowsFormsEditorService iws = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
             if (iws != null)
             {
-                CheckedListBox clb = new CheckedListBox();
-                clb.Items.AddRange(new object[] { "阶段性保底抽奖", "循环类保底抽奖", "十连抽追加抽奖次数" });
+                CheckedListBoxUC clb = new CheckedListBoxUC(iws);
                 iws.DropDownControl(clb);
-                return clb;
+                return clb.SelectedFields;
             }
             return value;
         }
 
 
     }
+
+    //自定义的checkedlistbox类
+    public class CheckedListBoxUC : CheckedListBox
+    {
+        private IWindowsFormsEditorService m_iws;
+
+        private string m_selectStr = string.Empty;
+
+        /// <summary>
+        /// 获取选择的字段，多个字段用"|"隔开
+        /// </summary>
+        public string SelectedFields
+        {
+            get
+            {
+                return m_selectStr;
+            }
+
+        }
+        public CheckedListBoxUC(IWindowsFormsEditorService iws)
+        {
+            m_iws = iws;
+            Visible = true;
+            Height = 100;
+            BorderStyle = BorderStyle.None;
+            //添加事件
+            Leave += new EventHandler(CheckedListBoxUC_Leave);
+
+            try
+            {
+                string[] strsFields = { "阶段性保底抽奖", "循环类保底抽奖", "十连抽追加抽奖次数" };
+                BeginUpdate();
+                Items.Clear();
+                if (null != strsFields)
+                {
+                    for (int i = 0; i < strsFields.Length; i++)
+                    {
+                        Items.Add(strsFields[i]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                EndUpdate();
+            }
+        }
+
+        void CheckedListBoxUC_Leave(object sender, EventArgs e)
+        {
+            List<string> lstStrs = new List<string>();
+            for (int i = 0; i < Items.Count; i++)
+            {
+                if (GetItemChecked(i))
+                {
+                    lstStrs.Add((string)Items[i]);
+                }
+
+            }
+            m_selectStr = string.Join("|", lstStrs.ToArray());
+            //m_iws.CloseDropDown();
+        }
+
+    }
+
 
 }

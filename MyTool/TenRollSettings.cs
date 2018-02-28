@@ -202,7 +202,8 @@ namespace MyTool
     public class Option
     {
         private int _IsOpen = 1;
-        private DateTime _Date = new DateTime();
+        private String _StartTime = "";
+        private String _EndTime = "";
 
         [DisplayName("该活动是否开启"),
             Description("【必填】1:该活动开启，0：该活动关闭。"),]
@@ -211,14 +212,22 @@ namespace MyTool
             get { return _IsOpen; }
             set { _IsOpen = value; }
         }
-        [DisplayName("活动开始时间"),
+        [Editor(typeof(DateConverter),typeof(UITypeEditor)),
+            DisplayName("活动开始时间"),
             Description("【选填】活动开始时间"),]
-        public DateTime Date
+        public String StartTime
         {
-            get { return _Date; }
-            set { _Date = value; }
+            get { return _StartTime; }
+            set { _StartTime = value; }
         }
-
+        [Editor(typeof(DateConverter), typeof(UITypeEditor)),
+            DisplayName("活动结束时间"),
+            Description("【选填】活动结束时间"),]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
 
     }
 
@@ -378,7 +387,7 @@ namespace MyTool
     //自定义类型转换类的自定义属性类
     public class OptionConvert : ExpandableObjectConverter
     {
-        public override bool CanConvertTo(ITypeDescriptorContext context, System.Type destinationType)
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
             if (destinationType == typeof(String))
             {
@@ -386,13 +395,43 @@ namespace MyTool
             }
             return base.CanConvertTo(context, destinationType);
         }
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, System.Type destinationType)
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(String))
             {
                 return "";
             }
             return base.ConvertTo(context, culture, value, destinationType);
+        }
+    }
+
+    //时间自定义控件
+    public class DateConverter : UITypeEditor
+    {
+        DateTimePicker dateControl = new DateTimePicker();
+
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        {
+            return UITypeEditorEditStyle.DropDown;
+        }
+
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            IWindowsFormsEditorService iws = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+            if (iws != null)
+            {
+                if (value is string)
+                {
+                    iws.DropDownControl(dateControl);
+                    return dateControl.Value.ToString("yyyy-MM-dd HH:mm");
+                }
+                else if (value is DateTime)
+                {
+                    iws.DropDownControl(dateControl);
+                    return dateControl.Value;
+                }
+            }
+            return value;
         }
     }
 
@@ -415,8 +454,6 @@ namespace MyTool
             }
             return value;
         }
-
-
     }
 
     //自定义的checkedlistbox类

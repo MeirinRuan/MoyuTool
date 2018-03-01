@@ -33,7 +33,7 @@ namespace MyTool
         private LstAwdSettings _LstAwdSettings = new LstAwdSettings();
         private TenCount _TenCount = new TenCount();
         private Option _Option = new Option();
-        private String _SelectableTable = "";
+        private string _SelectableTable = "";
         
         [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
@@ -138,7 +138,7 @@ namespace MyTool
             Editor(typeof(ListBoxUCConverter), typeof(UITypeEditor)),
             DisplayName("可选配置"),
             Description("【选填】可选配置"),]
-        public String SelectableTable
+        public string SelectableTable
         {
             get { return _SelectableTable; }
             set { _SelectableTable = value; }
@@ -181,29 +181,13 @@ namespace MyTool
     }
 
     //tOption 控制规则的类
-    /*
-     ------tOption:控制作用的规则限制 【必填】
---------{
-----------isOpen: 1:该活动开启，0：该活动关闭。【必填】
-----------sStartTime：活动开始时间 【选填】
-----------sEndTime: 活动结束时间【选填】
-----------tServer: 运用于哪些服务器。【必填】tServer = {0, 1, 2}  (=0官方；=1APP；=2应用宝；3=渠道服；10=西山居西瓜渠道)
-----------tCost： 消耗的筹码币 【必填】
-------------{
----------------nItemId ：物品id（购买的道具ID） 【必填】
----------------nNum ： 消耗数量 【必填】
----------------nShowId: 道具展示形象物品id(一般都是筹码币ID) 【必填】
----------------isBuy: 是否开启购买系统。=2:连接魔石商店 =1：开启直接购买，=0：不开启【必填】 （如果开启，魔石价格必填）
----------------nCost: 魔石价格【必填】
----------------isBind：是否出售绑定【必填】(默认为1，绑定)
-------------}
---------}
-         */
     public class Option
     {
         private int _IsOpen = 1;
-        private String _StartTime = "";
-        private String _EndTime = "";
+        private string _StartTime = "";
+        private string _EndTime = "";
+        private string _Server = "";
+        private Cost _Cost = new Cost();
 
         [DisplayName("该活动是否开启"),
             Description("【必填】1:该活动开启，0：该活动关闭。"),]
@@ -215,7 +199,7 @@ namespace MyTool
         [Editor(typeof(DateConverter),typeof(UITypeEditor)),
             DisplayName("活动开始时间"),
             Description("【选填】活动开始时间"),]
-        public String StartTime
+        public string StartTime
         {
             get { return _StartTime; }
             set { _StartTime = value; }
@@ -223,12 +207,82 @@ namespace MyTool
         [Editor(typeof(DateConverter), typeof(UITypeEditor)),
             DisplayName("活动结束时间"),
             Description("【选填】活动结束时间"),]
-        public String EndTime
+        public string EndTime
         {
             get { return _EndTime; }
             set { _EndTime = value; }
         }
+        [Editor(typeof(ListBoxUCConverter), typeof(UITypeEditor)),
+            DisplayName("服务器编号"),
+            Description("运用于哪些服务器。【必填】tServer = {0, 1, 2}  (=0官方；=1APP；=2应用宝；3=渠道服；10=西山居西瓜渠道)"),]
+        public string Server
+        {
+            get { return _Server; }
+            set { _Server = value; }
+        }
+        [TypeConverter(typeof(OptionConvert)),
+            DisplayName("消耗的筹码币"),
+            Description("消耗的筹码币 【必填】"),]
+        public Cost Ct
+        {
+            get { return _Cost; }
+            set { _Cost = value; }
+        }
 
+    }
+
+    //tCost 消耗的筹码币【必填】
+    public class Cost
+    {
+        private int _ItemId = 0;
+        private int _ItemNum = 1;
+        private int _ShowId = 0;
+        private int _IsBuy = 1;
+        private int _CostNum = 0;
+        private int _IsBind = 1;
+
+        [DisplayName("物品id"),
+            Description("【必填】物品id（购买的道具ID）"),]
+        public int ItemId
+        {
+            get { return _ItemId; }
+            set { _ItemId = value; }
+        }
+        [DisplayName("消耗数量"),
+            Description("【必填】消耗数量"),]
+        public int ItemNum
+        {
+            get { return _ItemNum; }
+            set { _ItemNum = value; }
+        }
+        [DisplayName("道具展示形象物品id"),
+            Description("【必填】道具展示形象物品id(一般都是筹码币ID)"),]
+        public int ShowId
+        {
+            get { return _ShowId; }
+            set { _ShowId = value; }
+        }
+        [DisplayName("是否开启购买系统"),
+            Description("是否开启购买系统。=2：连接魔石商店， =1：开启直接购买，=0：不开启【必填】 （如果开启，魔石价格必填）"),]
+        public int IsBuy
+        {
+            get { return _IsBuy; }
+            set { _IsBuy = value; }
+        }
+        [DisplayName("魔石价格"),
+            Description("【必填】魔石价格"),]
+        public int CostNum
+        {
+            get { return _CostNum; }
+            set { _CostNum = value; }
+        }
+        [DisplayName("是否出售绑定"),
+            Description("【必填】是否出售绑定(默认为1，绑定)"),]
+        public int IsBind
+        {
+            get { return _IsBind; }
+            set { _IsBind = value; }
+        }
     }
 
     //tTenCount 十连抽追加抽奖次数【选填】。
@@ -448,7 +502,7 @@ namespace MyTool
             IWindowsFormsEditorService iws = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
             if (iws != null)
             {
-                CheckedListBoxUC clb = new CheckedListBoxUC(iws);
+                CheckedListBoxUC clb = new CheckedListBoxUC(iws, context);
                 iws.DropDownControl(clb);
                 return clb.SelectedFields;
             }
@@ -470,11 +524,11 @@ namespace MyTool
         {
             get
             {
-                return m_selectStr;
+                return "{" + m_selectStr + "}";
             }
 
         }
-        public CheckedListBoxUC(IWindowsFormsEditorService iws)
+        public CheckedListBoxUC(IWindowsFormsEditorService iws, ITypeDescriptorContext context)
         {
             m_iws = iws;
             Visible = true;
@@ -485,14 +539,18 @@ namespace MyTool
 
             try
             {
-                string[] strsFields = { "阶段性保底抽奖", "循环类保底抽奖", "十连抽追加抽奖次数" };
+                List<string> strList = new List<string> { "阶段性保底抽奖", "循环类保底抽奖", "十连抽追加抽奖次数"  };
+                if (context.PropertyDescriptor.DisplayName == "服务器编号")
+                {
+                    strList = new List<string> { "0","1","2","3","10"};
+                }
                 BeginUpdate();
                 Items.Clear();
-                if (null != strsFields)
+                if (null != strList)
                 {
-                    for (int i = 0; i < strsFields.Length; i++)
+                    for (int i = 0; i < strList.Count; i++)
                     {
-                        Items.Add(strsFields[i]);
+                        Items.Add(strList[i]);
                     }
                 }
             }
@@ -517,7 +575,7 @@ namespace MyTool
                 }
 
             }
-            m_selectStr = string.Join("|", lstStrs.ToArray());
+            m_selectStr = string.Join(",", lstStrs.ToArray());
             //m_iws.CloseDropDown();
         }
 

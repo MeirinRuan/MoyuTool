@@ -34,7 +34,7 @@ namespace MyTool
         private TenCount _TenCount = new TenCount();
         private Option _Option = new Option();
         private string _SelectableTable = "";
-        
+
         [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
             Description("【必填】奖池对应的cq_lua_data 表的type（存储物品产出量）。"),]
@@ -180,6 +180,50 @@ namespace MyTool
 
     }
 
+    //物品类
+    public class AwardList
+    {
+        private string name = string.Empty;
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+        private object value = null;
+
+        public object Value
+        {
+            get { return this.value; }
+            set { this.value = value; }
+        }
+
+        private string description = string.Empty;
+
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Name:{0},Value:{1}", name.ToString(), value.ToString());
+        }
+
+        private string _ItemId = "";
+
+
+        [DisplayName("物品id"),
+            Description("【必填】物品id"),]
+        public string ItemId
+        {
+            get { return _ItemId; }
+            set { _ItemId = value; }
+        }
+
+    }
+
     //tOption 控制规则的类
     public class Option
     {
@@ -196,7 +240,7 @@ namespace MyTool
             get { return _IsOpen; }
             set { _IsOpen = value; }
         }
-        [Editor(typeof(DateConverter),typeof(UITypeEditor)),
+        [Editor(typeof(DateConverter), typeof(UITypeEditor)),
             DisplayName("活动开始时间"),
             Description("【选填】活动开始时间"),]
         public string StartTime
@@ -438,7 +482,7 @@ namespace MyTool
         }
     }
 
-    //自定义类型转换类的自定义属性类
+    //string的自定义属性类
     public class OptionConvert : ExpandableObjectConverter
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
@@ -510,7 +554,7 @@ namespace MyTool
         }
     }
 
-    //自定义的checkedlistbox类
+    //自定义的checkedlistbox控件
     public class CheckedListBoxUC : CheckedListBox
     {
         private IWindowsFormsEditorService m_iws;
@@ -539,10 +583,10 @@ namespace MyTool
 
             try
             {
-                List<string> strList = new List<string> { "阶段性保底抽奖", "循环类保底抽奖", "十连抽追加抽奖次数"  };
+                List<string> strList = new List<string> { "阶段性保底抽奖", "循环类保底抽奖", "十连抽追加抽奖次数" };
                 if (context.PropertyDescriptor.DisplayName == "服务器编号")
                 {
-                    strList = new List<string> { "0","1","2","3","10"};
+                    strList = new List<string> { "0", "1", "2", "3", "10" };
                 }
                 BeginUpdate();
                 Items.Clear();
@@ -581,5 +625,140 @@ namespace MyTool
 
     }
 
+    //自定义性质描述类
+    public class MyPropertyDescription : PropertyDescriptor
+    {
 
+        private AwardList myal = null;
+        public MyPropertyDescription(AwardList al, Attribute[] attrs) : base(al.Name, attrs)
+        {
+            myal = al;
+        }
+
+        public override Type ComponentType
+        {
+            get{ return GetType(); }
+        }
+
+        public override bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public override Type PropertyType
+        {
+            get{ return myal.Value.GetType(); }
+        }
+
+        public override bool CanResetValue(object component)
+        {
+            return false;
+        }
+
+        public override object GetValue(object component)
+        {
+            return myal.Value;
+        }
+
+        public override void ResetValue(object component)
+        {
+            //不重置，无动作 
+        }
+
+        public override void SetValue(object component, object value)
+        {
+            myal.Value = value;
+        }
+
+        public override bool ShouldSerializeValue(object component)
+        {
+            return false;
+        }
+
+        public override string Description
+        {
+            get{ return myal.Description; }
+        }
+    }
+
+    //自定义的特殊属性类
+    public class MyAttrCollection : Dictionary<String, AwardList>, ICustomTypeDescriptor
+    {
+        //动态添加，重写add方法
+        public void Add(AwardList value)
+        {
+            if (!ContainsKey(value.Name))
+            {
+                Add(value.Name, value);
+            }
+        }
+
+        public AttributeCollection GetAttributes()
+        {
+            return TypeDescriptor.GetAttributes(this, true);
+        }
+
+        public string GetClassName()
+        {
+            return TypeDescriptor.GetClassName(this, true);
+        }
+
+        public string GetComponentName()
+        {
+            return TypeDescriptor.GetClassName(this, true);
+        }
+
+        public TypeConverter GetConverter()
+        {
+            return TypeDescriptor.GetConverter(this, true);
+        }
+
+        public EventDescriptor GetDefaultEvent()
+        {
+            return TypeDescriptor.GetDefaultEvent(this, true);
+        }
+
+        public PropertyDescriptor GetDefaultProperty()
+        {
+            return TypeDescriptor.GetDefaultProperty(this, true);
+        }
+
+        public object GetEditor(Type editorBaseType)
+        {
+            return TypeDescriptor.GetEditor(this, editorBaseType, true);
+        }
+
+        public EventDescriptorCollection GetEvents()
+        {
+            return TypeDescriptor.GetEvents(this, true);
+        }
+
+        public EventDescriptorCollection GetEvents(Attribute[] attributes)
+        {
+            return TypeDescriptor.GetEvents(this, attributes, true);
+        }
+
+        public PropertyDescriptorCollection GetProperties()
+        {
+            return TypeDescriptor.GetProperties(this, true);
+        }
+
+        public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
+        {
+            int count = Values.Count;
+            PropertyDescriptor[] pds = new PropertyDescriptor[count];
+            int index = 0;
+            foreach (AwardList item in Values)
+            {
+                pds[index] = new MyPropertyDescription(item, attributes);
+                index++;
+            }
+            return new PropertyDescriptorCollection(pds);
+        }
+
+        public object GetPropertyOwner(PropertyDescriptor pd)
+        {
+            return this;
+        }
+    }
 }

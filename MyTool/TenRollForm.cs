@@ -23,6 +23,18 @@ namespace MyTool
         {
             TenRollSettings trs = new TenRollSettings();
             propertyGrid1.SelectedObject = trs;
+            var item = propertyGrid1.SelectedObject;
+            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(item);
+
+            /*
+            AwardList al = new AwardList();
+            al.Name = "ad";
+            al.Value = "dasda";
+            al.Description = "dasdasxzc";
+            MyAttrCollection mac = new MyAttrCollection();
+            mac.Add(al);
+            propertyGrid1.SelectedObject = mac;
+            */
         }
 
         //可见属性的修改
@@ -70,7 +82,7 @@ namespace MyTool
 
         private void propertyGrid1_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
         {
-            
+
         }
     }
 

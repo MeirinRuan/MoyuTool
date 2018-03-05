@@ -23,18 +23,18 @@ namespace MyTool
         {
             TenRollSettings trs = new TenRollSettings();
             propertyGrid1.SelectedObject = trs;
-            var item = propertyGrid1.SelectedObject;
-            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(item);
 
-            /*
-            AwardList al = new AwardList();
-            al.Name = "ad";
-            al.Value = "dasda";
-            al.Description = "dasdasxzc";
-            MyAttrCollection mac = new MyAttrCollection();
-            mac.Add(al);
-            propertyGrid1.SelectedObject = mac;
-            */
+            //动态添加
+            DynaProperty dp = new DynaProperty();
+            dp.Name = "1";
+            dp.Value = new AwardList();
+            dp.Description = "";
+            dp.Category = "抽奖规则表";
+            dp.Converter = new OptionConvert();
+
+            trs.MAC.Add(dp);
+
+
         }
 
         //可见属性的修改

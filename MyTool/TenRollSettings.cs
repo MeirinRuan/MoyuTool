@@ -34,6 +34,7 @@ namespace MyTool
         private TenCount _TenCount = new TenCount();
         private Option _Option = new Option();
         private string _SelectableTable = "";
+        private MyAttrCollection _MAC = new MyAttrCollection();
 
         [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
@@ -174,23 +175,35 @@ namespace MyTool
             get { return _TenCount; }
             set { _TenCount = value; }
         }
-
+        [Category("抽奖规则表"),
+            TypeConverter(typeof(OptionConvert)),
+            DisplayName("奖励物品表"),
+            Description("【必填】奖励物品"),]
+        public MyAttrCollection MAC
+        {
+            get { return _MAC; }
+            set { _MAC = value; }
+        }
 
 
 
     }
 
     //物品类
-    public class AwardList
+    public class DynaProperty
     {
         private string name = string.Empty;
+        private object value = null;
+        private string description = string.Empty;
+        private string _category = string.Empty;
+        object _editor = null;
+        TypeConverter converter = null;
 
         public string Name
         {
             get { return name; }
             set { name = value; }
         }
-        private object value = null;
 
         public object Value
         {
@@ -198,19 +211,33 @@ namespace MyTool
             set { this.value = value; }
         }
 
-        private string description = string.Empty;
-
         public string Description
         {
             get { return description; }
             set { description = value; }
         }
 
-        public override string ToString()
+        public TypeConverter Converter 
         {
-            return string.Format("Name:{0},Value:{1}", name.ToString(), value.ToString());
+            get { return converter; }
+            set { converter = value; }
+        }
+        public string Category
+        {
+            get { return _category; }
+            set { _category = value; }
         }
 
+        public virtual object Editor
+        {
+            get { return _editor; }
+            set { _editor = value; }
+        }
+    }
+
+    //物品类
+    public class AwardList
+    {
         private string _ItemId = "";
 
 
@@ -221,7 +248,6 @@ namespace MyTool
             get { return _ItemId; }
             set { _ItemId = value; }
         }
-
     }
 
     //tOption 控制规则的类
@@ -629,10 +655,10 @@ namespace MyTool
     public class MyPropertyDescription : PropertyDescriptor
     {
 
-        private AwardList myal = null;
-        public MyPropertyDescription(AwardList al, Attribute[] attrs) : base(al.Name, attrs)
+        private DynaProperty dp = null;
+        public MyPropertyDescription(DynaProperty newdp, Attribute[] attrs) : base(newdp.Name, attrs)
         {
-            myal = al;
+            dp = newdp;
         }
 
         public override Type ComponentType
@@ -647,7 +673,7 @@ namespace MyTool
 
         public override Type PropertyType
         {
-            get{ return myal.Value.GetType(); }
+            get{ return dp.Value.GetType(); }
         }
 
         public override bool CanResetValue(object component)
@@ -657,7 +683,7 @@ namespace MyTool
 
         public override object GetValue(object component)
         {
-            return myal.Value;
+            return dp.Value;
         }
 
         public override void ResetValue(object component)
@@ -667,7 +693,7 @@ namespace MyTool
 
         public override void SetValue(object component, object value)
         {
-            myal.Value = value;
+            dp.Value = value;
         }
 
         public override bool ShouldSerializeValue(object component)
@@ -677,15 +703,25 @@ namespace MyTool
 
         public override string Description
         {
-            get{ return myal.Description; }
+            get{ return dp.Description; }
+        }
+
+        public override TypeConverter Converter
+        {
+            get { return dp.Converter; }
+        }
+
+        public override object GetEditor(Type editorBaseType)
+        {
+            return dp.Editor == null ? base.GetEditor(editorBaseType) : dp.Editor;
         }
     }
 
     //自定义的特殊属性类
-    public class MyAttrCollection : Dictionary<String, AwardList>, ICustomTypeDescriptor
+    public class MyAttrCollection : Dictionary<String, DynaProperty>, ICustomTypeDescriptor
     {
         //动态添加，重写add方法
-        public void Add(AwardList value)
+        public void Add(DynaProperty value)
         {
             if (!ContainsKey(value.Name))
             {
@@ -748,7 +784,7 @@ namespace MyTool
             int count = Values.Count;
             PropertyDescriptor[] pds = new PropertyDescriptor[count];
             int index = 0;
-            foreach (AwardList item in Values)
+            foreach (DynaProperty item in Values)
             {
                 pds[index] = new MyPropertyDescription(item, attributes);
                 index++;

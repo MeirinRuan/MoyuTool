@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Drawing.Design;
 using System.Collections;
+using System.ComponentModel.Design;
 
 namespace MyTool
 {
@@ -34,7 +35,7 @@ namespace MyTool
         private TenCount _TenCount = new TenCount();
         private Option _Option = new Option();
         private string _SelectableTable = "";
-        private MyAttrCollection _MAC = new MyAttrCollection();
+        private AwardListCollection _MAC = new AwardListCollection();
 
         [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
@@ -176,62 +177,41 @@ namespace MyTool
             set { _TenCount = value; }
         }
         [Category("抽奖规则表"),
+            Editor(typeof(AwardListCollectionEditor),typeof(UITypeEditor)),
             TypeConverter(typeof(OptionConvert)),
             DisplayName("奖励物品表"),
             Description("【必填】奖励物品"),]
-        public MyAttrCollection MAC
+        public AwardListCollection MAC
         {
             get { return _MAC; }
             set { _MAC = value; }
         }
 
-
-
     }
 
-    //物品类
-    public class DynaProperty
+    //自定义的collection类
+    public class AwardListCollection : CollectionBase
     {
-        private string name = string.Empty;
-        private object value = null;
-        private string description = string.Empty;
-        private string _category = string.Empty;
-        object _editor = null;
-        TypeConverter converter = null;
-
-        public string Name
+        public AwardList this[int index]
         {
-            get { return name; }
-            set { name = value; }
+            get { return (AwardList)List[index]; }
         }
-
-        public object Value
+        public void Add(AwardList al)
         {
-            get { return this.value; }
-            set { this.value = value; }
+            List.Add(al);
         }
-
-        public string Description
+        public void Remove(AwardList al)
         {
-            get { return description; }
-            set { description = value; }
+            List.Remove(al);
         }
+    }
 
-        public TypeConverter Converter 
+    //自定义的collectioneditor类
+    public class AwardListCollectionEditor : CollectionEditor
+    {
+        public AwardListCollectionEditor(Type type) : base(type)
         {
-            get { return converter; }
-            set { converter = value; }
-        }
-        public string Category
-        {
-            get { return _category; }
-            set { _category = value; }
-        }
 
-        public virtual object Editor
-        {
-            get { return _editor; }
-            set { _editor = value; }
         }
     }
 
@@ -248,6 +228,8 @@ namespace MyTool
             get { return _ItemId; }
             set { _ItemId = value; }
         }
+
+        
     }
 
     //tOption 控制规则的类
@@ -651,150 +633,7 @@ namespace MyTool
 
     }
 
-    //自定义性质描述类
-    public class MyPropertyDescription : PropertyDescriptor
-    {
 
-        private DynaProperty dp = null;
-        public MyPropertyDescription(DynaProperty newdp, Attribute[] attrs) : base(newdp.Name, attrs)
-        {
-            dp = newdp;
-        }
 
-        public override Type ComponentType
-        {
-            get{ return GetType(); }
-        }
 
-        public override bool IsReadOnly
-        {
-            get { return false; }
-        }
-
-        public override Type PropertyType
-        {
-            get{ return dp.Value.GetType(); }
-        }
-
-        public override bool CanResetValue(object component)
-        {
-            return false;
-        }
-
-        public override object GetValue(object component)
-        {
-            return dp.Value;
-        }
-
-        public override void ResetValue(object component)
-        {
-            //不重置，无动作 
-        }
-
-        public override void SetValue(object component, object value)
-        {
-            dp.Value = value;
-        }
-
-        public override bool ShouldSerializeValue(object component)
-        {
-            return false;
-        }
-
-        public override string Description
-        {
-            get{ return dp.Description; }
-        }
-
-        public override TypeConverter Converter
-        {
-            get { return dp.Converter; }
-        }
-
-        public override object GetEditor(Type editorBaseType)
-        {
-            return dp.Editor == null ? base.GetEditor(editorBaseType) : dp.Editor;
-        }
-    }
-
-    //自定义的特殊属性类
-    public class MyAttrCollection : Dictionary<String, DynaProperty>, ICustomTypeDescriptor
-    {
-        //动态添加，重写add方法
-        public void Add(DynaProperty value)
-        {
-            if (!ContainsKey(value.Name))
-            {
-                Add(value.Name, value);
-            }
-        }
-
-        public AttributeCollection GetAttributes()
-        {
-            return TypeDescriptor.GetAttributes(this, true);
-        }
-
-        public string GetClassName()
-        {
-            return TypeDescriptor.GetClassName(this, true);
-        }
-
-        public string GetComponentName()
-        {
-            return TypeDescriptor.GetClassName(this, true);
-        }
-
-        public TypeConverter GetConverter()
-        {
-            return TypeDescriptor.GetConverter(this, true);
-        }
-
-        public EventDescriptor GetDefaultEvent()
-        {
-            return TypeDescriptor.GetDefaultEvent(this, true);
-        }
-
-        public PropertyDescriptor GetDefaultProperty()
-        {
-            return TypeDescriptor.GetDefaultProperty(this, true);
-        }
-
-        public object GetEditor(Type editorBaseType)
-        {
-            return TypeDescriptor.GetEditor(this, editorBaseType, true);
-        }
-
-        public EventDescriptorCollection GetEvents()
-        {
-            return TypeDescriptor.GetEvents(this, true);
-        }
-
-        public EventDescriptorCollection GetEvents(Attribute[] attributes)
-        {
-            return TypeDescriptor.GetEvents(this, attributes, true);
-        }
-
-        public PropertyDescriptorCollection GetProperties()
-        {
-            return TypeDescriptor.GetProperties(this, true);
-        }
-
-        public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
-        {
-            int count = Values.Count;
-            PropertyDescriptor[] pds = new PropertyDescriptor[count];
-            int index = 0;
-            foreach (DynaProperty item in Values)
-            {
-                pds[index] = new MyPropertyDescription(item, attributes);
-                index++;
-            }
-            return new PropertyDescriptorCollection(pds);
-        }
-
-        public object GetPropertyOwner(PropertyDescriptor pd)
-        {
-            return this;
-        }
-    }
 }

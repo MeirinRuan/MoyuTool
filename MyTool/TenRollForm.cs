@@ -23,18 +23,6 @@ namespace MyTool
         {
             TenRollSettings trs = new TenRollSettings();
             propertyGrid1.SelectedObject = trs;
-
-            //动态添加
-            DynaProperty dp = new DynaProperty();
-            dp.Name = "1";
-            dp.Value = new AwardList();
-            dp.Description = "";
-            dp.Category = "抽奖规则表";
-            dp.Converter = new OptionConvert();
-
-            trs.MAC.Add(dp);
-
-
         }
 
         //可见属性的修改

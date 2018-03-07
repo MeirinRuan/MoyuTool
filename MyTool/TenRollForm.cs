@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Drawing.Design;
+using System.Collections;
 
 namespace MyTool
 {
@@ -23,6 +24,7 @@ namespace MyTool
         {
             TenRollSettings trs = new TenRollSettings();
             propertyGrid1.SelectedObject = trs;
+
         }
 
         //可见属性的修改

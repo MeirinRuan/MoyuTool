@@ -36,7 +36,7 @@ namespace MyTool
         private Option _Option = new Option();
         private string _SelectableTable = "";
         private AwardListCollection _MAC = new AwardListCollection();
-
+        
         [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
             Description("【必填】奖池对应的cq_lua_data 表的type（存储物品产出量）。"),]
@@ -177,7 +177,6 @@ namespace MyTool
             set { _TenCount = value; }
         }
         [Category("抽奖规则表"),
-            Editor(typeof(AwardListCollectionEditor),typeof(UITypeEditor)),
             TypeConverter(typeof(OptionConvert)),
             DisplayName("奖励物品表"),
             Description("【必填】奖励物品"),]
@@ -190,36 +189,156 @@ namespace MyTool
     }
 
     //自定义的collection类
-    public class AwardListCollection : CollectionBase
+    public class AwardListCollection : List<AwardList>, ICustomTypeDescriptor
     {
-        public AwardList this[int index]
+        public AttributeCollection GetAttributes()
         {
-            get { return (AwardList)List[index]; }
+            return TypeDescriptor.GetAttributes(this, true);
         }
-        public void Add(AwardList al)
+
+        public string GetClassName()
         {
-            List.Add(al);
+            return TypeDescriptor.GetClassName(this, true);
         }
-        public void Remove(AwardList al)
+
+        public string GetComponentName()
         {
-            List.Remove(al);
+            return TypeDescriptor.GetComponentName(this, true);
         }
+
+        public TypeConverter GetConverter()
+        {
+            return TypeDescriptor.GetConverter(this, true);
+        }
+
+        public EventDescriptor GetDefaultEvent()
+        {
+            return TypeDescriptor.GetDefaultEvent(this, true);
+        }
+
+        public PropertyDescriptor GetDefaultProperty()
+        {
+            return TypeDescriptor.GetDefaultProperty(this, true);
+        }
+
+        public object GetEditor(Type editorBaseType)
+        {
+            return TypeDescriptor.GetEditor(this, editorBaseType, true);
+        }
+
+        public EventDescriptorCollection GetEvents(Attribute[] attributes)
+        {
+            return TypeDescriptor.GetEvents(this, attributes, true);
+        }
+
+        public EventDescriptorCollection GetEvents()
+        {
+            return TypeDescriptor.GetEvents(this, true);
+        }
+
+        public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
+        {
+            PropertyDescriptor[] props = new PropertyDescriptor[Count];
+            for (int i = 0; i < Count; i++)
+            {
+                props[i] = new AwardListPropertyDescriptor(this[i], attributes);
+            }
+            return new PropertyDescriptorCollection(props);
+        }
+
+        public PropertyDescriptorCollection GetProperties()
+        {
+            return TypeDescriptor.GetProperties(this, true);
+        }
+
+        public object GetPropertyOwner(PropertyDescriptor pd)
+        {
+            return this;
+        }
+
     }
 
-    //自定义的collectioneditor类
-    public class AwardListCollectionEditor : CollectionEditor
+    //自定义的propertydescriptor类
+    public class AwardListPropertyDescriptor : PropertyDescriptor
     {
-        public AwardListCollectionEditor(Type type) : base(type)
-        {
+        AwardList theProp;
 
+        public AwardListPropertyDescriptor(AwardList prop, Attribute[] attrs) : base(prop.Name, attrs)
+        {
+            theProp = prop;
+        }
+
+        public override bool CanResetValue(object component)
+        {
+            return false;
+        }
+
+        public override Type ComponentType
+        {
+            get { return GetType(); }
+        }
+
+        public override object GetValue(object component)
+        {
+            return theProp.ALI;
+        }
+
+        public override bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public override Type PropertyType
+        {
+            get { return theProp.ALI.GetType(); }
+        }
+
+        public override void ResetValue(object component)
+        {
+        }
+
+        public override void SetValue(object component, object value)
+        {
+            theProp.Value = value;
+        }
+
+        public override bool ShouldSerializeValue(object component)
+        {
+            return false;
         }
     }
 
     //物品类
     public class AwardList
     {
-        private string _ItemId = "";
+        private string _Name = "";
+        private object _Value = null;
+        private AwardListItem ali = new AwardListItem();
 
+        public string Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
+        }
+
+        public object Value
+        {
+            get { return _Value; }
+            set { _Value = value; }
+        }
+
+        [TypeConverter(typeof(OptionConvert))]
+        public AwardListItem ALI
+        {
+            get { return ali; }
+            set { ali = value; }
+        }
+    }
+
+    //奖励物品类
+    public class AwardListItem
+    {
+        private string _ItemId = "0";
 
         [DisplayName("物品id"),
             Description("【必填】物品id"),]
@@ -228,8 +347,6 @@ namespace MyTool
             get { return _ItemId; }
             set { _ItemId = value; }
         }
-
-        
     }
 
     //tOption 控制规则的类

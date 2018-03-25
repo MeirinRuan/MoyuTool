@@ -24,7 +24,6 @@ namespace MyTool
         {
             TenRollSettings trs = new TenRollSettings();
             propertyGrid1.SelectedObject = trs;
-
         }
 
         //可见属性的修改
@@ -72,7 +71,7 @@ namespace MyTool
 
         private void propertyGrid1_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
         {
-
+            
         }
     }
 

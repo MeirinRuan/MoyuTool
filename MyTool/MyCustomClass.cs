@@ -6,6 +6,7 @@ using System.Globalization;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.ComponentModel.Design;
+using System.Reflection;
 
 namespace MyTool
 {
@@ -139,34 +140,95 @@ namespace MyTool
     //collectioneditor的自定义类
     public class MyCollectionEditor : CollectionEditor
     {
+        public delegate void ValueChangeHandler();
+        public static event ValueChangeHandler OnValueChange;
 
         public MyCollectionEditor(Type type) : base(type)
         {
             
         }
 
-        //add
-        protected override object CreateInstance(Type itemType)
+        protected override CollectionForm CreateCollectionForm()
         {
-            AwardList al = (AwardList)base.CreateInstance(itemType);
-            if (Context.Instance != null)
+            //获取属性浏览对象
+            CollectionForm frm = base.CreateCollectionForm();
+            FieldInfo fieldInfo = frm.GetType().GetField("propertyBrower", BindingFlags.NonPublic | BindingFlags.Instance);
+            if(fieldInfo != null)
             {
-                if (Context.Instance is AwardList)
-                {
-                    al.Name = "{ItemId=},";
-                }
-                else
-                {
-                    al.Name = "fuck you?";
-                }
+                PropertyGrid pgrid = fieldInfo.GetValue(frm) as PropertyGrid;
+                pgrid.PropertyValueChanged += Pgrid_PropertyValueChanged;
+                pgrid.SelectedObjectsChanged += ExtendCollectionEditor_ValueChange;
             }
-            return al;
+
+            #region
+            //注册按钮事件
+            FieldInfo removeButton = frm.GetType().GetField("removeButton", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (removeButton != null)
+            {
+                (removeButton.GetValue(frm) as Button).Click += ExtendCollectionEditor_RemoveClick;
+            }
+
+            FieldInfo cancelButton = frm.GetType().GetField("cancelButton", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (cancelButton != null)
+            {
+                (cancelButton.GetValue(frm) as Button).Click += ExtendCollectionEditor_ValueChange;
+            }
+
+            FieldInfo okButton = frm.GetType().GetField("okButton", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (okButton != null)
+            {
+
+            }
+
+            #endregion
+            return frm;
         }
 
-        //remove
-        protected override void DestroyInstance(object instance)
+        #region
+        protected void ExtendCollectionEditor_RemoveClick(object sender, EventArgs e)
         {
-            base.DestroyInstance(instance);
+            CollectionForm frm = (sender as Button).Parent.Parent.Parent as CollectionForm;
+            FieldInfo listbox = frm.GetType().GetField("listbox", BindingFlags.NonPublic | BindingFlags.Instance);
+            ListBox listb = listbox.GetValue(frm) as ListBox;
+
+            PropertyInfo Items = frm.GetType().GetProperty("Items", BindingFlags.NonPublic | BindingFlags.Instance);
+            PropertyInfo ListItem = null;
+
+            object[] items = new object[listb.Items.Count];
+            for (int i = 0; i < listb.Items.Count; i++)
+            {
+                if (ListItem == null)
+                {
+                    ListItem = listb.Items[i].GetType().GetProperty("Value", BindingFlags.Public | BindingFlags.Instance);
+                }
+                items[i] = ListItem.GetValue(listb.Items[i]);
+            }
+            
+            Items.SetValue(frm, items);
+ 
+            AfterRemove();
+
+        }
+
+        private void ExtendCollectionEditor_ValueChange(object sender, EventArgs e)
+        {
+              SubmitChange();
+        }
+
+        private void Pgrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            SubmitChange();
+        }
+        #endregion
+
+        protected virtual void AfterRemove()
+        {
+            SubmitChange();
+        }
+
+        private void SubmitChange()
+        {
+           OnValueChange?.Invoke();
         }
 
     }

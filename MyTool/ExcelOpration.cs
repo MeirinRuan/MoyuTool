@@ -148,8 +148,16 @@ namespace MyTool
         public string GetStatement(Worksheet ws, List<String> RowValues)
         {
             string sSqlStatement = "";
-            List<String> sTempList = RowValues;
-            sSqlStatement = string.Join(",", sTempList);
+            try
+            {
+                List<String> sTempList = RowValues;
+                sSqlStatement = string.Join(",", sTempList);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                CloseExcel();
+            }
             return sSqlStatement;
         }
 
@@ -164,7 +172,7 @@ namespace MyTool
         public List<String> LuaShopStatementSort(List<String> sStatement, int RowCount)
         {
             //判断数组长度
-            if (sStatement.Count != 15)
+            if (sStatement.Count != 16)
             {
                 //表头检测
 
@@ -176,21 +184,21 @@ namespace MyTool
             {
                 "0",              //id
                 "11",             //type
-                sStatement[9],    //data1 npcid
+                sStatement[10],    //data1 npcid
                 sStatement[3],    //data2 itemtypeid
                 sStatement[2],    //data3 是否给与绑定物品 0=非绑 1=绑
                 sStatement[7],    //data4 价格
                 sStatement[8],    //data5 价钱类型 0=魔石 1=绑定魔石 2-物品货币 3=金币
                 sStatement[5],    //data6 限购数量，999999 为不限制
-                sStatement[8],    //data7 物品货币id
+                sStatement[9],    //data7 物品货币id
                 sStatement[0],    //data8 排序,从大到小，倒序
-                sStatement[10],  //data9 索引rwtLuaShopData的配置
+                sStatement[11],  //data9 索引rwtLuaShopData的配置
                 "0",             //记录重置时间，配置0
-                sStatement[11],  //西山居log掩码ID
-                sStatement[12],  //物品分类，支持累加
+                sStatement[12],  //西山居log掩码ID
+                sStatement[13],  //物品分类，支持累加
                 "1",             //支持绑定物品购买绑定道具，非绑物品购买非绑道具
-                sStatement[13],  //出售开始时间,格式yyyyMMddHHmm =0表示 没限制
-                sStatement[14],  //出售结束时间,格式yyyyMMddHHmm =0表示 没限制
+                sStatement[14],  //出售开始时间,格式yyyyMMddHHmm =0表示 没限制
+                sStatement[15],  //出售结束时间,格式yyyyMMddHHmm =0表示 没限制
                 "'0'",
                 "'0'",
             };
@@ -255,7 +263,7 @@ namespace MyTool
             int nRowNum = GetRowNum(ws);
 
             //获取npcid
-            string sNpcId = ws.Cells[2, 10].Text.ToString();
+            string sNpcId = ws.Cells[2, 11].Text.ToString();
 
             string sItemsCode = "";
 
@@ -284,7 +292,7 @@ namespace MyTool
             string sItem = "";
 
             //获取掩码
-            int nTaskId = Convert.ToInt32(ws.Cells[nRow, 11].Text);
+            int nTaskId = Convert.ToInt32(ws.Cells[nRow, 12].Text);
 
             //获取个人限购数量
             int nTotalAmount = Convert.ToInt32(ws.Cells[nRow, 7].Text);

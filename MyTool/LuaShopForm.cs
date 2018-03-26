@@ -1,15 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Excel;
-using System.Diagnostics;
 
 namespace MyTool
 {
@@ -35,7 +25,7 @@ namespace MyTool
                     eo.OpenExcel(openFileDialog1.FileName);
                     
                     //表名不正确
-                    if (!eo.IsExcelSheetNameTrue(eo.wb))
+                    if (!eo.IsExcelSheetNameTrue(eo.wb, "筹码币商店"))
                     {
                         MessageBox.Show("筹码币商店表不存在。");
                     }

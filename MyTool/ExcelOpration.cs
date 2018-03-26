@@ -17,8 +17,6 @@ namespace MyTool
         public Worksheet ws;
         public Range rng;
 
-        //表名
-        public static string sSheetLuaShopName = "筹码币商店";
         //表头长度
         public static int nLuaShopLength = 20;
 
@@ -45,13 +43,13 @@ namespace MyTool
         }
 
         //表名判断
-        public bool IsExcelSheetNameTrue(Workbook wb)
+        public bool IsExcelSheetNameTrue(Workbook wb, string SheetName)
         {
             for (int i = 0; i < wb.Worksheets.Count;)
             {
                 ws = wb.Worksheets[i + 1];
                 string sSheetName = ws.Name;
-                if (sSheetName == sSheetLuaShopName)
+                if (sSheetName == SheetName)
                 {
                     return true;
                 }

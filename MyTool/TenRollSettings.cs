@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing.Design;
 using System.ComponentModel.Design;
+using System.Collections.Generic;
 
 namespace MyTool
 {
@@ -209,14 +210,143 @@ namespace MyTool
     //奖励物品类
     public class AwardListItem
     {
-        private string _ItemId = "0";
+        private int _ItemId = 0;
+        private int _Count = 1;
+        private int _Chance = 0;
+        private int _Bind = 0;
+        private int _IsTenDraw = 0;
+        private string _NoticeType = "";
+        private string _WndNoticeType = "1";
+        private string _AwardLev = "";
+        private string _TimePhase = "";
+        private string _ServerLimit = "";
+        private string _DayLimit = "";
+        private string _UStaskId = "";
+        private string _USLimit = "";
+        private string _USData = "";
+        private string _UDtaskId = "";
+        private string _UDLimit = "";
+        private string _UDData = "";
 
         [DisplayName("物品id"),
             Description("【必填】物品id"),]
-        public string ItemId
+        public int ItemId
         {
             get { return _ItemId; }
             set { _ItemId = value; }
+        }
+        [DisplayName("数量"),
+            Description("【必填】数量（不可叠加的物品请配1, 可叠加的物品不要超过叠加物品上限。装备，请注意写0.否则耐久为0）"),]
+        public int Count
+        {
+            get { return _Count; }
+            set { _Count = value; }
+        }
+        [DisplayName("是否绑定"),
+            Description("【必填】 =1：绑定 =0：非绑"),]
+        public int IsBind
+        {
+            get { return _Bind; }
+            set { _Bind = value; }
+        }
+        [DisplayName("抽奖概率"),
+            Description("【必填】抽奖概率"),]
+        public int Chance
+        {
+            get { return _Chance; }
+            set { _Chance = value; }
+        }
+        [DisplayName("是否十连抽才能抽中"),
+            Description("【选填】默认0：都能抽中， 1：只有10连抽能抽中。"),]
+        public int IsTenDraw
+        {
+            get { return _IsTenDraw; }
+            set { _IsTenDraw = value; }
+        }
+        [Editor(typeof(ListBoxUCConverter), typeof(UITypeEditor)),
+            DisplayName("公告方式"),
+            Description("【选填】 1：全服公告，2：全地图公告 3：玩家提示 （和nAwardLev属于同一组。此处有配置，对应的文字描素映射nAwardLev 必填。）"),]
+        public string NoticeType
+        {
+            get { return _NoticeType; }
+            set { _NoticeType = value; }
+        }
+        [DisplayName("客户端右侧排行榜显示"),
+            Description("【选填】=1:有tips,=0:无tips "),]
+        public string WndNoticeType
+        {
+            get { return _WndNoticeType; }
+            set { _WndNoticeType = value; }
+        }
+        [DisplayName("奖品等级"),
+            Description("【选填】 (此处有配置的话 需要再配置对应等级描述,tTips里面需要配置对应的文字说明) "),]
+        public string AwardLev
+        {
+            get { return _AwardLev; }
+            set { _AwardLev = value; }
+        }
+        [DisplayName("可获得的时间段"),
+            Description("【选填】支持2种时间段模式。\n1：sTimePhase = '2017-05-05 07:30 ~ 2017-06-06 07:30',\n2: sTimePhase = '07:00 ~ 08:00' "),]
+        public string TimePhase
+        {
+            get { return _TimePhase; }
+            set { _TimePhase = value; }
+        }
+        [DisplayName("活动区间全服产出上限"),
+            Description("【选填】活动区间全服产出上限"),]
+        public string ServerLimit
+        {
+            get { return _ServerLimit; }
+            set { _ServerLimit = value; }
+        }
+        [DisplayName("活动区间单日产出上限"),
+            Description("【选填】活动区间单日产出上限 "),]
+        public string DayLimit
+        {
+            get { return _DayLimit; }
+            set { _DayLimit = value; }
+        }
+        [DisplayName("活动区间单人产出掩码"),
+            Description("【选填】 （记录单人产出数量，和以下2个属性属于同一组）"),]
+        public string UStaskId
+        {
+            get { return _UStaskId; }
+            set { _UStaskId = value; }
+        }
+        [DisplayName("活动区间单人产出上限"),
+            Description("【选填】活动区间单人产出上限"),]
+        public string USLimit
+        {
+            get { return _USLimit; }
+            set { _USLimit = value; }
+        }
+        [DisplayName("对应活动区间单人产出掩码的掩码位"),
+            Description("【选填】"),]
+        public string USData
+        {
+            get { return _USData; }
+            set { _USData = value; }
+        }
+        [DisplayName("活动区间单人单日产出掩码"),
+            Description("【选填】 （记录单人单日产出数量，和以下2个属于同一组） "),]
+        public string UDtaskId
+        {
+            get { return _UDtaskId; }
+            set { _UDtaskId = value; }
+        }
+        [DisplayName("：活动区间单人单日产出上限"),
+            Description("【选填】 "),]
+        public string UDLimit
+        {
+            get { return _UDLimit; }
+            set { _UDLimit = value; }
+        }
+        [DisplayName("对应活动区间单人单日产出掩码的掩码位"),
+            Description("【选填】 "),]
+        public string UDData
+        {
+            get { return _UDData; }
+            set { _UDData = value; }
         }
     }
 
@@ -477,10 +607,5 @@ namespace MyTool
             set { _LogId_XSJ = value; }
         }
     }
-
-    
-
-
-
 
 }

@@ -10,6 +10,7 @@ using System.Reflection;
 
 namespace MyTool
 {
+
     //自定义的collection类
     public class AwardListCollection : List<AwardList>, ICustomTypeDescriptor
     {
@@ -94,7 +95,7 @@ namespace MyTool
 
         public override TypeConverter Converter
         {
-            get { return new OptionConvert(); }
+            get { return new AwardStringConvert(); }
         }
 
         public override bool CanResetValue(object component)
@@ -160,8 +161,8 @@ namespace MyTool
                 pgrid.SelectedObjectsChanged += ExtendCollectionEditor_ValueChange;
             }
 
-            #region
             //注册按钮事件
+            #region
             FieldInfo removeButton = frm.GetType().GetField("removeButton", BindingFlags.NonPublic | BindingFlags.Instance);
             if (removeButton != null)
             {
@@ -254,6 +255,28 @@ namespace MyTool
         }
     }
 
+    //string的自定义属性类
+    public class AwardStringConvert : ExpandableObjectConverter
+    {
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        {
+            if (destinationType == typeof(String))
+            {
+                return true;
+            }
+            return base.CanConvertTo(context, destinationType);
+        }
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            AwardListItem ali = (AwardListItem)value;
+            if (destinationType == typeof(String))
+            {
+                return "";
+            }
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+    }
+
     //时间自定义控件
     public class DateConverter : UITypeEditor
     {
@@ -337,7 +360,11 @@ namespace MyTool
                 List<string> strList = new List<string> { "阶段性保底抽奖", "循环类保底抽奖", "十连抽追加抽奖次数" };
                 if (context.PropertyDescriptor.DisplayName == "服务器编号")
                 {
-                    strList = new List<string> { "0", "1", "2", "3", "10" };
+                    strList = new List<string> { "0", "1", "2", "3", "4", "10" };
+                }
+                else if (context.PropertyDescriptor.DisplayName == "公告方式")
+                {
+                    strList = new List<string> { "1", "2", "3" };
                 }
                 BeginUpdate();
                 Items.Clear();

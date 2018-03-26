@@ -73,6 +73,44 @@ namespace MyTool
         {
             
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ExcelOpration eo = new ExcelOpration();
+            //成功
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                //判断是否是excel
+                string FileNameExtension = System.IO.Path.GetExtension(openFileDialog1.FileName);
+                if (FileNameExtension == ".xls" || FileNameExtension == ".xlsx")
+                {
+                    //打开excel
+                    eo.OpenExcel(openFileDialog1.FileName);
+
+                    //表名不正确
+                    if (!eo.IsExcelSheetNameTrue(eo.wb, "十连抽"))
+                    {
+                        MessageBox.Show("十连抽表不存在。");
+                    }
+                    else
+                    {
+                        MessageBox.Show("读取成功！");
+                    }
+
+                    //关闭excel
+                    //eo.CloseExcel();
+                }
+                else
+                {
+                    MessageBox.Show("请打开excel。");
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

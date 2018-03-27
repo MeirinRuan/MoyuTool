@@ -214,7 +214,10 @@ namespace MyTool
                 al.ALI.IsBind = Convert.ToInt32(CharBindConvert(ws.Cells[i + 1, 3].Text.ToString()));//绑定
                 al.ALI.Count = Convert.ToInt32(ws.Cells[i + 1, 5].Text.ToString());//数量
                 al.ALI.Chance = Convert.ToInt32(ws.Cells[i + 1, 7].Value*10000);//概率
-                Statement[i-1] = al;
+                //播报
+                //全服产出
+
+                Statement.Add(al);
             }
 
             return Statement;

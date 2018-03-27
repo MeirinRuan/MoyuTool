@@ -111,7 +111,12 @@ namespace MyTool
         {
             TenRollSettings trs = new TenRollSettings();
             List<AwardList> al = eo.TenRollStatementSort(eo.ws);
-            trs.MAC.Add(al[0]);
+            
+            for (int i = al.Count-1; i >= 0; i--)
+            {
+                trs.MAC.Add(al[i]);
+            }
+
             propertyGrid1.SelectedObject = trs;
         }
     }

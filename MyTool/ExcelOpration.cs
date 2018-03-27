@@ -142,7 +142,7 @@ namespace MyTool
             return nRows - 2;
         }
 
-        //拼接单行sql语句
+        //拼接单行sql内容语句（不带括号）
         public string GetStatement(Worksheet ws, List<String> RowValues)
         {
             string sSqlStatement = "";
@@ -165,6 +165,66 @@ namespace MyTool
             string sStatement = string.Format("({0}),", sString);
             return sStatement;
         }
+
+        //物品绑定字符转换
+        public string CharBindConvert(string sStr)
+        {
+            if (sStr.Contains("非") || sStr.Contains("0"))
+            {
+                sStr = "0";
+            }
+            else
+            {
+                sStr = "1";
+            }
+            return sStr;
+        }
+
+        /*
+         用于十连抽的一些方法
+             */
+
+        //获取行数
+        public int GetRowNumFromItemId(Worksheet ws)
+        {
+            int nRows = 2;
+            //内容不为空
+            while (ws.Cells[nRows, 6].Text.ToString() != "")
+            {
+                nRows++;
+            }
+            if (nRows == 2)
+            {
+                MessageBox.Show("无行内容。");
+                return 0;
+            }
+
+            return nRows - 2;
+        }
+
+        //排序十连抽奖励表内容
+        public List<AwardList> TenRollStatementSort(Worksheet ws)
+        {
+            int nRows = GetRowNumFromItemId(ws);
+            List<AwardList> Statement = new List<AwardList>(nRows);
+            for (int i = 1; i <= nRows; i++)
+            {
+                AwardList al = new AwardList();
+                al.ALI.ItemId = Convert.ToInt32(ws.Cells[i + 1, 6].Text.ToString());//物品id
+                al.ALI.IsBind = Convert.ToInt32(CharBindConvert(ws.Cells[i + 1, 3].Text.ToString()));//绑定
+                al.ALI.Count = Convert.ToInt32(ws.Cells[i + 1, 5].Text.ToString());//数量
+                al.ALI.Chance = Convert.ToInt32(ws.Cells[i + 1, 7].Value*10000);//概率
+                Statement[i-1] = al;
+            }
+
+            return Statement;
+        }
+
+
+
+        /*
+         用于luashop的一些方法
+             */
 
         //排序行内容
         public List<String> LuaShopStatementSort(List<String> sStatement, int RowCount)
@@ -202,14 +262,7 @@ namespace MyTool
             };
 
             //属性字段绑转换
-            if (sTempStatement[4].ToString().Contains("非"))
-            {
-                sTempStatement[4] = "0";
-            }
-            else
-            {
-                sTempStatement[4] = "1";
-            }
+            sTempStatement[4] = CharBindConvert(sTempStatement[4].ToString());
 
             //摆放顺序倒序
             sTempStatement[9] = (RowCount - Convert.ToInt32(sTempStatement[9]) + 1).ToString();
@@ -247,7 +300,6 @@ namespace MyTool
             string sTitle = "Insert into cq_lua_data(id,type,data1,data2,data3,data4,data5,data6,data7,data8,data9,data10,data11,data12,data13,dataStr1,dataStr2,dataStr3,dataStr4)values";
             return sTitle;
         }
-
 
         //生成lua的个人限购代码
         public string GetLuaShopTable(Worksheet ws)

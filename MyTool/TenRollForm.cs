@@ -15,6 +15,7 @@ namespace MyTool
 {
     public partial class TenRollForm : Form
     {
+        ExcelOpration eo = new ExcelOpration();
         public TenRollForm()
         {
             InitializeComponent();
@@ -76,7 +77,6 @@ namespace MyTool
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ExcelOpration eo = new ExcelOpration();
             //成功
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -109,7 +109,10 @@ namespace MyTool
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            TenRollSettings trs = new TenRollSettings();
+            List<AwardList> al = eo.TenRollStatementSort(eo.ws);
+            trs.MAC.Add(al[0]);
+            propertyGrid1.SelectedObject = trs;
         }
     }
 

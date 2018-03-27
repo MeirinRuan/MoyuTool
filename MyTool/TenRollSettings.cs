@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Drawing.Design;
-using System.ComponentModel.Design;
-using System.Collections.Generic;
 
 namespace MyTool
 {

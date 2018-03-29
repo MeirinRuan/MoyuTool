@@ -75,6 +75,7 @@ namespace MyTool
             
         }
 
+        //打开excel
         private void button1_Click(object sender, EventArgs e)
         {
             //成功
@@ -107,16 +108,46 @@ namespace MyTool
             }
         }
 
+        //导入奖励表
         private void button2_Click(object sender, EventArgs e)
         {
-            TenRollSettings trs = new TenRollSettings();
+            if (eo.ws == null)
+            {
+                MessageBox.Show("请先打开excel。");
+                return;
+            }
+            TenRollSettings trs = (TenRollSettings)propertyGrid1.SelectedObject;
             List<AwardList> al = eo.TenRollStatementSort(eo.ws);
-            
+
+            trs.MAC.Clear();
+
             for (int i = al.Count-1; i >= 0; i--)
             {
                 trs.MAC.Add(al[i]);
             }
 
+            propertyGrid1.SelectedObject = trs;
+        }
+
+        //生成代码
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var item = propertyGrid1.SelectedObject;
+            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(item);
+            //转换的需要是可见的属性
+            //AttributeCollection attrs = props["Opt"].Attributes;
+
+
+            //获取每一项的值
+ 
+            //MessageBox.Show(props.Count.ToString());
+
+        }
+
+        //重置刷新界面
+        private void button4_Click(object sender, EventArgs e)
+        {
+            TenRollSettings trs = new TenRollSettings();
             propertyGrid1.SelectedObject = trs;
         }
     }

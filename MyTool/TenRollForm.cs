@@ -37,6 +37,23 @@ namespace MyTool
             fld.SetValue(attrs[type], visible);
         }
 
+        //检查是否为可见属性
+        public bool IsPropertyVisible(object obj, string propertyName)
+        {
+            //MessageBox.Show(propertyName);
+            Type type = typeof(BrowsableAttribute);
+            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(obj);
+            AttributeCollection attrs = props[propertyName].Attributes;
+            FieldInfo fld = type.GetField("browsable", BindingFlags.Instance | BindingFlags.NonPublic);
+            if ((Boolean)fld.GetValue(attrs[type]))
+            {
+                //MessageBox.Show(propertyName);
+                return true;
+            }
+            return false;
+
+        }
+
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             if (e.ChangedItem.Label == "可选配置")
@@ -132,14 +149,25 @@ namespace MyTool
         //生成代码
         private void button3_Click(object sender, EventArgs e)
         {
-            var item = propertyGrid1.SelectedObject;
+            var item = (TenRollSettings)propertyGrid1.SelectedObject;
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(item);
             //转换的需要是可见的属性
-            //AttributeCollection attrs = props["Opt"].Attributes;
+            for (int i = 0; i< props.Count; i++)
+            {
+                if (IsPropertyVisible(item, props[i].Name))
+                {
+                    //按照分类
+                    if (props[i].Category == "\t基础数据配置表")
+                    {
+
+                    }
+                    //MessageBox.Show(props[i].GetValue(item).ToString());
+                }
+            }
 
 
             //获取每一项的值
- 
+
             //MessageBox.Show(props.Count.ToString());
 
         }

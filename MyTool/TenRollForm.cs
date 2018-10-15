@@ -54,6 +54,7 @@ namespace MyTool
 
         }
 
+
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             if (e.ChangedItem.Label == "可选配置")
@@ -136,11 +137,11 @@ namespace MyTool
             TenRollSettings trs = (TenRollSettings)propertyGrid1.SelectedObject;
             List<AwardList> al = eo.TenRollStatementSort(eo.ws);
 
-            trs.MAC.Clear();
+            trs.tAwardList.Clear();
 
             for (int i = al.Count-1; i >= 0; i--)
             {
-                trs.MAC.Add(al[i]);
+                trs.tAwardList.Add(al[i]);
             }
 
             propertyGrid1.SelectedObject = trs;
@@ -151,7 +152,27 @@ namespace MyTool
         {
             var item = (TenRollSettings)propertyGrid1.SelectedObject;
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(item);
-            //转换的需要是可见的属性
+            PropertyDescriptorCollection opt = TypeDescriptor.GetProperties(item.tOption);
+            PropertyDescriptorCollection least = TypeDescriptor.GetProperties(item.tLeast);
+            PropertyDescriptorCollection lstawd = TypeDescriptor.GetProperties(item.tLstAwd);
+            PropertyDescriptorCollection tencount = TypeDescriptor.GetProperties(item.tTenCount);
+
+            string TitleStr = "rwtLuckDrawTable[{0}]={{ \r\n\t{1}\r\n }}";
+            string tBaseData = "tBaseData = {{ \r\n\t\t{0}\r\n\t }},";
+            string BaseDataStr = "";
+            string tRule = "tRule = {{ \r\n\t\t{0}\r\n\t }},";
+            string RuleStr = "";
+            string tOption = "tOption = {{ \r\n\t\t\t{0}\r\n\t }},";
+            string OptionStr = "";
+            string tLstAwd = "tLstAwd = {{ \r\n\t\t\t{0}\r\n\t }},";
+            string LstAwdStr = "";
+            string tLeast = "tLeast = {{ \r\n\t\t\t{0}\r\n\t }},";
+            string LeastStr = "";
+            string tTenCount = "tTenCount = {{ \r\n\t\t\t{0}\r\n\t }},";
+            string TenCountStr = "";
+
+
+            //tBaseData
             for (int i = 0; i< props.Count; i++)
             {
                 if (IsPropertyVisible(item, props[i].Name))
@@ -159,17 +180,20 @@ namespace MyTool
                     //按照分类
                     if (props[i].Category == "\t基础数据配置表")
                     {
-
+                        BaseDataStr = BaseDataStr + props[i].Name + "=" + props[i].GetValue(item).ToString() + ",\r\n\t\t";
                     }
-                    //MessageBox.Show(props[i].GetValue(item).ToString());
                 }
             }
+            tBaseData = string.Format(tBaseData, BaseDataStr);
+            TitleStr = string.Format(TitleStr, item.nType, tBaseData);
+
+            //tOption
 
 
-            //获取每一项的值
+            //tLeast
 
-            //MessageBox.Show(props.Count.ToString());
 
+            MessageBox.Show(TitleStr);
         }
 
         //重置刷新界面
@@ -178,6 +202,8 @@ namespace MyTool
             TenRollSettings trs = new TenRollSettings();
             propertyGrid1.SelectedObject = trs;
         }
+
+
     }
 
 }

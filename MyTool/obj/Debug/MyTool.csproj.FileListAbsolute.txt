@@ -74,3 +74,4 @@ F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.csproj.GenerateResource.Cache
 F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.csproj.CoreCompileInputs.cache
 F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.exe
 F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.pdb
+F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.ActivityForm.resources

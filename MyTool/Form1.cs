@@ -15,6 +15,8 @@ namespace MyTool
         SqlForm sqlform;
         LuaShopForm luashopform;
         TenRollForm tenrollform;
+        ActivityForm activityform;
+
         public Form1()
         {
             InitializeComponent();
@@ -38,6 +40,17 @@ namespace MyTool
         {
             tenrollform = new TenRollForm();
             tenrollform.ShowDialog();
+        }
+
+        private void CopyMap_button_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("敬请期待。");
+        }
+
+        private void Activity_button_Click(object sender, EventArgs e)
+        {
+            activityform = new ActivityForm();
+            activityform.ShowDialog();
         }
     }
 }

@@ -22,12 +22,12 @@ namespace MyTool
         private TenCount _TenCount = new TenCount();
         private Option _Option = new Option();
         private string _SelectableTable = "";
-        private AwardListCollection _MAC = new AwardListCollection();
+        private AwardListCollection _ALC = new AwardListCollection();
         
         [Category("\t基础数据配置表"),
             DisplayName("奖池类型"),
             Description("【必填】奖池对应的cq_lua_data 表的type（存储物品产出量）。"),]
-        public int LuaType
+        public int nType
         {
             get { return _LuaType; }
             set { _LuaType = value; }
@@ -35,7 +35,7 @@ namespace MyTool
         [Category("\t基础数据配置表"),
             DisplayName("幸运榜类型"),
             Description("【必填】十连抽幸运榜对应的cq_lua_data表的type。"),]
-        public int RankType
+        public int nRankType
         {
             get { return _RankType; }
             set { _RankType = value; }
@@ -43,7 +43,7 @@ namespace MyTool
         [Category("\t基础数据配置表"),
             DisplayName("版本号类型"),
             Description("【必填】版本号对应的cq_lua_data表的type。"),]
-        public int VerType
+        public int nVerType
         {
             get { return _VerType; }
             set { _VerType = value; }
@@ -51,7 +51,7 @@ namespace MyTool
         [Category("\t基础数据配置表"),
             DisplayName("掩码id"),
             Description("【必填】本次活动抽奖的掩码。"),]
-        public int TaskId
+        public int nTaskId
         {
             get { return _TaskId; }
             set { _TaskId = value; }
@@ -59,7 +59,7 @@ namespace MyTool
         [Category("\t基础数据配置表"),
             DisplayName("每日次数限制"),
             Description("【必填】每日次数限制。"),]
-        public int LimitCount
+        public int nLimitCount
         {
             get { return _LimitCount; }
             set { _LimitCount = value; }
@@ -67,7 +67,7 @@ namespace MyTool
         [Category("\t基础数据配置表"),
             DisplayName("版本号"),
             Description("【必填】版本号。（每一次重新启用需要配置和之前不同的版本号，否则第二次启用掩码不会被重置）。"),]
-        public int Ver
+        public int nVer
         {
             get { return _Ver; }
             set { _Ver = value; }
@@ -75,7 +75,7 @@ namespace MyTool
         [Category("\t基础数据配置表"),
             DisplayName("几连抽配置"),
             Description("【必填】几连抽配置（目前客户端不支持，请配置10）默认10。"),]
-        public int DrawCount
+        public int nDrawCount
         {
             get { return _DrawCount; }
             set { _DrawCount = value; }
@@ -83,7 +83,7 @@ namespace MyTool
         [Category("\t基础数据配置表"),
             DisplayName("幸运榜名称"),
             Description("【必填】右侧幸运榜显示的名称。"),]
-        public string RankName
+        public string sRankName
         {
             get { return _RankName; }
             set { _RankName = value; }
@@ -91,7 +91,7 @@ namespace MyTool
         [Category("\t基础数据配置表"),
             DisplayName("活动标题"),
             Description("【必填】显示在界面上方的活动标题。"),]
-        public string Title
+        public string sTitle
         {
             get { return _Titile; }
             set { _Titile = value; }
@@ -99,7 +99,7 @@ namespace MyTool
         [Category("\t基础数据配置表"),
             DisplayName("官方logid"),
             Description("【必填】官方logid。"),]
-        public int LogId
+        public int nLogId
         {
             get { return _LogId; }
             set { _LogId = value; }
@@ -107,7 +107,7 @@ namespace MyTool
         [Category("\t基础数据配置表"),
             DisplayName("西山居logid"),
             Description("【必填】西山居logid。"),]
-        public int LogId_XSJ
+        public int nLogId_XSJ
         {
             get { return _LogId_XSJ; }
             set { _LogId_XSJ = value; }
@@ -117,7 +117,7 @@ namespace MyTool
             TypeConverter(typeof(OptionConvert)),
             DisplayName("规则表"),
             Description("【必填】控制作用的规则限制"),]
-        public Option Opt
+        public Option tOption
         {
             get { return _Option; }
             set { _Option = value; }
@@ -138,7 +138,7 @@ namespace MyTool
             DisplayName("阶段性保底抽奖"),
             Browsable(false),
             Description("【选填】阶段性保底抽奖")]
-        public LeastSettings Ls
+        public LeastSettings tLeast
         {
             get { return _LeastSettings; }
             set { _LeastSettings = value; }
@@ -148,7 +148,7 @@ namespace MyTool
             DisplayName("循环类保底抽奖"),
             Browsable(false),
             Description("【选填】循环类保底抽奖"),]
-        public LstAwdSettings LstAwd
+        public LstAwdSettings tLstAwd
         {
             get { return _LstAwdSettings; }
             set { _LstAwdSettings = value; }
@@ -158,7 +158,7 @@ namespace MyTool
             DisplayName("十连抽追加抽奖次数"),
             Browsable(false),
             Description("【选填】十连抽追加抽奖次数"),]
-        public TenCount TC
+        public TenCount tTenCount
         {
             get { return _TenCount; }
             set { _TenCount = value; }
@@ -168,10 +168,10 @@ namespace MyTool
             TypeConverter(typeof(OptionConvert)),
             DisplayName("奖励物品表"),
             Description("【必填】奖励物品"),]
-        public AwardListCollection MAC
+        public AwardListCollection tAwardList
         {
-            get { return _MAC; }
-            set { _MAC = value; }
+            get { return _ALC; }
+            set { _ALC = value; }
         }
 
     }

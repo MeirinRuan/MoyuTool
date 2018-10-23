@@ -42,12 +42,14 @@ namespace MyTool
 
                     int nLength = table.Keys.Count;
                     Dictionary<int, Dictionary<int, LuaTable>> dic_list = new Dictionary<int, Dictionary<int, LuaTable>>();
+
                     for (int i = 1;i <= nLength; i++)
                     {
                         //读取npcid进行分类
                         LuaTable SecondTable = mlo.ReadSecondLuaTableBySort(table, i);
                         LuaTable ConditonTable = mlo.ReadSecondLuaTableByString(SecondTable, "Condition");
                         int nNpcId = Convert.ToInt32(ConditonTable["nNpcId"]);
+
                         if (ConditonTable["nNpcId"].ToString() != "")
                         {
                             if (!dic_list.ContainsKey(nNpcId))
@@ -57,20 +59,31 @@ namespace MyTool
                             dic_list[nNpcId].Add(dic_list[nNpcId].Count + 1, SecondTable);
                         }
                     }
-                    /*
-                    foreach (KeyValuePair<int, LuaTable> a in dic_list[74420])
+
+                    //放入combobox中
+                    BindingSource bs = new BindingSource
                     {
-                        Console.WriteLine(a.Key + "...." + a.Value["Title"]);
-                    }
-                    */
-                    //Console.WriteLine(dic_list[74420][1]["Title"]);
-                    //MessageBox.Show(j.ToString());
+                        DataSource = dic_list
+                    };
+                    TypeList_comboBox.DataSource = bs;
+                    TypeList_comboBox.ValueMember = "Value";
+                    TypeList_comboBox.DisplayMember = "Key";
+
                 }
                 else
                 {
                     MessageBox.Show("请打开50046_data.lua。");
                 }
             }
+        }
+
+        private void TypeList_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //更新界面中的显示
+            Button btn = new Button();
+            ActivityList_tableLayoutPanel.Controls.Add(btn);
+
+
         }
     }
 }

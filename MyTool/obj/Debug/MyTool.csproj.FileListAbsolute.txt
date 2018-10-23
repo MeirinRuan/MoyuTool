@@ -41,7 +41,6 @@ D:\MoyuTool\MyTool\bin\Debug\MyTool.exe
 D:\MoyuTool\MyTool\bin\Debug\MyTool.pdb
 D:\MoyuTool\MyTool\bin\Debug\MySql.Data.dll
 D:\MoyuTool\MyTool\bin\Debug\MySql.Data.xml
-D:\MoyuTool\MyTool\obj\Debug\MyTool.csprojResolveAssemblyReference.cache
 D:\MoyuTool\MyTool\obj\Debug\Interop.Excel.dll
 D:\MoyuTool\MyTool\obj\Debug\Interop.Office.dll
 D:\MoyuTool\MyTool\obj\Debug\Interop.VBIDE.dll
@@ -75,3 +74,6 @@ F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.csproj.CoreCompileInputs.cache
 F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.exe
 F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.pdb
 F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.ActivityForm.resources
+D:\MoyuTool\MyTool\obj\Debug\MyTool.csprojAssemblyReference.cache
+D:\MoyuTool\MyTool\obj\Debug\MyTool.ActivityForm.resources
+D:\MoyuTool\MyTool\obj\Debug\MyTool.csproj.CopyComplete

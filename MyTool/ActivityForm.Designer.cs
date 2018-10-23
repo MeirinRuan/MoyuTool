@@ -32,6 +32,9 @@
             this.TypeList_comboBox = new System.Windows.Forms.ComboBox();
             this.Activity_flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.ActivityList_tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.Main_flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.Activity_flowLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // ReadFile_button
@@ -52,10 +55,13 @@
             this.TypeList_comboBox.Name = "TypeList_comboBox";
             this.TypeList_comboBox.Size = new System.Drawing.Size(113, 394);
             this.TypeList_comboBox.TabIndex = 1;
+            this.TypeList_comboBox.SelectedIndexChanged += new System.EventHandler(this.TypeList_comboBox_SelectedIndexChanged);
             // 
             // Activity_flowLayoutPanel
             // 
-            this.Activity_flowLayoutPanel.Location = new System.Drawing.Point(172, 98);
+            this.Activity_flowLayoutPanel.Controls.Add(this.ActivityList_tableLayoutPanel);
+            this.Activity_flowLayoutPanel.Controls.Add(this.Main_flowLayoutPanel);
+            this.Activity_flowLayoutPanel.Location = new System.Drawing.Point(169, 98);
             this.Activity_flowLayoutPanel.Name = "Activity_flowLayoutPanel";
             this.Activity_flowLayoutPanel.Size = new System.Drawing.Size(724, 380);
             this.Activity_flowLayoutPanel.TabIndex = 2;
@@ -63,6 +69,24 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // ActivityList_tableLayoutPanel
+            // 
+            this.ActivityList_tableLayoutPanel.ColumnCount = 1;
+            this.ActivityList_tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.ActivityList_tableLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.ActivityList_tableLayoutPanel.Name = "ActivityList_tableLayoutPanel";
+            this.ActivityList_tableLayoutPanel.RowCount = 1;
+            this.ActivityList_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.ActivityList_tableLayoutPanel.Size = new System.Drawing.Size(113, 368);
+            this.ActivityList_tableLayoutPanel.TabIndex = 0;
+            // 
+            // Main_flowLayoutPanel
+            // 
+            this.Main_flowLayoutPanel.Location = new System.Drawing.Point(122, 3);
+            this.Main_flowLayoutPanel.Name = "Main_flowLayoutPanel";
+            this.Main_flowLayoutPanel.Size = new System.Drawing.Size(592, 368);
+            this.Main_flowLayoutPanel.TabIndex = 1;
             // 
             // ActivityForm
             // 
@@ -74,6 +98,7 @@
             this.Controls.Add(this.ReadFile_button);
             this.Name = "ActivityForm";
             this.Text = "火爆活动配置";
+            this.Activity_flowLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -84,5 +109,7 @@
         private System.Windows.Forms.ComboBox TypeList_comboBox;
         private System.Windows.Forms.FlowLayoutPanel Activity_flowLayoutPanel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.TableLayoutPanel ActivityList_tableLayoutPanel;
+        private System.Windows.Forms.FlowLayoutPanel Main_flowLayoutPanel;
     }
 }

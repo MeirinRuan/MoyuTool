@@ -14,6 +14,7 @@ namespace MyTool
 {
     public partial class ActivityForm : Form
     {
+        bool Flag = false;
         public ActivityForm()
         {
             InitializeComponent();
@@ -69,6 +70,8 @@ namespace MyTool
                     TypeList_comboBox.ValueMember = "Value";
                     TypeList_comboBox.DisplayMember = "Key";
 
+                    //combo刷新标记
+                    Flag = true;
                 }
                 else
                 {
@@ -80,10 +83,35 @@ namespace MyTool
         private void TypeList_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //更新界面中的显示
-            Button btn = new Button();
-            ActivityList_tableLayoutPanel.Controls.Add(btn);
+            if (Flag)
+            {
+                ActivityList_tableLayoutPanel.Controls.Clear();
+                //创建按钮
+                int nCount = ((KeyValuePair<int, Dictionary<int, LuaTable>>)TypeList_comboBox.SelectedItem).Value.Count;
+                for (int i = 0; i < nCount; i++)
+                {
+                    Button btn = new Button();
+                    //btn.Name = i.ToString();
+                    btn.Click += TypeList_Btn_Click;
+                    ActivityList_tableLayoutPanel.Controls.Add(btn);
+                    //button代表的类型
+
+                }
+            }
 
 
+
+        }
+
+        private void TypeList_Btn_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            //MessageBox.Show(btn.Name);
+            //throw new NotImplementedException();
+        }
+
+        private void ActivityForm_Load(object sender, EventArgs e)
+        {
         }
     }
 }

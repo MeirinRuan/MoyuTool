@@ -31,9 +31,9 @@
             this.ReadFile_button = new System.Windows.Forms.Button();
             this.TypeList_comboBox = new System.Windows.Forms.ComboBox();
             this.Activity_flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.ActivityList_tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.Main_flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.Activity_flowLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,10 +66,6 @@
             this.Activity_flowLayoutPanel.Size = new System.Drawing.Size(724, 380);
             this.Activity_flowLayoutPanel.TabIndex = 2;
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // ActivityList_tableLayoutPanel
             // 
             this.ActivityList_tableLayoutPanel.ColumnCount = 1;
@@ -88,6 +84,10 @@
             this.Main_flowLayoutPanel.Size = new System.Drawing.Size(592, 368);
             this.Main_flowLayoutPanel.TabIndex = 1;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // ActivityForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -98,6 +98,7 @@
             this.Controls.Add(this.ReadFile_button);
             this.Name = "ActivityForm";
             this.Text = "火爆活动配置";
+            this.Load += new System.EventHandler(this.ActivityForm_Load);
             this.Activity_flowLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 

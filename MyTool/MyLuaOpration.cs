@@ -9,6 +9,10 @@ namespace MyTool
 {
     class MyLuaOpration
     {
+        const string Const_Null = "无";         //无
+        const string Const_Activity = "火爆";     //火爆活动
+        const string Const_Shop = "商店";         //商店
+        const string Const_TaskSort = "排行榜";     //排行榜
         Lua m_lua = new Lua();
 
         //打开lua文件
@@ -35,6 +39,31 @@ namespace MyTool
             return (LuaTable)tFirstTable[sTableName];
         }
 
+        //判断combo的类型
+        public string GetLuaTableType(LuaTable tSecondTable)
+        {
+            if (tSecondTable["Click"] != null)
+            {
+                if (tSecondTable["Click"].ToString() != "")
+                {
+                    string str = tSecondTable["Click"].ToString();
+                    if (str.Contains("50044"))
+                    {
+                        return Const_Activity;
+                    }
+                    else if (str.Contains("50013"))
+                    {
+                        return Const_Shop;
+                    }
+                    else if (str.Contains("SendLuaMsg(4,0,\"67\""))
+                    {
+                        return Const_TaskSort;
+                    }
+                }
+                return Const_Null;
+            }
+            return "";
+        }
 
     }
 }

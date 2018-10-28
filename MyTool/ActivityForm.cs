@@ -15,6 +15,7 @@ namespace MyTool
     public partial class ActivityForm : Form
     {
         bool Flag = false;
+        MyLuaOpration mlo = new MyLuaOpration();
         public ActivityForm()
         {
             InitializeComponent();
@@ -35,7 +36,6 @@ namespace MyTool
                 string FileName = System.IO.Path.GetFileName(openFileDialog1.FileName);
                 if (FileNameExtension == ".lua" && FileName == "50046_data.lua")
                 {
-                    MyLuaOpration mlo = new MyLuaOpration();
                     //打开lua文件
                     mlo.OpenLuaFile(openFileDialog1.FileName);
                     //读取table
@@ -87,15 +87,20 @@ namespace MyTool
             {
                 ActivityList_tableLayoutPanel.Controls.Clear();
                 //创建按钮
-                int nCount = ((KeyValuePair<int, Dictionary<int, LuaTable>>)TypeList_comboBox.SelectedItem).Value.Count;
+                KeyValuePair<int, Dictionary<int, LuaTable>> kvp = ((KeyValuePair<int, Dictionary<int, LuaTable>>)TypeList_comboBox.SelectedItem);
+                Dictionary<int, LuaTable> dic = kvp.Value;
+                int nCount = dic.Count;
                 for (int i = 0; i < nCount; i++)
                 {
                     Button btn = new Button();
-                    //btn.Name = i.ToString();
+                    LuaTable luaTable = mlo.ReadSecondLuaTableByString(dic[i + 1], "Callback");
+                    if (luaTable != null)
+                    {
+                        //判断button代表的类型，设置button文字
+                        btn.Text = mlo.GetLuaTableType(luaTable);
+                    }
                     btn.Click += TypeList_Btn_Click;
                     ActivityList_tableLayoutPanel.Controls.Add(btn);
-                    //button代表的类型
-
                 }
             }
 
@@ -106,6 +111,7 @@ namespace MyTool
         private void TypeList_Btn_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
+            
             //MessageBox.Show(btn.Name);
             //throw new NotImplementedException();
         }

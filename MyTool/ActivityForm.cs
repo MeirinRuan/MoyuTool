@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LuaInterface;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace MyTool
 {
@@ -16,6 +18,7 @@ namespace MyTool
     {
         bool Flag = false;
         MyLuaOpration mlo = new MyLuaOpration();
+        MyRegularExpression mre = new MyRegularExpression();
         public ActivityForm()
         {
             InitializeComponent();
@@ -32,10 +35,19 @@ namespace MyTool
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 //判断是否是50046_data
-                string FileNameExtension = System.IO.Path.GetExtension(openFileDialog1.FileName);
-                string FileName = System.IO.Path.GetFileName(openFileDialog1.FileName);
+                string FileNameExtension = Path.GetExtension(openFileDialog1.FileName);
+                string FileName = Path.GetFileName(openFileDialog1.FileName);
                 if (FileNameExtension == ".lua" && FileName == "50046_data.lua")
                 {
+                    string FileText = File.ReadAllText(openFileDialog1.FileName, Encoding.Default);
+                    string TabConfig = mre.GetLuaTableTabConfig(FileText);
+
+                    mre.GetSecondLuaTable(TabConfig);
+
+                    //读取表内每一项
+                    //mre.GetItemLuaTable(TabConfig);
+
+                    /*
                     //打开lua文件
                     mlo.OpenLuaFile(openFileDialog1.FileName);
                     //读取table
@@ -72,6 +84,7 @@ namespace MyTool
 
                     //combo刷新标记
                     Flag = true;
+                    */
                 }
                 else
                 {

@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="MyCustomClass.cs" />
     <Compile Include="MyLuaOpration.cs" />
+    <Compile Include="MyRegularExpression.cs" />
     <Compile Include="MySqlOpration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

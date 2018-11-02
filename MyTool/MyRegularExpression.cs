@@ -20,9 +20,36 @@ namespace MyTool
         //读取子表的文本
         public string GetSecondLuaTable(string TableText)
         {
-            Match match = Regex.Match(TableText, @"(?is)(?<=)(.*)(?=)");
-            string TableText = match.ToString().Substring(1, );
-            Console.WriteLine(match.ToString());
+            int start = 0;
+            int start2 = 0;
+            int end = 0;
+            Regex regex = new Regex(@"\{");
+            Match match = regex.Match(TableText);
+            if (match.Success)
+            {
+                start = match.Index + 1;
+            }
+
+            for (int i = start; i < TableText.Length; i++)
+            {
+                if (TableText[i].ToString() == "}")
+                {
+                    if (TableText[i+1].ToString() == ",")
+                    {
+                        start2 = i + 2;
+                        string str = TableText.Substring(start2, TableText.Length - start2);
+                        Regex regex2 = new Regex(@"[^=]\s+\{");
+                        Match match2 = regex2.Match(str);
+                        if (match2.Success)
+                        {
+                            end = match2.Index + start2 + 1;
+                            break;
+                        }
+                    }
+                }
+            }
+            string newstr = TableText.Substring(start, end - start);
+            Console.WriteLine(newstr);
             return "";
         }
 

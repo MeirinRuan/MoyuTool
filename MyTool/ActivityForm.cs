@@ -17,7 +17,7 @@ namespace MyTool
     public partial class ActivityForm : Form
     {
         bool Flag = false;
-        MyLuaOpration mlo = new MyLuaOpration();
+        //MyLuaOpration mlo = new MyLuaOpration();
         MyRegularExpression mre = new MyRegularExpression();
         public ActivityForm()
         {
@@ -42,10 +42,18 @@ namespace MyTool
                     string FileText = File.ReadAllText(openFileDialog1.FileName, Encoding.Default);
                     string TabConfig = mre.GetLuaTableTabConfig(FileText);
 
-                    mre.GetSecondLuaTable(TabConfig);
+                    //循环存每个子表
+                    //var strinfo = mre.GetSecondLuaTable(TabConfig);
+                    //string newstr = TabConfig.Substring(strinfo.Item2, TabConfig.Length - strinfo.Item2);
+                    Dictionary<int, Dictionary<int, string>> dic_list = new Dictionary<int, Dictionary<int, string>>();
 
-                    //读取表内每一项
-                    //mre.GetItemLuaTable(TabConfig);
+                    while (TabConfig.Length != 0)
+                    {
+                        int tempLength = 0;
+                        var strinfo = mre.GetSecondLuaTable(TabConfig.Substring(0, TabConfig.Length - tempLength));
+                        string newstr = TabConfig.Substring(strinfo.Item2, TabConfig.Length - strinfo.Item2);
+
+                    }
 
                     /*
                     //打开lua文件

@@ -10,6 +10,11 @@ namespace MyTool
 {
     class MyRegularExpression
     {
+        const string Const_Null = "无";         //无
+        const string Const_Activity = "火爆";     //火爆活动
+        const string Const_Shop = "商店";         //商店
+        const string Const_TaskSort = "排行榜";     //排行榜
+
         //读取tTabConfig表的文本
         public string GetLuaTableTabConfig(string FileText)
         {
@@ -46,6 +51,12 @@ namespace MyTool
                             end = match2.Index + start2 + 1;
                             break;
                         }
+                        //最后一个子表
+                        else
+                        {
+                            end = TableText.Length;
+                            break;
+                        }
                     }
                 }
             }
@@ -67,8 +78,29 @@ namespace MyTool
         public int GetNpcIdByItem(string TableText)
         {
             Match match = Regex.Match(TableText, @"(?<=nNpcId\s+=\s+).*?(?=,)");
-            Console.WriteLine(match.Value);
-            return 0;
+            //Console.WriteLine(Convert.ToInt32(match.Value));
+            return Convert.ToInt32(match.Value);
+        }
+
+        //判断combo的类型
+        public string GetLuaTableType(string tSecondTable)
+        {
+            if (tSecondTable != null)
+            {
+                if (tSecondTable.Contains("50044"))
+                {
+                    return Const_Activity;
+                }
+                else if (tSecondTable.Contains("50013"))
+                {
+                    return Const_Shop;
+                }
+                else if (tSecondTable.Contains("SendLuaMsg(4,0,\"67\""))
+                {
+                    return Const_TaskSort;
+                }
+            }
+            return Const_Null;
         }
     }
 }

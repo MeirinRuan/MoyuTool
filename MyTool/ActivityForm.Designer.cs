@@ -53,7 +53,7 @@
             this.TypeList_comboBox.FormattingEnabled = true;
             this.TypeList_comboBox.Location = new System.Drawing.Point(13, 98);
             this.TypeList_comboBox.Name = "TypeList_comboBox";
-            this.TypeList_comboBox.Size = new System.Drawing.Size(113, 394);
+            this.TypeList_comboBox.Size = new System.Drawing.Size(113, 379);
             this.TypeList_comboBox.TabIndex = 1;
             this.TypeList_comboBox.SelectedIndexChanged += new System.EventHandler(this.TypeList_comboBox_SelectedIndexChanged);
             // 

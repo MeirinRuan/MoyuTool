@@ -17,7 +17,6 @@ namespace MyTool
     public partial class ActivityForm : Form
     {
         bool Flag = false;
-        //MyLuaOpration mlo = new MyLuaOpration();
         MyRegularExpression mre = new MyRegularExpression();
         public ActivityForm()
         {
@@ -41,44 +40,25 @@ namespace MyTool
                 {
                     string FileText = File.ReadAllText(openFileDialog1.FileName, Encoding.Default);
                     string TabConfig = mre.GetLuaTableTabConfig(FileText);
-
-                    //循环存每个子表
-                    //var strinfo = mre.GetSecondLuaTable(TabConfig);
-                    //string newstr = TabConfig.Substring(strinfo.Item2, TabConfig.Length - strinfo.Item2);
                     Dictionary<int, Dictionary<int, string>> dic_list = new Dictionary<int, Dictionary<int, string>>();
 
-                    while (TabConfig.Length != 0)
+
+                    //循环存每个子表
+                    while (TabConfig.Length > 0)
                     {
-                        int tempLength = 0;
-                        var strinfo = mre.GetSecondLuaTable(TabConfig.Substring(0, TabConfig.Length - tempLength));
-                        string newstr = TabConfig.Substring(strinfo.Item2, TabConfig.Length - strinfo.Item2);
+                        var strinfo = mre.GetSecondLuaTable(TabConfig);
+                        int nNpcId = mre.GetNpcIdByItem(strinfo.Item1);
 
-                    }
-
-                    /*
-                    //打开lua文件
-                    mlo.OpenLuaFile(openFileDialog1.FileName);
-                    //读取table
-                    LuaTable table = mlo.ReadFirstLuaTable("tTabConfig");
-
-                    int nLength = table.Keys.Count;
-                    Dictionary<int, Dictionary<int, LuaTable>> dic_list = new Dictionary<int, Dictionary<int, LuaTable>>();
-
-                    for (int i = 1;i <= nLength; i++)
-                    {
                         //读取npcid进行分类
-                        LuaTable SecondTable = mlo.ReadSecondLuaTableBySort(table, i);
-                        LuaTable ConditonTable = mlo.ReadSecondLuaTableByString(SecondTable, "Condition");
-                        int nNpcId = Convert.ToInt32(ConditonTable["nNpcId"]);
-
-                        if (ConditonTable["nNpcId"].ToString() != "")
+                        if (!dic_list.ContainsKey(nNpcId))
                         {
-                            if (!dic_list.ContainsKey(nNpcId))
-                            {
-                                dic_list[nNpcId] = new Dictionary<int, LuaTable>();
-                            }
-                            dic_list[nNpcId].Add(dic_list[nNpcId].Count + 1, SecondTable);
+                            dic_list[nNpcId] = new Dictionary<int, string>();
                         }
+                        dic_list[nNpcId].Add(dic_list[nNpcId].Count + 1, strinfo.Item1);
+
+                        //更新文本
+                        TabConfig = TabConfig.Substring(strinfo.Item2, TabConfig.Length - strinfo.Item2);
+                        
                     }
 
                     //放入combobox中
@@ -92,7 +72,6 @@ namespace MyTool
 
                     //combo刷新标记
                     Flag = true;
-                    */
                 }
                 else
                 {
@@ -108,24 +87,22 @@ namespace MyTool
             {
                 ActivityList_tableLayoutPanel.Controls.Clear();
                 //创建按钮
-                KeyValuePair<int, Dictionary<int, LuaTable>> kvp = ((KeyValuePair<int, Dictionary<int, LuaTable>>)TypeList_comboBox.SelectedItem);
-                Dictionary<int, LuaTable> dic = kvp.Value;
+                KeyValuePair<int, Dictionary<int, string>> kvp = ((KeyValuePair<int, Dictionary<int, string>>)TypeList_comboBox.SelectedItem);
+                Dictionary<int, string> dic = kvp.Value;
                 int nCount = dic.Count;
                 for (int i = 0; i < nCount; i++)
                 {
                     Button btn = new Button();
-                    LuaTable luaTable = mlo.ReadSecondLuaTableByString(dic[i + 1], "Callback");
+                    string luaTable = dic[i + 1];
                     if (luaTable != null)
                     {
                         //判断button代表的类型，设置button文字
-                        btn.Text = mlo.GetLuaTableType(luaTable);
+                        btn.Text = mre.GetLuaTableType(luaTable);
                     }
                     btn.Click += TypeList_Btn_Click;
                     ActivityList_tableLayoutPanel.Controls.Add(btn);
                 }
             }
-
-
 
         }
 
@@ -133,6 +110,7 @@ namespace MyTool
         {
             Button btn = sender as Button;
             
+            //读取火爆活动面板tTaskList
             //MessageBox.Show(btn.Name);
             //throw new NotImplementedException();
         }

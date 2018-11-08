@@ -19,7 +19,17 @@ namespace MyTool
         public string GetLuaTableTabConfig(string FileText)
         {
             string startstr = "tTabConfig=\r\n{";
-            string str = FileText.Substring(FileText.IndexOf(startstr) + startstr.Length, FileText.IndexOf("}\r\n") - FileText.IndexOf("tTabConfig=\r\n{") - startstr.Length);
+            string endstr = "}\r\n";
+            string str = FileText.Substring(FileText.IndexOf(startstr) + startstr.Length, FileText.IndexOf(endstr) - FileText.IndexOf(startstr) - startstr.Length);
+            return str;
+        }
+
+        //读取tTaskList表的文本
+        public string GetLuaTableTaskList(string FileText)
+        {
+            string startstr = "tTaskList={\r\n\t[1] ={";
+            string endstr = "}\r\n";
+            string str = FileText.Substring(FileText.IndexOf(startstr) + startstr.Length, FileText.IndexOf(endstr) - FileText.IndexOf(startstr) - startstr.Length);
             return str;
         }
 

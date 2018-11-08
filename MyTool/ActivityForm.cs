@@ -106,13 +106,15 @@ namespace MyTool
 
         }
 
+        //combo中button的点击事件
         private void TypeList_Btn_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
             
             //读取火爆活动面板tTaskList
-            //MessageBox.Show(btn.Name);
-            //throw new NotImplementedException();
+            
+
+
         }
 
         private void ActivityForm_Load(object sender, EventArgs e)

@@ -123,7 +123,7 @@ namespace MyTool
             }
 
             //匹配子表文本
-            Regex regex_table = new Regex(@"(?<=\[\d+\]=\{)([\s\S]*?)(?=\},\s+\[\d+\])");
+            Regex regex_table = new Regex(@"(?<=\[\d+\]=\{)([\s\S]*?)(?=\},[\s\S]+\[\d+\])");
             Match match_table = regex_table.Match(TableText);
             string newstr = "";
             if (match_table.Success)

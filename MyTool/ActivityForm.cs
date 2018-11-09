@@ -18,6 +18,10 @@ namespace MyTool
     {
         bool Flag = false;
         MyRegularExpression mre = new MyRegularExpression();
+        Dictionary<int, Dictionary<int, string>> dic_list = new Dictionary<int, Dictionary<int, string>>();
+        Dictionary<int, Dictionary<int, Tuple<string, int>>> dic_activity = new Dictionary<int, Dictionary<int, Tuple<string, int>>>();
+
+
         public ActivityForm()
         {
             InitializeComponent();
@@ -40,14 +44,14 @@ namespace MyTool
                 {
                     string FileText = File.ReadAllText(openFileDialog1.FileName, Encoding.Default);
                     string TabConfig = mre.GetLuaTableTabConfig(FileText);
-                    Dictionary<int, Dictionary<int, string>> dic_list = new Dictionary<int, Dictionary<int, string>>();
+                    //Dictionary<int, Dictionary<int, string>> dic_list = new Dictionary<int, Dictionary<int, string>>();
 
 
                     //循环存每个子表
                     while (TabConfig.Length > 0)
                     {
                         var strinfo = mre.GetSecondLuaTable(TabConfig);
-                        int nNpcId = mre.GetNpcIdByItem(strinfo.Item1);
+                        int nNpcId = mre.GetTabConfigNpcIdByItem(strinfo.Item1);
 
                         //读取npcid进行分类
                         if (!dic_list.ContainsKey(nNpcId))
@@ -67,8 +71,32 @@ namespace MyTool
                         DataSource = dic_list
                     };
                     TypeList_comboBox.DataSource = bs;
-                    TypeList_comboBox.ValueMember = "Value";
+                    TypeList_comboBox.ValueMember = "Key";
                     TypeList_comboBox.DisplayMember = "Key";
+
+                    string TaskList = mre.GetLuaTableTaskList(FileText);
+                    //Dictionary<int, Dictionary<int, Tuple<string, int>>> dic_activity = new Dictionary<int, Dictionary<int, Tuple<string, int>>>();
+
+                    //循环存火爆的子表
+                    while (TaskList.Length > 0)
+                    {
+                        var strinfo = mre.GetActivityLuaTable(TaskList);
+                        string newstr = strinfo.Item1;
+                        int end = strinfo.Item2;
+                        int TaskId = strinfo.Item3;
+                        int nNpcId = strinfo.Item4;
+                        Tuple<string, int> tuple = new Tuple<string, int>(newstr, TaskId);
+
+                        //读取npcid进行分类
+                        if (!dic_activity.ContainsKey(nNpcId))
+                        {
+                            dic_activity[nNpcId] = new Dictionary<int, Tuple<string, int>>();
+                        }
+                        dic_activity[nNpcId].Add(dic_activity[nNpcId].Count + 1, tuple);
+
+                        //更新文本
+                        TaskList = TaskList.Substring(end, TaskList.Length - end);
+                    }
 
                     //combo刷新标记
                     Flag = true;
@@ -86,6 +114,8 @@ namespace MyTool
             if (Flag)
             {
                 ActivityList_tableLayoutPanel.Controls.Clear();
+                Main_flowLayoutPanel.Controls.Clear();
+
                 //创建按钮
                 KeyValuePair<int, Dictionary<int, string>> kvp = ((KeyValuePair<int, Dictionary<int, string>>)TypeList_comboBox.SelectedItem);
                 Dictionary<int, string> dic = kvp.Value;
@@ -103,19 +133,33 @@ namespace MyTool
                     ActivityList_tableLayoutPanel.Controls.Add(btn);
                 }
             }
-
         }
 
         //combo中button的点击事件
         private void TypeList_Btn_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
-            
-            //读取火爆活动面板tTaskList
-            
 
+            Main_flowLayoutPanel.Controls.Clear();
 
+            if (btn.Text == "火爆")
+            {
+                //读取火爆活动面板tTaskList
+                int NpcId = Convert.ToInt32(TypeList_comboBox.SelectedValue);
+                int nCount = dic_activity[NpcId].Count;
+                for (int i = 0; i < nCount; i++)
+                {
+                    Button btn_activity = new Button();
+                    int taskid = dic_activity[NpcId][i + 1].Item2;
+                    //判断button代表的类型，设置button文字
+                    btn_activity.Text = taskid.ToString();
+                    //btn_activity.Click += Activity_Btn_Click;
+                    Main_flowLayoutPanel.Controls.Add(btn_activity);
+                }
+            }
         }
+
+
 
         private void ActivityForm_Load(object sender, EventArgs e)
         {

@@ -24,21 +24,14 @@ namespace MyTool
             return str;
         }
 
-        //读取tTaskList表的文本
-        public string GetLuaTableTaskList(string FileText)
-        {
-            string startstr = "tTaskList={\r\n\t[1] ={";
-            string endstr = "}\r\n";
-            string str = FileText.Substring(FileText.IndexOf(startstr) + startstr.Length, FileText.IndexOf(endstr) - FileText.IndexOf(startstr) - startstr.Length);
-            return str;
-        }
-
-        //读取子表的文本
+        //读取tTabConfig子表的文本
         public Tuple<string,int> GetSecondLuaTable(string TableText)
         {
             int start = 0;
             int start2 = 0;
             int end = 0;
+
+            //匹配左括号
             Regex regex = new Regex(@"\{");
             Match match = regex.Match(TableText);
             if (match.Success)
@@ -46,6 +39,7 @@ namespace MyTool
                 start = match.Index + 1;
             }
 
+            //匹配右括号
             for (int i = start; i < TableText.Length; i++)
             {
                 if (TableText[i].ToString() == "}")
@@ -76,7 +70,7 @@ namespace MyTool
         }
 
 
-        //读取子表每一项的文本
+        //读取tTabConfig子表每一项的文本
         public string GetItemLuaTable(string TableText)
         {
             Match match = Regex.Match(TableText, @"\s+.+\s+=\s+.+,");
@@ -84,12 +78,68 @@ namespace MyTool
             return match.ToString();
         }
 
-        //读取子表的npcid
-        public int GetNpcIdByItem(string TableText)
+        //读取tTabConfig子表的npcid
+        public int GetTabConfigNpcIdByItem(string TableText)
         {
             Match match = Regex.Match(TableText, @"(?<=nNpcId\s+=\s+).*?(?=,)");
             //Console.WriteLine(Convert.ToInt32(match.Value));
             return Convert.ToInt32(match.Value);
+        }
+
+        //读取tTaskList表的文本
+        public string GetLuaTableTaskList(string FileText)
+        {
+            Regex regex = new Regex(@"tTaskList=\{\s+\[1\]=\{");
+            Match match = regex.Match(FileText);
+            string startstr = match.Value;
+            string endstr = "}\r\n}";
+            string str = FileText.Substring(FileText.IndexOf(startstr) + startstr.Length, FileText.IndexOf(endstr) - FileText.IndexOf(startstr) - startstr.Length);
+            //Console.WriteLine(str);
+            return str;
+        }
+
+        //读取tTaskList子表的文本
+        public Tuple<string, int, int, int> GetActivityLuaTable(string TableText)
+        {
+            int start = 0;
+            int end = 0;
+            int taskid = 0;
+            int npcid = 0;
+
+            //匹配taskid
+            Regex regex_taskid = new Regex(@"(?<=\[)\d+(?=\]=\{)");
+            Match match_taskid = regex_taskid.Match(TableText);
+            if (match_taskid.Success)
+            {
+                taskid = Convert.ToInt32(match_taskid.Value);
+            }
+
+            //匹配npcid
+            Regex regex_npc = new Regex(@"(?<=TaskNpcId\s+=\s+)\d+(?=,)");
+            Match match_npc = regex_npc.Match(TableText);
+            if (match_npc.Success)
+            {
+                npcid = Convert.ToInt32(match_npc.Value);
+            }
+
+            //匹配子表文本
+            Regex regex_table = new Regex(@"(?<=\[\d+\]=\{)([\s\S]*?)(?=\},\s+\[\d+\])");
+            Match match_table = regex_table.Match(TableText);
+            string newstr = "";
+            if (match_table.Success)
+            {
+                start = match_table.Index + 1;
+                newstr = match_table.Value;
+                end = start + match_table.Value.Length;
+            }
+            //最后一个子表
+            else
+            {
+                end = TableText.Length;
+                newstr = TableText.Substring(start, end);
+            }
+
+            return new Tuple<string, int, int, int>(newstr, end, taskid, npcid);
         }
 
         //判断combo的类型
@@ -97,18 +147,22 @@ namespace MyTool
         {
             if (tSecondTable != null)
             {
-                if (tSecondTable.Contains("50044"))
+                //匹配wndid
+                Regex regex_wndid = new Regex(@"(?<=\s+WndId\s+=\s+)\d+(?=,)");
+                Match match_wndid = regex_wndid.Match(tSecondTable);
+                if (tSecondTable.Contains("50044") && match_wndid.Value == "50046")
                 {
                     return Const_Activity;
                 }
-                else if (tSecondTable.Contains("50013"))
+                else if (tSecondTable.Contains("50013") && match_wndid.Value == "50013")
                 {
                     return Const_Shop;
                 }
-                else if (tSecondTable.Contains("SendLuaMsg(4,0,\"67\""))
+                else if (tSecondTable.Contains("SendLuaMsg(4,0,\"67"))
                 {
                     return Const_TaskSort;
                 }
+                return Const_Null;
             }
             return Const_Null;
         }

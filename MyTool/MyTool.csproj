@@ -73,6 +73,7 @@
       <DependentUpon>LuaShopForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyCustomClass.cs" />
+    <Compile Include="MyFilesOpration.cs" />
     <Compile Include="MyLuaOpration.cs" />
     <Compile Include="MyRegularExpression.cs" />
     <Compile Include="MySqlOpration.cs" />

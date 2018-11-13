@@ -78,6 +78,14 @@ namespace MyTool
             return match.ToString();
         }
 
+        //读取tTabConfig子表的title
+        public string GetTabConfigTitleByItem(string TableText)
+        {
+            Match match = Regex.Match(TableText, @"(?<=Title\s+=\s+).*?(?=,)");
+            //Console.WriteLine(Convert.ToInt32(match.Value));
+            return match.Value;
+        }
+
         //读取tTabConfig子表的npcid
         public int GetTabConfigNpcIdByItem(string TableText)
         {

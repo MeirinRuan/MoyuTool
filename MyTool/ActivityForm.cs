@@ -20,7 +20,10 @@ namespace MyTool
         MyRegularExpression mre = new MyRegularExpression();
         Dictionary<int, Dictionary<int, string>> dic_list = new Dictionary<int, Dictionary<int, string>>();
         Dictionary<int, Dictionary<int, Tuple<string, int>>> dic_activity = new Dictionary<int, Dictionary<int, Tuple<string, int>>>();
+        MyFilesOpration mfo = new MyFilesOpration();
 
+        //gamepath
+        string GamePath = "";
 
         public ActivityForm()
         {
@@ -37,14 +40,17 @@ namespace MyTool
             //成功
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                //判断是否是50046_data
+                
                 string FileNameExtension = Path.GetExtension(openFileDialog1.FileName);
                 string FileName = Path.GetFileName(openFileDialog1.FileName);
+
+                GamePath = Regex.Match(Path.GetFullPath(openFileDialog1.FileName), @".*?(?=\\script)").Value;
+
+                //判断是否是50046_data
                 if (FileNameExtension == ".lua" && FileName == "50046_data.lua")
                 {
                     string FileText = File.ReadAllText(openFileDialog1.FileName, Encoding.Default);
                     string TabConfig = mre.GetLuaTableTabConfig(FileText);
-                    //Dictionary<int, Dictionary<int, string>> dic_list = new Dictionary<int, Dictionary<int, string>>();
 
 
                     //循环存每个子表
@@ -75,7 +81,6 @@ namespace MyTool
                     TypeList_comboBox.DisplayMember = "Key";
 
                     string TaskList = mre.GetLuaTableTaskList(FileText);
-                    //Dictionary<int, Dictionary<int, Tuple<string, int>>> dic_activity = new Dictionary<int, Dictionary<int, Tuple<string, int>>>();
 
                     //循环存火爆的子表
                     while (TaskList.Length > 0)
@@ -126,8 +131,20 @@ namespace MyTool
                     string luaTable = dic[i + 1];
                     if (luaTable != null)
                     {
+                        //设置button边框样式
+                        btn.FlatStyle = FlatStyle.Flat;
+                        btn.FlatAppearance.BorderSize = 0;
+
                         //判断button代表的类型，设置button文字
-                        btn.Text = mre.GetLuaTableType(luaTable);
+                        //btn.Text = mre.GetLuaTableType(luaTable);
+
+                        //设置button背景
+                        mfo.GetImagePathByControl(mfo.GetControlText(GamePath), mre.GetTabConfigTitleByItem(luaTable));
+
+                        //btn.BackgroundImage = Image.FromFile("E:\\env【微端】\\data\\interface\\style01\\activity\\activitymbtnclick.png");
+                        //btn.Height = btn.BackgroundImage.Height;
+                        //btn.Width = btn.BackgroundImage.Width;
+                        //btn.BackgroundImageLayout = ImageLayout.Stretch;
                     }
                     btn.Click += TypeList_Btn_Click;
                     ActivityList_tableLayoutPanel.Controls.Add(btn);

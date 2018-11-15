@@ -81,7 +81,7 @@ namespace MyTool
         //读取tTabConfig子表的title
         public string GetTabConfigTitleByItem(string TableText)
         {
-            Match match = Regex.Match(TableText, @"(?<=Title\s+=\s+).*?(?=,)");
+            Match match = Regex.Match(TableText, @"(?<=Title\s+=\s+"")\w+(?="",)");
             //Console.WriteLine(Convert.ToInt32(match.Value));
             return match.Value;
         }

@@ -10,6 +10,12 @@ namespace MyTool
 {
     class MyFilesOpration
     {
+        //读取游戏路径
+        public string GetGamePath(string FilePath)
+        {
+            string GamePath = Regex.Match(Path.GetFullPath(FilePath), @".*?(?=\\script)").Value;
+            return GamePath;
+        }
 
         //读取control.ani的文本
         public string GetControlText(string GamePath)
@@ -21,11 +27,12 @@ namespace MyTool
         }
 
         //根据title读取索引
-        public string GetImagePathByControl(string FileText, string Title)
+        public string GetImagePathByControl(string GamePath, string FileText, string Title)
         {
-            Regex regex = new Regex(@"[" + Title + "]");
-            Match match = regex.Match(FileText);
-            Console.WriteLine(match.Value);
+            string TitlePath = Regex.Match(FileText, @"(?<=Frame0\=).*?(?=\r\n)").Value;
+            TitlePath = TitlePath.Replace("/", "\\");
+
+            Console.WriteLine(TitlePath);
 
             return "";
         }

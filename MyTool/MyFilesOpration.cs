@@ -27,14 +27,23 @@ namespace MyTool
         }
 
         //根据title读取索引
-        public string GetImagePathByControl(string GamePath, string FileText, string Title)
+        public string GetImagePathByControl(string GamePath, string FileText, string Title, int ControlType)
         {
-            string TitlePath = Regex.Match(FileText, @"(?<=Frame0\=).*?(?=\r\n)").Value;
-            TitlePath = TitlePath.Replace("/", "\\");
-
-            Console.WriteLine(TitlePath);
-
-            return "";
+            string str = ".*\n";
+            for (int i = 0; i < ControlType; i++)
+            {
+                str += str;
+            }
+            string TitlePath = Regex.Match(FileText, string.Format(@"(?<=\[{0}\].*?\n{1}Frame{2}=)\S+", Title, str, ControlType)).Value;
+            if (TitlePath != "")
+            {
+                TitlePath = GamePath + "\\" + TitlePath.Replace("/", "\\");
+                return TitlePath;
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 }

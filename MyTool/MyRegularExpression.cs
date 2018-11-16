@@ -150,6 +150,14 @@ namespace MyTool
             return new Tuple<string, int, int, int>(newstr, end, taskid, npcid);
         }
 
+        //读取tTaskList表的ico
+        public string GetTaskListIcoByItem(string TableText)
+        {
+            Match match = Regex.Match(TableText, @"(?<=TaskIcon="").*?(?="",)");
+            //Console.WriteLine(Convert.ToInt32(match.Value));
+            return match.Value;
+        }
+
         //判断combo的类型
         public string GetLuaTableType(string tSecondTable)
         {

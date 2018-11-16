@@ -131,20 +131,26 @@ namespace MyTool
                     string luaTable = dic[i + 1];
                     if (luaTable != null)
                     {
-                        //设置button边框样式
-                        btn.FlatStyle = FlatStyle.Flat;
-                        btn.FlatAppearance.BorderSize = 0;
-
-                        //判断button代表的类型，设置button文字
-                        //btn.Text = mre.GetLuaTableType(luaTable);
-
                         //设置button背景
-                        mfo.GetImagePathByControl(GamePath, mfo.GetControlText(GamePath), mre.GetTabConfigTitleByItem(luaTable));
+                        string ImagePath = mfo.GetImagePathByControl(GamePath, mfo.GetControlText(GamePath), mre.GetTabConfigTitleByItem(luaTable), 1);
 
-                        //btn.BackgroundImage = Image.FromFile("E:\\env【微端】\\data\\interface\\style01\\activity\\activitymbtnclick.png");
-                        //btn.Height = btn.BackgroundImage.Height;
-                        //btn.Width = btn.BackgroundImage.Width;
-                        //btn.BackgroundImageLayout = ImageLayout.Stretch;
+                        if (ImagePath != "")
+                        {
+                            //设置button边框样式
+                            btn.FlatStyle = FlatStyle.Flat;
+                            btn.FlatAppearance.BorderSize = 0;
+                            btn.BackgroundImage = Image.FromFile(ImagePath);
+                            btn.Height = btn.BackgroundImage.Height;
+                            btn.Width = btn.BackgroundImage.Width;
+                            btn.BackgroundImageLayout = ImageLayout.Stretch;
+                        }
+                        else
+                        {
+                            //读取不到图片
+                            //判断button代表的类型，设置button文字
+                            btn.Text = mre.GetLuaTableType(luaTable);
+                        }
+                        btn.Tag = mre.GetLuaTableType(luaTable);
                     }
                     btn.Click += TypeList_Btn_Click;
                     ActivityList_tableLayoutPanel.Controls.Add(btn);
@@ -159,7 +165,7 @@ namespace MyTool
 
             Main_flowLayoutPanel.Controls.Clear();
 
-            if (btn.Text == "火爆")
+            if ((string)btn.Tag == "火爆")
             {
                 //读取火爆活动面板tTaskList
                 int NpcId = Convert.ToInt32(TypeList_comboBox.SelectedValue);
@@ -167,9 +173,30 @@ namespace MyTool
                 for (int i = 0; i < nCount; i++)
                 {
                     Button btn_activity = new Button();
-                    int taskid = dic_activity[NpcId][i + 1].Item2;
+
+                    string luatable = dic_activity[NpcId][i + 1].Item1;
+                    string ImagePath = mfo.GetImagePathByControl(GamePath, mfo.GetControlText(GamePath), mre.GetTaskListIcoByItem(luatable), 0);
+
+                    if (ImagePath != "")
+                    {
+                        //设置button边框样式
+                        btn_activity.FlatStyle = FlatStyle.Flat;
+                        btn_activity.FlatAppearance.BorderSize = 0;
+                        btn_activity.BackgroundImage = Image.FromFile(ImagePath);
+                        //btn_activity.Height = btn.BackgroundImage.Height;
+                        //btn_activity.Width = btn.BackgroundImage.Width;
+                        btn_activity.BackgroundImageLayout = ImageLayout.Stretch;
+                    }
+                    else
+                    {
+                        //读取不到图片
+                        //判断button代表的类型，设置button文字
+                        btn_activity.Text = (dic_activity[NpcId][i + 1].Item2).ToString();
+                    }
+                    //btn_activity.Tag = mre.GetLuaTableType(luaTable);
+                    //int taskid = dic_activity[NpcId][i + 1].Item2;
                     //判断button代表的类型，设置button文字
-                    btn_activity.Text = taskid.ToString();
+                    //btn_activity.Text = taskid.ToString();
                     //btn_activity.Click += Activity_Btn_Click;
                     Main_flowLayoutPanel.Controls.Add(btn_activity);
                 }

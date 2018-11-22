@@ -356,5 +356,26 @@ namespace MyTool
 
         }
 
+        //生成update语句
+        public string CreateUpdateSql(Worksheet ws, string ExcelRangeStart, string ExcelRangeEnd, string ExcelSetStart, string ExcelSetEnd)
+        {
+            string RangeColumnStart = ExcelRangeStart.Substring(0, 1).ToUpper();
+            string SetColumnStart = ExcelSetStart.Substring(0, 1).ToUpper();
+            int RangeRowStart = Convert.ToInt32(ExcelRangeStart.Substring(1, 2));
+            //string RangeColumnEnd = ExcelRangeEnd.Substring(0, 1).ToUpper();
+            int RangeRowEnd = Convert.ToInt32(ExcelRangeEnd.Substring(1, 2));
+
+            for (int i = RangeRowStart; i <= RangeRowEnd; i++)
+            {
+                string Rangestr = ws.Cells[i, RangeColumnStart].Text;
+                string Setstr = ws.Cells[i, SetColumnStart].Text;
+                Console.WriteLine(Setstr);
+            }
+            //string str = ws.Cells[RangeRowEnd, RangeColumnStart].Text;
+
+            //Console.WriteLine(str);
+            return "";
+        }
+
     }
 }

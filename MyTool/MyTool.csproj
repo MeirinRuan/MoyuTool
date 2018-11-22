@@ -92,6 +92,12 @@
       <DependentUpon>TenRollForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TenRollSettings.cs" />
+    <Compile Include="UpdateSqlExcel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateSqlExcel.Designer.cs">
+      <DependentUpon>UpdateSqlExcel.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ActivityForm.resx">
       <DependentUpon>ActivityForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -115,6 +121,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TenRollForm.resx">
       <DependentUpon>TenRollForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateSqlExcel.resx">
+      <DependentUpon>UpdateSqlExcel.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

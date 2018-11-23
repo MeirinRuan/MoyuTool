@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Excel;
 using System.Windows.Forms;
+using System.IO;
 
 namespace MyTool
 {
@@ -357,24 +358,28 @@ namespace MyTool
         }
 
         //生成update语句
-        public string CreateUpdateSql(Worksheet ws, string ExcelRangeStart, string ExcelRangeEnd, string ExcelSetStart, string ExcelSetEnd)
+        public void CreateUpdateSql(Worksheet ws, string ExcelRangeStart, string ExcelRangeEnd, string ExcelSetStart, string ExcelSetEnd,string UpdateStr, string SetFieldStr, string WHereFieldStr)
         {
             string RangeColumnStart = ExcelRangeStart.Substring(0, 1).ToUpper();
             string SetColumnStart = ExcelSetStart.Substring(0, 1).ToUpper();
             int RangeRowStart = Convert.ToInt32(ExcelRangeStart.Substring(1, 2));
             //string RangeColumnEnd = ExcelRangeEnd.Substring(0, 1).ToUpper();
             int RangeRowEnd = Convert.ToInt32(ExcelRangeEnd.Substring(1, 2));
+            string newstr = "";
 
             for (int i = RangeRowStart; i <= RangeRowEnd; i++)
             {
                 string Rangestr = ws.Cells[i, RangeColumnStart].Text;
                 string Setstr = ws.Cells[i, SetColumnStart].Text;
-                Console.WriteLine(Setstr);
+                newstr += "Update " + UpdateStr + " set " + SetFieldStr + " = " + Setstr + " where " + WHereFieldStr + " = " + Rangestr + ";\r\n"; 
+                
+                //Console.WriteLine(newstr);
             }
-            //string str = ws.Cells[RangeRowEnd, RangeColumnStart].Text;
 
-            //Console.WriteLine(str);
-            return "";
+            //桌面路径
+            string Deskdir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            File.WriteAllText(@Deskdir+"\\SQL.sql", newstr);
+
         }
 
     }

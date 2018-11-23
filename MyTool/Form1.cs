@@ -16,6 +16,7 @@ namespace MyTool
         LuaShopForm luashopform;
         TenRollForm tenrollform;
         ActivityForm activityform;
+        UpdateSqlExcel updatesqlexcelform;
 
         public Form1()
         {
@@ -51,6 +52,12 @@ namespace MyTool
         {
             activityform = new ActivityForm();
             activityform.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            updatesqlexcelform = new UpdateSqlExcel();
+            updatesqlexcelform.ShowDialog();
         }
     }
 }

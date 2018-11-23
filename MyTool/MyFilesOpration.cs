@@ -10,6 +10,7 @@ namespace MyTool
 {
     class MyFilesOpration
     {
+  
         //读取游戏路径
         public string GetGamePath(string FilePath)
         {
@@ -45,5 +46,6 @@ namespace MyTool
                 return "";
             }
         }
+
     }
 }

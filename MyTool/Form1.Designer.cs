@@ -33,6 +33,7 @@
             this.TenBox_button = new System.Windows.Forms.Button();
             this.CopyMap_button = new System.Windows.Forms.Button();
             this.Activity_button = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Sql_button
@@ -70,7 +71,7 @@
             // 
             // CopyMap_button
             // 
-            this.CopyMap_button.Location = new System.Drawing.Point(12, 106);
+            this.CopyMap_button.Location = new System.Drawing.Point(119, 106);
             this.CopyMap_button.Name = "CopyMap_button";
             this.CopyMap_button.Size = new System.Drawing.Size(86, 72);
             this.CopyMap_button.TabIndex = 4;
@@ -88,11 +89,22 @@
             this.Activity_button.UseVisualStyleBackColor = true;
             this.Activity_button.Click += new System.EventHandler(this.Activity_button_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 106);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(86, 72);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Update语句批量生成";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(445, 272);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.Activity_button);
             this.Controls.Add(this.CopyMap_button);
             this.Controls.Add(this.TenBox_button);
@@ -113,6 +125,7 @@
         private System.Windows.Forms.Button TenBox_button;
         private System.Windows.Forms.Button CopyMap_button;
         private System.Windows.Forms.Button Activity_button;
+        private System.Windows.Forms.Button button1;
     }
 }
 

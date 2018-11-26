@@ -118,8 +118,8 @@ namespace MyTool
             //更新界面中的显示
             if (Flag)
             {
-                ActivityList_tableLayoutPanel.Controls.Clear();
-                Main_flowLayoutPanel.Controls.Clear();
+                ActivityList_flowLayoutPanel.Controls.Clear();
+                ActivityItem_flowLayoutPanel.Controls.Clear();
 
                 //创建按钮
                 KeyValuePair<int, Dictionary<int, string>> kvp = ((KeyValuePair<int, Dictionary<int, string>>)TypeList_comboBox.SelectedItem);
@@ -153,7 +153,7 @@ namespace MyTool
                         btn.Tag = mre.GetLuaTableType(luaTable);
                     }
                     btn.Click += TypeList_Btn_Click;
-                    ActivityList_tableLayoutPanel.Controls.Add(btn);
+                    ActivityList_flowLayoutPanel.Controls.Add(btn);
                 }
             }
         }
@@ -163,7 +163,7 @@ namespace MyTool
         {
             Button btn = sender as Button;
 
-            Main_flowLayoutPanel.Controls.Clear();
+            ActivityItem_flowLayoutPanel.Controls.Clear();
 
             if ((string)btn.Tag == "火爆")
             {
@@ -172,7 +172,9 @@ namespace MyTool
                 int nCount = dic_activity[NpcId].Count;
                 for (int i = 0; i < nCount; i++)
                 {
-                    Button btn_activity = new Button();
+                    //Button btn_activity = new Button();
+                    ActivityItemForm activityItem = new ActivityItemForm();
+                    activityItem.TopLevel = false;
 
                     string luatable = dic_activity[NpcId][i + 1].Item1;
                     string ImagePath = mfo.GetImagePathByControl(GamePath, mfo.GetControlText(GamePath), mre.GetTaskListIcoByItem(luatable), 0);
@@ -180,25 +182,20 @@ namespace MyTool
                     if (ImagePath != "")
                     {
                         //设置button边框样式
-                        btn_activity.FlatStyle = FlatStyle.Flat;
-                        btn_activity.FlatAppearance.BorderSize = 0;
-                        btn_activity.BackgroundImage = Image.FromFile(ImagePath);
-                        //btn_activity.Height = btn.BackgroundImage.Height;
-                        //btn_activity.Width = btn.BackgroundImage.Width;
-                        btn_activity.BackgroundImageLayout = ImageLayout.Stretch;
+                        activityItem.Controls["btn_activity"].BackgroundImage = Image.FromFile(ImagePath);
+                        activityItem.Controls["btn_activity"].Height = btn.BackgroundImage.Height;
+                        activityItem.Controls["btn_activity"].Width = btn.BackgroundImage.Width;
                     }
                     else
                     {
                         //读取不到图片
                         //判断button代表的类型，设置button文字
-                        btn_activity.Text = (dic_activity[NpcId][i + 1].Item2).ToString();
+                        activityItem.Controls["btn_activity"].Text = (dic_activity[NpcId][i + 1].Item2).ToString();
                     }
-                    //btn_activity.Tag = mre.GetLuaTableType(luaTable);
-                    //int taskid = dic_activity[NpcId][i + 1].Item2;
-                    //判断button代表的类型，设置button文字
-                    //btn_activity.Text = taskid.ToString();
-                    //btn_activity.Click += Activity_Btn_Click;
-                    Main_flowLayoutPanel.Controls.Add(btn_activity);
+
+                    ActivityItem_flowLayoutPanel.Controls.Add(activityItem);
+                    activityItem.Show();
+
                 }
             }
         }
@@ -207,6 +204,11 @@ namespace MyTool
 
         private void ActivityForm_Load(object sender, EventArgs e)
         {
+        }
+
+        private void Main_flowLayoutPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

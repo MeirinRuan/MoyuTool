@@ -16,5 +16,10 @@ namespace MyTool
         {
             InitializeComponent();
         }
+
+        private void ActivityItemForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

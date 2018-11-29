@@ -65,24 +65,13 @@ namespace MyTool
                 }
             }
             string newstr = TableText.Substring(start, end - start);
-            //Console.WriteLine(newstr);
             return new Tuple<string, int>(newstr, end);
-        }
-
-
-        //读取tTabConfig子表每一项的文本
-        public string GetItemLuaTable(string TableText)
-        {
-            Match match = Regex.Match(TableText, @"\s+.+\s+=\s+.+,");
-            //Console.WriteLine(match.ToString());
-            return match.ToString();
         }
 
         //读取tTabConfig子表的title
         public string GetTabConfigTitleByItem(string TableText)
         {
             Match match = Regex.Match(TableText, @"(?<=Title\s+=\s+"")\w+(?="",)");
-            //Console.WriteLine(Convert.ToInt32(match.Value));
             return match.Value;
         }
 
@@ -90,7 +79,6 @@ namespace MyTool
         public int GetTabConfigNpcIdByItem(string TableText)
         {
             Match match = Regex.Match(TableText, @"(?<=nNpcId\s+=\s+).*?(?=,)");
-            //Console.WriteLine(Convert.ToInt32(match.Value));
             return Convert.ToInt32(match.Value);
         }
 
@@ -131,7 +119,7 @@ namespace MyTool
             }
 
             //匹配子表文本
-            Regex regex_table = new Regex(@"(?<=\[\d+\]=\{)([\s\S]*?)(?=\},[\s\S]+\[\d+\])");
+            Regex regex_table = new Regex(@"(?<=\[\d+\]=\{)([\s\S]*?)(?=\[\d+\])");
             Match match_table = regex_table.Match(TableText);
             string newstr = "";
             if (match_table.Success)
@@ -146,15 +134,55 @@ namespace MyTool
                 end = TableText.Length;
                 newstr = TableText.Substring(start, end);
             }
-
             return new Tuple<string, int, int, int>(newstr, end, taskid, npcid);
         }
 
-        //读取tTaskList表的ico
+        //读取tTaskList子表的ico
         public string GetTaskListIcoByItem(string TableText)
         {
             Match match = Regex.Match(TableText, @"(?<=TaskIcon="").*?(?="",)");
-            //Console.WriteLine(Convert.ToInt32(match.Value));
+            return match.Value;
+        }
+
+        //读取tTaskList子表的title
+        public string GetTaskListTitleByItem(string TableText)
+        {
+            Match match = Regex.Match(TableText, @"(?<=TaskName="").*?(?="",)");
+            return match.Value;
+        }
+
+        //读取tTaskList子表的Recommend
+        public bool GetTaskListRecommendByItem(string TableText)
+        {
+            Match match = Regex.Match(TableText, "Recommend=1,");
+            if (match.Success)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //读取tTaskList子表的TeamNumStr
+        public string GetTaskListTeamNumStrByItem(string TableText)
+        {
+            Match match = Regex.Match(TableText, @"(?<=TeamNumStr="").*?(?="",)");
+            if (match.Success)
+            {
+                return match.Value;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        //读取tTaskList子表的DetailTime
+        public string GetTaskListDetailTimeByItem(string TableText)
+        {
+            Match match = Regex.Match(TableText, @"(?<=DetailTime=\{).*?(?=\},)");
             return match.Value;
         }
 

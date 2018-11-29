@@ -21,5 +21,14 @@ namespace MyTool
         {
 
         }
+
+        private void ActivityItemForm_MouseClick(object sender, MouseEventArgs e)
+        {
+            Form form = sender as Form;
+            MyRegularExpression mre = new MyRegularExpression();
+
+
+            //Console.WriteLine(form.Tag);
+        }
     }
 }

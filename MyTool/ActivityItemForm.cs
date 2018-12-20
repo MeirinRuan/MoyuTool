@@ -12,6 +12,10 @@ namespace MyTool
 {
     public partial class ActivityItemForm : Form
     {
+        public string GamePath;
+        public string TaskId;
+        public string TableText;
+
         public ActivityItemForm()
         {
             InitializeComponent();
@@ -19,14 +23,55 @@ namespace MyTool
 
         private void ActivityItemForm_Load(object sender, EventArgs e)
         {
+            Form form = sender as Form;
+            MyRegularExpression mre = new MyRegularExpression();
+            MyFilesOpration mfo = new MyFilesOpration();
+            string ImagePath = mfo.GetImagePathByControl(GamePath, mfo.GetControlText(GamePath), mre.GetTaskListIcoByItem(TableText), 0);
+
+            //设置图标
+            if (ImagePath != "")
+            {
+                //设置button边框样式
+                label_activity.BackgroundImage = Image.FromFile(ImagePath);
+                label_activity.Height = label_activity.BackgroundImage.Height;
+                label_activity.Width = label_activity.BackgroundImage.Width;
+            }
+            //读取不到图片
+            else
+            {
+                //判断button代表的类型，设置button文字
+                label_activity.Text = TaskId;
+            }
+
+            //标题文字
+            Title_label.Text = mre.GetTaskListTitleByItem(TableText);
+
+            //推荐图标
+            if (mre.GetTaskListRecommendByItem(TableText))
+            {
+                Recommend_label.Visible = true;
+            }
+
+            //人数文字
+            if (mre.GetTaskListTeamNumStrByItem(TableText) != "")
+            {
+                TeamNumStr_label.Text = mre.GetTaskListTeamNumStrByItem(TableText);
+            }
+
+            //展示物品组
+
 
         }
 
         private void ActivityItemForm_MouseClick(object sender, MouseEventArgs e)
         {
             Form form = sender as Form;
+            ActivityItemDetailForm activityItemDetailForm = new ActivityItemDetailForm(); 
             MyRegularExpression mre = new MyRegularExpression();
 
+            //显示时间
+            string[] DetailTime = mre.GetTaskListDetailTimeByItem(TableText);
+            
 
             //Console.WriteLine(form.Tag);
         }

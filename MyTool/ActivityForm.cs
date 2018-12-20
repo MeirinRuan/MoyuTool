@@ -22,7 +22,6 @@ namespace MyTool
         Dictionary<int, Dictionary<int, Tuple<string, int>>> dic_activity = new Dictionary<int, Dictionary<int, Tuple<string, int>>>();
         MyFilesOpration mfo = new MyFilesOpration();
 
-        //gamepath
         string GamePath = "";
 
         public ActivityForm()
@@ -172,50 +171,17 @@ namespace MyTool
                 int nCount = dic_activity[NpcId].Count;
                 for (int i = 0; i < nCount; i++)
                 {
-                    //Button btn_activity = new Button();
                     ActivityItemForm activityItem = new ActivityItemForm();
                     activityItem.TopLevel = false;
 
                     string luatable = dic_activity[NpcId][i + 1].Item1;
-                    string ImagePath = mfo.GetImagePathByControl(GamePath, mfo.GetControlText(GamePath), mre.GetTaskListIcoByItem(luatable), 0);
 
                     //子界面存数据
-                    activityItem.Tag = luatable;
+                    activityItem.TableText = luatable;
+                    activityItem.GamePath = GamePath;
+                    activityItem.TaskId = dic_activity[NpcId][i + 1].Item2.ToString();
 
-                    //设置图标
-                    if (ImagePath != "")
-                    {
-                        //设置button边框样式
-                        activityItem.Controls["btn_activity"].BackgroundImage = Image.FromFile(ImagePath);
-                        activityItem.Controls["btn_activity"].Height = btn.BackgroundImage.Height;
-                        activityItem.Controls["btn_activity"].Width = btn.BackgroundImage.Width;
-                    }
-                    //读取不到图片
-                    else
-                    {
-                        //判断button代表的类型，设置button文字
-                        activityItem.Controls["btn_activity"].Text = (dic_activity[NpcId][i + 1].Item2).ToString();
-                    }
-
-                    //标题文字
-                    activityItem.Controls["Title_label"].Text = mre.GetTaskListTitleByItem(luatable);
-
-                    //推荐图标
-                    if (mre.GetTaskListRecommendByItem(luatable))
-                    {
-                        activityItem.Controls["Recommend_label"].Visible = true;
-                    }
-
-                    //人数文字
-                    if (mre.GetTaskListTeamNumStrByItem(luatable) != "")
-                    {
-                        activityItem.Controls["TeamNumStr_label"].Text = mre.GetTaskListTeamNumStrByItem(luatable);
-                    }
-
-                    //展示物品组
-
-
-
+                    //刷新界面
                     ActivityItem_flowLayoutPanel.Controls.Add(activityItem);
                     activityItem.Show();
 
@@ -227,6 +193,7 @@ namespace MyTool
 
         private void ActivityForm_Load(object sender, EventArgs e)
         {
+
         }
 
         private void Main_flowLayoutPanel_Paint(object sender, PaintEventArgs e)

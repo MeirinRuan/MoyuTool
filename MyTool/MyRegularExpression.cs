@@ -180,10 +180,11 @@ namespace MyTool
         }
 
         //读取tTaskList子表的DetailTime
-        public string GetTaskListDetailTimeByItem(string TableText)
+        public string[] GetTaskListDetailTimeByItem(string TableText)
         {
             Match match = Regex.Match(TableText, @"(?<=DetailTime=\{).*?(?=\},)");
-            return match.Value;
+            string[] str = Regex.Split(match.Value, ",");
+            return str;
         }
 
         //判断combo的类型

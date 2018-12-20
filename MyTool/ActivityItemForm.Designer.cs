@@ -28,22 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn_activity = new System.Windows.Forms.Button();
             this.Title_label = new System.Windows.Forms.Label();
             this.TeamNumStr_label = new System.Windows.Forms.Label();
             this.Recommend_label = new System.Windows.Forms.Label();
+            this.label_activity = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // btn_activity
-            // 
-            this.btn_activity.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btn_activity.FlatAppearance.BorderSize = 0;
-            this.btn_activity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_activity.Location = new System.Drawing.Point(12, 12);
-            this.btn_activity.Name = "btn_activity";
-            this.btn_activity.Size = new System.Drawing.Size(194, 91);
-            this.btn_activity.TabIndex = 0;
-            this.btn_activity.UseVisualStyleBackColor = true;
             // 
             // Title_label
             // 
@@ -81,16 +70,24 @@
             this.Recommend_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.Recommend_label.Visible = false;
             // 
+            // label_activity
+            // 
+            this.label_activity.BackColor = System.Drawing.Color.Transparent;
+            this.label_activity.Location = new System.Drawing.Point(74, 24);
+            this.label_activity.Name = "label_activity";
+            this.label_activity.Size = new System.Drawing.Size(82, 86);
+            this.label_activity.TabIndex = 4;
+            // 
             // ActivityItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(218, 310);
+            this.Controls.Add(this.label_activity);
             this.Controls.Add(this.Recommend_label);
             this.Controls.Add(this.TeamNumStr_label);
             this.Controls.Add(this.Title_label);
-            this.Controls.Add(this.btn_activity);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ActivityItemForm";
             this.Text = "ActivityItemForm";
@@ -102,10 +99,9 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btn_activity;
         private System.Windows.Forms.Label Title_label;
         private System.Windows.Forms.Label TeamNumStr_label;
         private System.Windows.Forms.Label Recommend_label;
+        private System.Windows.Forms.Label label_activity;
     }
 }

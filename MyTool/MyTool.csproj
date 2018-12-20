@@ -59,6 +59,12 @@
     <Compile Include="ActivityForm.Designer.cs">
       <DependentUpon>ActivityForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ActivityItemDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActivityItemDetailForm.Designer.cs">
+      <DependentUpon>ActivityItemDetailForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ActivityItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +112,9 @@
     </Compile>
     <EmbeddedResource Include="ActivityForm.resx">
       <DependentUpon>ActivityForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActivityItemDetailForm.resx">
+      <DependentUpon>ActivityItemDetailForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ActivityItemForm.resx">
       <DependentUpon>ActivityItemForm.cs</DependentUpon>

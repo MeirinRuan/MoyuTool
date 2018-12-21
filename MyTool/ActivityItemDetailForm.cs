@@ -12,6 +12,8 @@ namespace MyTool
 {
     public partial class ActivityItemDetailForm : Form
     {
+        public string[] DetailTime;
+
         public ActivityItemDetailForm()
         {
             InitializeComponent();
@@ -19,7 +21,7 @@ namespace MyTool
 
         private void ActivityItemDetailForm_Load(object sender, EventArgs e)
         {
-
+            Time_label.Text = "活动时间： " + DetailTime[0] + " - " + DetailTime[1];
         }
     }
 }

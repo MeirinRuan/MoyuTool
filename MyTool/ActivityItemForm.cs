@@ -66,14 +66,23 @@ namespace MyTool
         private void ActivityItemForm_MouseClick(object sender, MouseEventArgs e)
         {
             Form form = sender as Form;
-            ActivityItemDetailForm activityItemDetailForm = new ActivityItemDetailForm(); 
+
+            FlowLayoutPanel ActivityDetail_flowLayoutPanel = (FlowLayoutPanel)form.Parent.Parent.Controls["ActivityDetail_flowLayoutPanel"];
+            ActivityDetail_flowLayoutPanel.Controls.Clear();
+            
+            ActivityItemDetailForm activityItemDetailForm = new ActivityItemDetailForm();
+            activityItemDetailForm.TopLevel = false;
+
             MyRegularExpression mre = new MyRegularExpression();
 
-            //显示时间
+            //刷新详细信息界面
             string[] DetailTime = mre.GetTaskListDetailTimeByItem(TableText);
-            
+            activityItemDetailForm.DetailTime = DetailTime;
 
-            //Console.WriteLine(form.Tag);
+            
+            ActivityDetail_flowLayoutPanel.Controls.Add(activityItemDetailForm);
+            activityItemDetailForm.Show();
+
         }
     }
 }

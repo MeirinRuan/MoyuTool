@@ -34,10 +34,10 @@
             // Time_label
             // 
             this.Time_label.AutoSize = true;
-            this.Time_label.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Time_label.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Time_label.Location = new System.Drawing.Point(13, 13);
             this.Time_label.Name = "Time_label";
-            this.Time_label.Size = new System.Drawing.Size(0, 19);
+            this.Time_label.Size = new System.Drawing.Size(0, 25);
             this.Time_label.TabIndex = 0;
             // 
             // ActivityItemDetailForm

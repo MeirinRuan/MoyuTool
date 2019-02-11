@@ -77,9 +77,14 @@ namespace MyTool
 
             //刷新详细信息界面
             string[] DetailTime = mre.GetTaskListDetailTimeByItem(TableText);
-            activityItemDetailForm.DetailTime = DetailTime;
+            string Level = mre.GetTaskListLevelByItem(TableText);
+            string Description = mre.GetTaskListDescriptionByItem(TableText);
 
-            
+            activityItemDetailForm.DetailTime = DetailTime;
+            activityItemDetailForm.Level = Level;
+            activityItemDetailForm.Description = Description;
+
+
             ActivityDetail_flowLayoutPanel.Controls.Add(activityItemDetailForm);
             activityItemDetailForm.Show();
 

@@ -187,6 +187,23 @@ namespace MyTool
             return str;
         }
 
+        //读取tTaskList子表的Level
+        public string GetTaskListLevelByItem(string TableText)
+        {
+            Match match = Regex.Match(TableText, @"(?<=MinLevel=).*?(?=,)");
+            string str = match.Value;
+            return str;
+        }
+
+        //读取tTaskList子表的Description
+        public string GetTaskListDescriptionByItem(string TableText)
+        {
+            Match match = Regex.Match(TableText, @"(?<=Description="").*?(?="",)");
+            string str = match.Value;
+            return str;
+        }
+
+
         //判断combo的类型
         public string GetLuaTableType(string tSecondTable)
         {

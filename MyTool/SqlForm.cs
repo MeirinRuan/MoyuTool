@@ -23,7 +23,15 @@ namespace MyTool
             if (!myso.MySqlConncet(myso.InitSqlInfo()))
             {
                 MessageBox.Show("连接数据库失败。");
+                return;
             }
+            DataSet ds = new DataSet();
+            string sText = "show databases";
+            //读取数据库列表
+            ds = myso.MySqlCommand_GetDataSet(sText);
+
+            SqlDatabase_ListBox.DataSource = ds.Tables[0];
+            SqlDatabase_ListBox.DisplayMember = ds.Tables[0].Columns[0].ToString();
         }
 
 

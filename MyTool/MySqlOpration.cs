@@ -16,13 +16,13 @@ namespace MyTool
         public string[] InitSqlInfo()
         {
             //server
-            sSqlinfo[0] = "127.0.0.1";
+            sSqlinfo[0] = "192.168.19.38";
             //user
             sSqlinfo[1] = "root";
             //password
             sSqlinfo[2] = "aaa";
             //database
-            sSqlinfo[3] = "sjmy";
+            sSqlinfo[3] = "sjmy26";
 
             return sSqlinfo;
         }
@@ -30,7 +30,7 @@ namespace MyTool
         //连接数据库
         public bool MySqlConncet(string[] sSqlinfo)
         {
-            string sConnectText = string.Format("server={0};user id={1};password={2};database={3};port=3306",
+            string sConnectText = string.Format("Server={0};Uid={1};Pwd={2};Database={3};Port=3306;",
                 sSqlinfo[0], sSqlinfo[1], sSqlinfo[2], sSqlinfo[3]);
             //MessageBox.Show(sConnectText);
             MySqlConnection myConnection = new MySqlConnection(sConnectText);
@@ -38,10 +38,10 @@ namespace MyTool
             try
             {
                 //string sText = "show databases";
-                if (!myConnection.Ping())
-                {
+                //if (!myConnection.Ping())
+                //{
                     myConnection.Open();
-                }
+                //}
 
                 //执行语句
                 //MySqlDataAdapter command = new MySqlDataAdapter(sText, myConnection);

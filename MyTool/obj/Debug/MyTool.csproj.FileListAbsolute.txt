@@ -39,7 +39,6 @@ F:\C++\repos\C#Tool\MyTool\MyTool\obj\Debug\MyTool.TenRollForm.resources
 D:\MoyuTool\MyTool\bin\Debug\MyTool.exe.config
 D:\MoyuTool\MyTool\bin\Debug\MyTool.exe
 D:\MoyuTool\MyTool\bin\Debug\MyTool.pdb
-D:\MoyuTool\MyTool\bin\Debug\MySql.Data.dll
 D:\MoyuTool\MyTool\bin\Debug\MySql.Data.xml
 D:\MoyuTool\MyTool\obj\Debug\Interop.Excel.dll
 D:\MoyuTool\MyTool\obj\Debug\Interop.Office.dll

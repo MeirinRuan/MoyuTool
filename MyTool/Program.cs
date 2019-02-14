@@ -16,7 +16,7 @@ namespace MyTool
          {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-             Application.Run(new ActivityForm());
+             Application.Run(new SqlForm());
         }
     }
 }

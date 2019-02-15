@@ -39,10 +39,12 @@
             this.FileText_textBox.Location = new System.Drawing.Point(12, 290);
             this.FileText_textBox.Multiline = true;
             this.FileText_textBox.Name = "FileText_textBox";
+            this.FileText_textBox.ReadOnly = true;
             this.FileText_textBox.Size = new System.Drawing.Size(486, 121);
             this.FileText_textBox.TabIndex = 1;
             this.FileText_textBox.Text = "把sql文件拖进来";
             this.FileText_textBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.FileText_textBox_DragDrop);
+            this.FileText_textBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.FileText_textBox_DragEnter);
             this.FileText_textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FileText_textBox_KeyDown);
             // 
             // SqlDatabase_ListBox

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,23 +13,36 @@ namespace MyTool
 {
     public partial class SqlForm : Form
     {
+        //目标数据库
+        public string TargetDatabase = "";
+
+        //连接数据库的初始化信息
+        public string[] SqlInitInfo = new string[4]
+        {
+            "192.168.19.38",
+            "root",
+            "aaa",
+            "sjmy27",
+        };
+
+        MySqlOpration myso = new MySqlOpration();
+
         public SqlForm()
         {
-            MySqlOpration myso = new MySqlOpration();
 
             //初始化界面
             InitializeComponent();
 
             //连接数据库
-            if (!myso.MySqlConncet(myso.InitSqlInfo()))
+            if (!myso.MySqlConncet(SqlInitInfo))
             {
                 MessageBox.Show("连接数据库失败。");
                 return;
             }
             DataSet ds = new DataSet();
-            string sText = "show databases";
+            String sText = "show databases";
             //读取数据库列表
-            ds = myso.MySqlCommand_GetDataSet(sText);
+            ds = myso.MySqlCommand_GetDataSet(SqlInitInfo,sText);
 
             SqlDatabase_ListBox.DataSource = ds.Tables[0];
             SqlDatabase_ListBox.DisplayMember = ds.Tables[0].Columns[0].ToString();
@@ -40,23 +54,58 @@ namespace MyTool
         {
             //回车读取
             if (e.KeyCode == Keys.Enter)
-                MessageBox.Show("aaa");
+            {
+                //获取.sql文件中的表
+
+
+                List<String> TargetSqlField = myso.MySqlCommand_GetAllField(SqlInitInfo, "select *from cq_itemtype");
+                //foreach (String str in TargetSqlField)
+                //{
+                //    Console.WriteLine(str + "\n");
+                //}
+
+            }
         }
 
         private void FileText_textBox_DragDrop(object sender, DragEventArgs e)
         {
             //获得路径
-            string sPath = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
-            //由一个textBox显示路径
-            FileText_textBox.Text = sPath;
+            String sPath = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            String FileNameExtension = Path.GetExtension(sPath);
+            String FileName = Path.GetFileName(sPath);
+
+            if (FileNameExtension == ".sql")
+            {
+                //由一个textBox显示路径
+                FileText_textBox.Text = sPath;
+
+                //逐行读取sql文件
+                String AllTexts = File.ReadAllText(sPath, Encoding.Default);
+
+                List<SqlFileInfoStruct> TableInfo = myso.GetTableInfo(AllTexts);
+
+            }
+            else
+            {
+                MessageBox.Show("请拖入sql文件。");
+            }
         }
 
         private void SqlDatabase_ListBox_DoubleClick(object sender, EventArgs e)
         {
-            //获取选定项
-            string sSqldatabase = SqlDatabase_ListBox.GetItemText(SqlDatabase_ListBox.SelectedItem);
-            MessageBox.Show(sSqldatabase);
+            //获取目标库名称
+            TargetDatabase = SqlDatabase_ListBox.GetItemText(SqlDatabase_ListBox.SelectedItem);
+            SqlInitInfo[3] = TargetDatabase;
+            //切换数据库连接
+            if (!myso.MySqlConncet(SqlInitInfo))
+            {
+                MessageBox.Show("连接数据库失败。");
+                return;
+            }
 
+
+            //string str = myso.MySqlCommand_GetNameIndex(SqlInitInfo, "select *from cq_user", 0);
+            //MessageBox.Show(str);
         }
 
         private void SqlDatabase_ListBox_SelectedIndexChanged(object sender, EventArgs e)

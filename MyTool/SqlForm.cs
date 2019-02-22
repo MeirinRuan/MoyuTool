@@ -46,6 +46,9 @@ namespace MyTool
 
             SqlDatabase_ListBox.DataSource = ds.Tables[0];
             SqlDatabase_ListBox.DisplayMember = ds.Tables[0].Columns[0].ToString();
+
+            //设置默认选择项
+            SetListBoxSelectItem(SqlInitInfo[3]);
         }
 
 
@@ -122,6 +125,19 @@ namespace MyTool
             else
             {
                 e.Effect = DragDropEffects.None;
+            }
+        }
+
+        //设置默认选择项
+        public void SetListBoxSelectItem(String TargetTable)
+        {
+            for (int i = 0; i < SqlDatabase_ListBox.Items.Count; i++)
+            {
+                if (SqlDatabase_ListBox.GetItemText(SqlDatabase_ListBox.Items[i]) == TargetTable)
+                {
+                    SqlDatabase_ListBox.SetSelected(i, true);
+                    return;
+                }
             }
         }
     }

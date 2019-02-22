@@ -132,29 +132,58 @@ namespace MyTool
             }
         }
 
-        //逐行读取sql文件,返回插入的表信息
+        //读取sql文件,返回插入的表信息
         public List<SqlFileInfoStruct> GetTableInfo(String AllTexts)
         {
             //String[] AllLines = File.ReadAllLines(sPath, Encoding.Default);
             //读取文件中每个表的信息,表名称,表字段,字段值
             List<SqlFileInfoStruct> list_sqlfileinfo = new List<SqlFileInfoStruct>();
 
+            Regex regex_text = new Regex(@"insert into[\s\S]+?;", RegexOptions.IgnoreCase);
             Regex regex_tablename = new Regex(@"(?<=insert into).*?(?=\()", RegexOptions.IgnoreCase);
             Regex regex_field = new Regex(@"(?<=insert into.*?\().*?(?=\))", RegexOptions.IgnoreCase);
             Regex regex_value = new Regex(@"(?<=\().*?(?=\),)", RegexOptions.IgnoreCase);
+            Regex regex_lastvalue = new Regex(@"(?<=\().*?(?=\);)", RegexOptions.IgnoreCase);
+
+            
+
+            //整个表
+            MatchCollection mc_text = regex_text.Matches(AllTexts);
+
+            if (mc_text.Count > 0)
+            {
+                foreach (Match match in mc_text)
+                {
+                    SqlFileInfoStruct sqlFileInfoStruct = new SqlFileInfoStruct();
+                    sqlFileInfoStruct.Text = match.Value;
+
+                    //Console.WriteLine(match.Value);
+                }
+            }
 
             //表名
-            Match match_tablename = regex_tablename.Match(AllTexts);
-            if (match_tablename.Success)
+            MatchCollection mc_tablename = regex_text.Matches(AllTexts);
+
+            if (mc_tablename.Count > 0)
             {
-                SqlFileInfoStruct sqlFileInfoStruct = new SqlFileInfoStruct();
-                sqlFileInfoStruct.TableName = match_tablename.Value;
+                foreach (Match match in mc_tablename)
+                {
+                    //Console.WriteLine(match.Value);
+                    //sqlFileInfoStruct.TableName = match.Value;
+                }
+
             }
             //表字段
-            Match match_field = regex_field.Match(AllTexts);
-            if (match_field.Success)
+            MatchCollection mc_field = regex_text.Matches(AllTexts);
+
+            if (mc_field.Count > 0)
             {
-                match_field.Value.Split(',');
+                foreach (Match match in mc_text)
+                {
+                    match.Value.Split(',');
+                    //Console.WriteLine(match.Value);
+                }
+                
             }
 
 
@@ -167,8 +196,11 @@ namespace MyTool
     //sql文件的类 用于存插入表的信息
     class SqlFileInfoStruct
     {
+        //表
+        public String Text;
+
         //表名
-        public string TableName;
+        public String TableName;
 
         //表字段集合
         public List<String> Field;

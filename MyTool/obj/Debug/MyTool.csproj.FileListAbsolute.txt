@@ -56,7 +56,6 @@ D:\MoyuTool\MyTool\obj\Debug\MyTool.pdb
 F:\Git\MoyuTool\MyTool\bin\Debug\MyTool.exe.config
 F:\Git\MoyuTool\MyTool\bin\Debug\MyTool.exe
 F:\Git\MoyuTool\MyTool\bin\Debug\MyTool.pdb
-F:\Git\MoyuTool\MyTool\bin\Debug\MySql.Data.dll
 F:\Git\MoyuTool\MyTool\bin\Debug\MySql.Data.xml
 F:\Git\MoyuTool\MyTool\obj\Debug\Interop.Excel.dll
 F:\Git\MoyuTool\MyTool\obj\Debug\Interop.Office.dll
@@ -80,3 +79,6 @@ F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.csproj.CopyComplete
 D:\MoyuTool\MyTool\obj\Debug\MyTool.UpdateSqlExcel.resources
 D:\MoyuTool\MyTool\obj\Debug\MyTool.ActivityItemForm.resources
 D:\MoyuTool\MyTool\obj\Debug\MyTool.ActivityItemDetailForm.resources
+F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.ActivityItemDetailForm.resources
+F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.ActivityItemForm.resources
+F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.UpdateSqlExcel.resources

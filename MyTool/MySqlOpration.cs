@@ -14,7 +14,7 @@ namespace MyTool
     class MySqlOpration
     {
         //连接数据库字符串
-        public string GetMySqlConnectString(string[] Sqlinfo)
+        public string GetMySqlConnectstring(string[] Sqlinfo)
         {
             string ConnectText = string.Format("Server={0};Uid={1};Pwd={2};Database={3};Port=3306;",Sqlinfo[0], Sqlinfo[1], Sqlinfo[2], Sqlinfo[3]);
             return ConnectText;
@@ -23,7 +23,7 @@ namespace MyTool
         //连接数据库
         public bool MySqlConncet(string[] Sqlinfo)
         {
-            string ConnectText = GetMySqlConnectString(Sqlinfo);
+            string ConnectText = GetMySqlConnectstring(Sqlinfo);
             MySqlConnection conn = new MySqlConnection(ConnectText);
             try
             {
@@ -50,7 +50,7 @@ namespace MyTool
         //执行语句 用于返回dataset
         public DataSet MySqlCommand_GetDataSet(string[] Sqlinfo,string sText)
         {
-            string ConnectText = GetMySqlConnectString(Sqlinfo);
+            string ConnectText = GetMySqlConnectstring(Sqlinfo);
             MySqlConnection conn = new MySqlConnection(ConnectText);
 
             try
@@ -75,7 +75,7 @@ namespace MyTool
         //执行语句 用于返回单个表第几个字段信息的查询结果
         public string MySqlCommand_GetNameIndex(string[] Sqlinfo, string SqlText, int Index)
         {
-            string ConnectText = GetMySqlConnectString(Sqlinfo);
+            string ConnectText = GetMySqlConnectstring(Sqlinfo);
             MySqlConnection conn = new MySqlConnection(ConnectText);
 
             string str = "";
@@ -101,12 +101,12 @@ namespace MyTool
         }
 
         //执行语句 用于返回单个表全部字段信息的查询结果
-        public List<String> MySqlCommand_GetAllField(String[] Sqlinfo, String SqlText)
+        public List<string> MySqlCommand_GetAllField(string[] Sqlinfo, string SqlText)
         {
-            String ConnectText = GetMySqlConnectString(Sqlinfo);
+            string ConnectText = GetMySqlConnectstring(Sqlinfo);
             MySqlConnection conn = new MySqlConnection(ConnectText);
 
-            List<String> str = new List<String>();
+            List<string> str = new List<string>();
 
             try
             {
@@ -133,19 +133,13 @@ namespace MyTool
         }
 
         //读取sql文件,返回插入的表信息
-        public List<SqlFileInfoStruct> GetTableInfo(String AllTexts)
+        public List<SqlFileInfoStruct> GetTableInfo(string AllTexts)
         {
-            //String[] AllLines = File.ReadAllLines(sPath, Encoding.Default);
+            //string[] AllLines = File.ReadAllLines(sPath, Encoding.Default);
             //读取文件中每个表的信息,表名称,表字段,字段值
             List<SqlFileInfoStruct> list_sqlfileinfo = new List<SqlFileInfoStruct>();
 
             Regex regex_text = new Regex(@"insert into[\s\S]+?;", RegexOptions.IgnoreCase);
-            Regex regex_tablename = new Regex(@"(?<=insert into).*?(?=\()", RegexOptions.IgnoreCase);
-            Regex regex_field = new Regex(@"(?<=insert into.*?\().*?(?=\))", RegexOptions.IgnoreCase);
-            Regex regex_value = new Regex(@"(?<=\().*?(?=\),)", RegexOptions.IgnoreCase);
-            Regex regex_lastvalue = new Regex(@"(?<=\().*?(?=\);)", RegexOptions.IgnoreCase);
-
-            
 
             //整个表
             MatchCollection mc_text = regex_text.Matches(AllTexts);
@@ -157,39 +151,54 @@ namespace MyTool
                     SqlFileInfoStruct sqlFileInfoStruct = new SqlFileInfoStruct();
                     sqlFileInfoStruct.Text = match.Value;
 
+                    //获取表其他信息
+                    GetOtherTableInfo(sqlFileInfoStruct, match.Value);
                     //Console.WriteLine(match.Value);
+
+                    list_sqlfileinfo.Add(sqlFileInfoStruct);
                 }
             }
-
-            //表名
-            MatchCollection mc_tablename = regex_text.Matches(AllTexts);
-
-            if (mc_tablename.Count > 0)
-            {
-                foreach (Match match in mc_tablename)
-                {
-                    //Console.WriteLine(match.Value);
-                    //sqlFileInfoStruct.TableName = match.Value;
-                }
-
-            }
-            //表字段
-            MatchCollection mc_field = regex_text.Matches(AllTexts);
-
-            if (mc_field.Count > 0)
-            {
-                foreach (Match match in mc_text)
-                {
-                    match.Value.Split(',');
-                    //Console.WriteLine(match.Value);
-                }
-                
-            }
-
 
             return list_sqlfileinfo;
         }
 
+
+        //匹配sql字段数据
+        public void GetOtherTableInfo(SqlFileInfoStruct sqlFileInfoStruct, string Text)
+        {
+            Regex regex_tablename = new Regex(@"(?<=insert into).*?(?=\()", RegexOptions.IgnoreCase);
+            Regex regex_field = new Regex(@"(?<=insert into.*?\().*?(?=\))", RegexOptions.IgnoreCase);
+            Regex regex_value = new Regex(@"(?<=\().*?(?=\)[,;])", RegexOptions.IgnoreCase);
+
+            //表名
+            Match match_tablename = regex_tablename.Match(Text);
+
+            if (match_tablename.Success)
+            {
+                sqlFileInfoStruct.TableName = match_tablename.Value;
+            }
+            //表字段
+            Match match_field = regex_field.Match(Text);
+
+            if (match_field.Success)
+            {
+                foreach (string str in match_field.Value.Split(','))
+                {
+                    sqlFileInfoStruct.Field.Add(str);
+                }
+            }
+            //表字段值
+            MatchCollection mc_value = regex_value.Matches(Text);
+            for (int i= 0; i < mc_value.Count; i++)
+            {
+                List<string> values = new List<string>();
+                foreach (string str in mc_value[i].Value.Split(','))
+                {
+                    values.Add(str);
+                }
+                sqlFileInfoStruct.Value.Add(i, values);
+            }
+        }
 
     }
 
@@ -197,16 +206,16 @@ namespace MyTool
     class SqlFileInfoStruct
     {
         //表
-        public String Text;
+        public string Text = "";
 
         //表名
-        public String TableName;
+        public string TableName = "";
 
         //表字段集合
-        public List<String> Field;
+        public List<string> Field = new List<string>();
 
         //表字段值集合
-        public List<String> Value;
+        public Dictionary<int,List<string>> Value = new Dictionary<int, List<string>>();
 
 
 

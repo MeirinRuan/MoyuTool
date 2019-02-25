@@ -31,16 +31,17 @@
             this.FileText_textBox = new System.Windows.Forms.TextBox();
             this.SqlDatabase_ListBox = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.button_output = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // FileText_textBox
             // 
             this.FileText_textBox.AllowDrop = true;
-            this.FileText_textBox.Location = new System.Drawing.Point(12, 290);
+            this.FileText_textBox.Location = new System.Drawing.Point(156, 28);
             this.FileText_textBox.Multiline = true;
             this.FileText_textBox.Name = "FileText_textBox";
             this.FileText_textBox.ReadOnly = true;
-            this.FileText_textBox.Size = new System.Drawing.Size(486, 121);
+            this.FileText_textBox.Size = new System.Drawing.Size(342, 256);
             this.FileText_textBox.TabIndex = 1;
             this.FileText_textBox.Text = "把sql文件拖进来";
             this.FileText_textBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.FileText_textBox_DragDrop);
@@ -67,11 +68,22 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "数据库选择";
             // 
+            // button_output
+            // 
+            this.button_output.Location = new System.Drawing.Point(12, 290);
+            this.button_output.Name = "button_output";
+            this.button_output.Size = new System.Drawing.Size(138, 121);
+            this.button_output.TabIndex = 5;
+            this.button_output.Text = "导出SQL";
+            this.button_output.UseVisualStyleBackColor = true;
+            this.button_output.Click += new System.EventHandler(this.button_output_Click);
+            // 
             // SqlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(510, 423);
+            this.Controls.Add(this.button_output);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.SqlDatabase_ListBox);
             this.Controls.Add(this.FileText_textBox);
@@ -91,5 +103,6 @@
         private System.Windows.Forms.TextBox FileText_textBox;
         private System.Windows.Forms.ListBox SqlDatabase_ListBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button_output;
     }
 }

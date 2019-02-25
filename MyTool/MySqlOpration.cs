@@ -83,7 +83,7 @@ namespace MyTool
             try
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SqlText, conn);
+                MySqlCommand cmd = new MySqlCommand("select *from " + SqlText, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 str = reader.GetName(Index);
 
@@ -184,7 +184,9 @@ namespace MyTool
             {
                 foreach (string str in match_field.Value.Split(','))
                 {
-                    sqlFileInfoStruct.Field.Add(str);
+                    //去除标点符号
+                    string newstr = Regex.Replace(str, @"[\s\`]", "");
+                    sqlFileInfoStruct.Field.Add(newstr);
                 }
             }
             //表字段值

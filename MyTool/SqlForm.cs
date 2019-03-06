@@ -284,12 +284,29 @@ namespace MyTool
             }
 
             //表内容替换
-            NewFileText = Regex.Replace(NewFileText, @"insert into[\s\S]+?;", "", RegexOptions.IgnoreCase);
+            Regex regex = new Regex(@"insert into[\s\S]+?;");
+            MatchCollection mc_newfile = regex.Matches(NewFileText);
+            MatchCollection mc_newstr = regex.Matches(NewStr);
+
+            if (mc_newfile.Count == mc_newstr.Count)
+            {
+                for (int i = 0; i < mc_newstr.Count; i++)
+                {
+                    NewFileText = NewFileText.Remove(mc_newfile[i].Index, mc_newfile[i].Length);
+                    NewFileText = NewFileText.Insert(mc_newfile[i].Index, mc_newstr[i].Value);
+                }
+            }
+            else
+            {
+                NewFileText = Regex.Replace(NewFileText, @"insert into[\s\S]+?;", "", RegexOptions.IgnoreCase);
+            }
 
             NewStr = NewFileText + "\r\n\r\n" + NewStr;
-
+            
             File.WriteAllText(@Deskdir + "\\" + NewFileName + ".sql", NewStr);
             System.Diagnostics.Process.Start(Deskdir);
         }
+
+
     }
 }

@@ -284,7 +284,7 @@ namespace MyTool
             }
 
             //表内容替换
-            Regex regex = new Regex(@"insert into[\s\S]+?;");
+            Regex regex = new Regex(@"insert into[\s\S]+?;", RegexOptions.IgnoreCase);
             MatchCollection mc_newfile = regex.Matches(NewFileText);
             MatchCollection mc_newstr = regex.Matches(NewStr);
 
@@ -292,8 +292,7 @@ namespace MyTool
             {
                 for (int i = 0; i < mc_newstr.Count; i++)
                 {
-                    NewFileText = NewFileText.Remove(mc_newfile[i].Index, mc_newfile[i].Length);
-                    NewFileText = NewFileText.Insert(mc_newfile[i].Index, mc_newstr[i].Value);
+                    NewFileText = NewFileText.Replace(mc_newfile[i].Value, mc_newstr[i].Value);
                 }
             }
             else
@@ -301,7 +300,7 @@ namespace MyTool
                 NewFileText = Regex.Replace(NewFileText, @"insert into[\s\S]+?;", "", RegexOptions.IgnoreCase);
             }
 
-            NewStr = NewFileText + "\r\n\r\n" + NewStr;
+            NewStr = NewFileText;
             
             File.WriteAllText(@Deskdir + "\\" + NewFileName + ".sql", NewStr);
             System.Diagnostics.Process.Start(Deskdir);

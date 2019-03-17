@@ -161,7 +161,6 @@ namespace MyTool
                 List<string> SqlField = TableInfo[i].Field;
                 Dictionary<int, List<string>> SqlValue = TableInfo[i].Value;
 
-
                 //目标表
                 string TargetSqlTableName = SqlTableName;
                 List<string> TargetSqlField = myso.MySqlCommand_GetAllField(SqlInitInfo, string.Format("select *from {0}", SqlTableName));
@@ -172,32 +171,49 @@ namespace MyTool
                     TargetValue.Add(l, values);
                 }
 
-
-                //比对字段
-                for (int j = 0; j < TargetSqlField.Count; j++)
+                //检测sql文件中的字段值长度是否和表字段长度一致
+                foreach (var list in SqlValue)
                 {
-                    for (int k = 0; k < SqlField.Count;)
+                    if (list.Value.Count != TargetSqlField.Count)
                     {
-                        if (TargetSqlField[j] == SqlField[k])
-                        {
-                            //插入相同字段的值
-                            for (int m = 0; m < TargetValue.Count; m++)
-                            {
-                                TargetValue[m].Insert(j, SqlValue[m][k]);
-                                //Console.WriteLine(TargetValue[m][j]);
-                            }
+                        MessageBox.Show("请先检查sql字段是否匹配");
+                        return;
+                    }
+                }
 
-                            break;
-                        }
-                        k++;
-                        if (k == SqlField.Count)
+                try
+                {
+                    //比对字段
+                    for (int j = 0; j < TargetSqlField.Count; j++)
+                    {
+                        for (int k = 0; k < SqlField.Count;)
                         {
-                            for (int m = 0; m < TargetValue.Count; m++)
+                            if (TargetSqlField[j] == SqlField[k])
                             {
-                                TargetValue[m].Insert(j, "");
+                                //插入相同字段的值
+                                for (int m = 0; m < TargetValue.Count; m++)
+                                {
+                                    TargetValue[m].Insert(j, SqlValue[m][k]);
+                                    //Console.WriteLine(TargetValue[m][j]);
+                                }
+
+                                break;
+                            }
+                            k++;
+                            if (k == SqlField.Count)
+                            {
+                                for (int m = 0; m < TargetValue.Count; m++)
+                                {
+                                    TargetValue[m].Insert(j, "");
+                                }
                             }
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    throw ex;
                 }
 
                 //不同字段插入目标表的默认值

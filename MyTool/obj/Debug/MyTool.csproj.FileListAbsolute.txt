@@ -82,3 +82,4 @@ D:\MoyuTool\MyTool\obj\Debug\MyTool.ActivityItemDetailForm.resources
 F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.ActivityItemDetailForm.resources
 F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.ActivityItemForm.resources
 F:\Git\MoyuTool\MyTool\obj\Debug\MyTool.UpdateSqlExcel.resources
+D:\MoyuTool\MyTool\obj\Debug\MyTool.InsertSqlExcel.resources

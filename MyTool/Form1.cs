@@ -17,6 +17,7 @@ namespace MyTool
         TenRollForm tenrollform;
         ActivityForm activityform;
         UpdateSqlExcel updatesqlexcelform;
+        InsertSqlExcel insertsqlexcelform;
 
         public Form1()
         {
@@ -58,6 +59,12 @@ namespace MyTool
         {
             updatesqlexcelform = new UpdateSqlExcel();
             updatesqlexcelform.ShowDialog();
+        }
+
+        private void insert_button_Click(object sender, EventArgs e)
+        {
+            insertsqlexcelform = new InsertSqlExcel();
+            insertsqlexcelform.ShowDialog();
         }
     }
 }

@@ -33,7 +33,8 @@
             this.TenBox_button = new System.Windows.Forms.Button();
             this.CopyMap_button = new System.Windows.Forms.Button();
             this.Activity_button = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.update_button = new System.Windows.Forms.Button();
+            this.insert_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Sql_button
@@ -89,22 +90,33 @@
             this.Activity_button.UseVisualStyleBackColor = true;
             this.Activity_button.Click += new System.EventHandler(this.Activity_button_Click);
             // 
-            // button1
+            // update_button
             // 
-            this.button1.Location = new System.Drawing.Point(12, 106);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(86, 72);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Update语句批量生成";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.update_button.Location = new System.Drawing.Point(12, 106);
+            this.update_button.Name = "update_button";
+            this.update_button.Size = new System.Drawing.Size(86, 72);
+            this.update_button.TabIndex = 6;
+            this.update_button.Text = "Update语句批量生成";
+            this.update_button.UseVisualStyleBackColor = true;
+            this.update_button.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // insert_button
+            // 
+            this.insert_button.Location = new System.Drawing.Point(232, 106);
+            this.insert_button.Name = "insert_button";
+            this.insert_button.Size = new System.Drawing.Size(86, 72);
+            this.insert_button.TabIndex = 7;
+            this.insert_button.Text = "数值数据sql生成";
+            this.insert_button.UseVisualStyleBackColor = true;
+            this.insert_button.Click += new System.EventHandler(this.insert_button_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(445, 272);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.insert_button);
+            this.Controls.Add(this.update_button);
             this.Controls.Add(this.Activity_button);
             this.Controls.Add(this.CopyMap_button);
             this.Controls.Add(this.TenBox_button);
@@ -125,7 +137,8 @@
         private System.Windows.Forms.Button TenBox_button;
         private System.Windows.Forms.Button CopyMap_button;
         private System.Windows.Forms.Button Activity_button;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button update_button;
+        private System.Windows.Forms.Button insert_button;
     }
 }
 

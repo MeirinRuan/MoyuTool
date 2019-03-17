@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Excel;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace MyTool
 {
@@ -105,17 +106,54 @@ namespace MyTool
             return sColumnsValues;
         }
 
+        //返回单行长度
+        public int GetRowLength(Worksheet ws, int nRows)
+        {
+            int i = 1;
+            while (ws.Cells[nRows, i].Text.ToString() != "")
+            {
+                i ++;
+            }
+
+            return i;
+        }
+
         //返回单行内容
-        public List<String> GetRowValues(Worksheet ws, int nRow)
+        public List<String> GetRowValues(Worksheet ws, int nRow, int Length)
         {
             List<String> sRowValues = new List<String>();
             int nRows = nRow;
             int i = 1;
-            //行的第一个内容不为空
-            while (ws.Cells[nRows, i].Text.ToString() != "")
+            if (Length != -1)
             {
-                sRowValues.Add(ws.Cells[nRows, i].Text.ToString());
-                i++;
+                //行的第一个内容不为空
+                for (int index = 1; index < Length; index++)
+                {
+                    if (ws.Cells[nRows, index].Text == "")
+                    {
+                        sRowValues.Add("\"\"");
+                    }
+                    else
+                    {
+                        sRowValues.Add(ws.Cells[nRows, index].Text.ToString());
+                    }
+                    i++;
+                }
+            }
+            else if (Length == -1)
+            {
+                while (ws.Cells[nRows, i].Text.ToString() != "")
+                {
+                    if (ws.Cells[nRows, i].Text == "")
+                    {
+                        sRowValues.Add("\"\"");
+                    }
+                    else
+                    {
+                        sRowValues.Add(ws.Cells[nRows, i].Text.ToString());
+                    }
+                    i++;
+                }
             }
             if (i == 1)
             {
@@ -288,11 +326,11 @@ namespace MyTool
              {
                 if (i == nRowNum)
                 {
-                    sLuaShopSql = string.Format("{0}({1});\r\n", sLuaShopSql, GetStatement(ws, LuaShopStatementSort(GetRowValues(ws, i + 1), nRowNum)));
+                    sLuaShopSql = string.Format("{0}({1});\r\n", sLuaShopSql, GetStatement(ws, LuaShopStatementSort(GetRowValues(ws, i + 1, -1), nRowNum)));
                 }
                 else
                 {
-                    sLuaShopSql = string.Format("{0}{1}\r\n", sLuaShopSql, GetSqlStatement(GetStatement(ws, LuaShopStatementSort(GetRowValues(ws, i + 1), nRowNum))));
+                    sLuaShopSql = string.Format("{0}{1}\r\n", sLuaShopSql, GetSqlStatement(GetStatement(ws, LuaShopStatementSort(GetRowValues(ws, i + 1, -1), nRowNum))));
                 }
             }
             return sLuaShopSql; 
@@ -381,6 +419,65 @@ namespace MyTool
             File.WriteAllText(@Deskdir+"\\SQL.sql", newstr);
 
         }
+
+        //生成insert语句
+        public void CreateInsertSql(Worksheet ws, string SheetIndex, string TableNameIndex)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            string TableNameColumnStart = TableNameIndex.Substring(0, 1).ToUpper();
+            int TableNameColumnEnd = Convert.ToInt32(TableNameIndex.Substring(1));
+
+            string TableName = ws.Cells[TableNameColumnEnd, TableNameColumnStart].Text;
+
+            //表字段起始位置
+            int TableValueColumn = TableNameColumnEnd + 1;
+            int Length = GetRowLength(ws, TableValueColumn);
+            List<string> TableValue = GetRowValues(ws, TableValueColumn, Length);
+
+            string Str = "Insert Into " + TableName + " (" + string.Join(",", TableValue) + ")Values\r\n";
+
+            //表字段值
+            int ValueStartIndex = TableNameColumnEnd + 3;
+            List<List<string>> ValueList = new List<List<string>>();
+
+            //行数
+            int StartRow = ValueStartIndex;
+            while (ws.Cells[StartRow, 1].Text.ToString() != "")
+            {
+                StartRow++;
+            }
+            int Rows = StartRow - ValueStartIndex;
+
+            for (int i = 0; i < Rows; i++)
+            {
+                List<string> values = GetRowValues(ws, i + ValueStartIndex, Length);
+                ValueList.Add(values);
+            }
+
+            //获取每一行的数据
+            for (int index = 0; index < ValueList.Count; index++)
+            {
+                if (index == ValueList.Count - 1)
+                {
+                    Str += "(" + string.Join(",", ValueList[index]) + ");\r\n\r\n";
+                }
+                else
+                {
+                    Str += "(" + string.Join(",", ValueList[index]) + "),\r\n";
+                }
+            }
+
+            stopwatch.Stop();
+
+            //桌面路径
+            string Deskdir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            File.WriteAllText(@Deskdir + "\\SQL.sql", Str);
+            System.Diagnostics.Process.Start(Deskdir);
+
+            MessageBox.Show("导出成功，用时：" + stopwatch.Elapsed.ToString());
+        }
+
 
     }
 }

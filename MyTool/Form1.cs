@@ -12,12 +12,6 @@ namespace MyTool
 {
     public partial class Form1 : Form
     {
-        SqlForm sqlform;
-        LuaShopForm luashopform;
-        TenRollForm tenrollform;
-        ActivityForm activityform;
-        UpdateSqlExcel updatesqlexcelform;
-        InsertSqlExcel insertsqlexcelform;
 
         public Form1()
         {
@@ -27,43 +21,44 @@ namespace MyTool
         //sql字段补全功能界面
         private void Sql_button_Click(object sender, EventArgs e)
         {
-            sqlform = new SqlForm();
+            SqlForm sqlform = new SqlForm();
             sqlform.ShowDialog();
         }
 
         //筹码币商店功能界面
         private void LuaShop_button_Click(object sender, EventArgs e)
         {
-            luashopform = new LuaShopForm();
+            LuaShopForm luashopform = new LuaShopForm();
             luashopform.ShowDialog();
         }
 
         private void TenBox_button_Click(object sender, EventArgs e)
         {
-            tenrollform = new TenRollForm();
+            TenRollForm tenrollform = new TenRollForm();
             tenrollform.ShowDialog();
         }
 
-        private void CopyMap_button_Click(object sender, EventArgs e)
+        private void ScratchDraw_button_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("敬请期待。");
+            ScratchDrawForm scratchDrawForm = new ScratchDrawForm();
+            scratchDrawForm.ShowDialog();
         }
 
         private void Activity_button_Click(object sender, EventArgs e)
         {
-            activityform = new ActivityForm();
+            ActivityForm activityform = new ActivityForm();
             activityform.ShowDialog();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void update_button_Click(object sender, EventArgs e)
         {
-            updatesqlexcelform = new UpdateSqlExcel();
+            UpdateSqlExcel updatesqlexcelform = new UpdateSqlExcel();
             updatesqlexcelform.ShowDialog();
         }
 
         private void insert_button_Click(object sender, EventArgs e)
         {
-            insertsqlexcelform = new InsertSqlExcel();
+            InsertSqlExcel insertsqlexcelform = new InsertSqlExcel();
             insertsqlexcelform.ShowDialog();
         }
     }

@@ -100,6 +100,12 @@
     <Compile Include="MySqlOpration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScratchDrawForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScratchDrawForm.Designer.cs">
+      <DependentUpon>ScratchDrawForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SqlForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,6 +152,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ScratchDrawForm.resx">
+      <DependentUpon>ScratchDrawForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SqlForm.resx">
       <DependentUpon>SqlForm.cs</DependentUpon>
     </EmbeddedResource>

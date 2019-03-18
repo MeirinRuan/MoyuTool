@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 
 namespace MyTool
 {
@@ -228,5 +223,16 @@ namespace MyTool
             }
             return Const_Null;
         }
+
+
+        //判断字符类型，是否为数字
+        public bool IsNumber(string str)
+        {
+            if (Regex.Match(str, @"[^0-9]").Success)
+                return false;
+            else
+                return true;
+        }
+
     }
 }

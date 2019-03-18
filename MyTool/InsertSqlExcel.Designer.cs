@@ -35,6 +35,7 @@
             this.sheetindex_groupBox = new System.Windows.Forms.GroupBox();
             this.tablename_textBox = new System.Windows.Forms.TextBox();
             this.tablename_groupBox = new System.Windows.Forms.GroupBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.sheetindex_groupBox.SuspendLayout();
             this.tablename_groupBox.SuspendLayout();
             this.SuspendLayout();
@@ -97,11 +98,19 @@
             this.tablename_groupBox.TabStop = false;
             this.tablename_groupBox.Text = "输入sql表所在表格位置";
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(183, 72);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(317, 195);
+            this.progressBar1.TabIndex = 13;
+            // 
             // InsertSqlExcel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 279);
+            this.ClientSize = new System.Drawing.Size(536, 279);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.tablename_groupBox);
             this.Controls.Add(this.sheetindex_groupBox);
             this.Controls.Add(this.button2);
@@ -126,5 +135,6 @@
         private System.Windows.Forms.GroupBox sheetindex_groupBox;
         private System.Windows.Forms.TextBox tablename_textBox;
         private System.Windows.Forms.GroupBox tablename_groupBox;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

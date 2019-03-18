@@ -31,7 +31,7 @@
             this.Sql_button = new System.Windows.Forms.Button();
             this.LuaShop_button = new System.Windows.Forms.Button();
             this.TenBox_button = new System.Windows.Forms.Button();
-            this.CopyMap_button = new System.Windows.Forms.Button();
+            this.ScratchDraw_button = new System.Windows.Forms.Button();
             this.Activity_button = new System.Windows.Forms.Button();
             this.update_button = new System.Windows.Forms.Button();
             this.insert_button = new System.Windows.Forms.Button();
@@ -70,15 +70,15 @@
             this.TenBox_button.UseVisualStyleBackColor = true;
             this.TenBox_button.Click += new System.EventHandler(this.TenBox_button_Click);
             // 
-            // CopyMap_button
+            // ScratchDraw_button
             // 
-            this.CopyMap_button.Location = new System.Drawing.Point(119, 106);
-            this.CopyMap_button.Name = "CopyMap_button";
-            this.CopyMap_button.Size = new System.Drawing.Size(86, 72);
-            this.CopyMap_button.TabIndex = 4;
-            this.CopyMap_button.Text = "副本模板生成";
-            this.CopyMap_button.UseVisualStyleBackColor = true;
-            this.CopyMap_button.Click += new System.EventHandler(this.CopyMap_button_Click);
+            this.ScratchDraw_button.Location = new System.Drawing.Point(232, 106);
+            this.ScratchDraw_button.Name = "ScratchDraw_button";
+            this.ScratchDraw_button.Size = new System.Drawing.Size(86, 72);
+            this.ScratchDraw_button.TabIndex = 4;
+            this.ScratchDraw_button.Text = "刮刮卡抽奖模板生成";
+            this.ScratchDraw_button.UseVisualStyleBackColor = true;
+            this.ScratchDraw_button.Click += new System.EventHandler(this.ScratchDraw_button_Click);
             // 
             // Activity_button
             // 
@@ -98,11 +98,11 @@
             this.update_button.TabIndex = 6;
             this.update_button.Text = "Update语句批量生成";
             this.update_button.UseVisualStyleBackColor = true;
-            this.update_button.Click += new System.EventHandler(this.button1_Click);
+            this.update_button.Click += new System.EventHandler(this.update_button_Click);
             // 
             // insert_button
             // 
-            this.insert_button.Location = new System.Drawing.Point(232, 106);
+            this.insert_button.Location = new System.Drawing.Point(119, 106);
             this.insert_button.Name = "insert_button";
             this.insert_button.Size = new System.Drawing.Size(86, 72);
             this.insert_button.TabIndex = 7;
@@ -118,7 +118,7 @@
             this.Controls.Add(this.insert_button);
             this.Controls.Add(this.update_button);
             this.Controls.Add(this.Activity_button);
-            this.Controls.Add(this.CopyMap_button);
+            this.Controls.Add(this.ScratchDraw_button);
             this.Controls.Add(this.TenBox_button);
             this.Controls.Add(this.LuaShop_button);
             this.Controls.Add(this.Sql_button);
@@ -135,7 +135,7 @@
         private System.Windows.Forms.Button Sql_button;
         private System.Windows.Forms.Button LuaShop_button;
         private System.Windows.Forms.Button TenBox_button;
-        private System.Windows.Forms.Button CopyMap_button;
+        private System.Windows.Forms.Button ScratchDraw_button;
         private System.Windows.Forms.Button Activity_button;
         private System.Windows.Forms.Button update_button;
         private System.Windows.Forms.Button insert_button;

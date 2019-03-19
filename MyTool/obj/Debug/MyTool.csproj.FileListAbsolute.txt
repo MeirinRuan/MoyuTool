@@ -82,3 +82,11 @@ D:\MoyuTool\MyTool\obj\Debug\MyTool.csproj.CopyComplete
 D:\MoyuTool\MyTool\obj\Debug\MyTool.exe
 D:\MoyuTool\MyTool\obj\Debug\MyTool.pdb
 D:\MoyuTool\MyTool\obj\Debug\MyTool.csprojAssemblyReference.cache
+D:\MoyuTool\MyTool\obj\Debug\MyTool.ScratchDrawForm.resources
+D:\MoyuTool\MyTool\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\MoyuTool\MyTool\bin\Debug\ICSharpCode.SharpZipLib.xml
+D:\MoyuTool\MyTool\bin\Debug\NPOI.dll
+D:\MoyuTool\MyTool\bin\Debug\NPOI.OOXML.dll
+D:\MoyuTool\MyTool\bin\Debug\NPOI.OpenXml4Net.dll
+D:\MoyuTool\MyTool\bin\Debug\NPOI.OpenXmlFormats.dll
+D:\MoyuTool\MyTool\bin\Debug\ICSharpCode.SharpZipLib.pdb

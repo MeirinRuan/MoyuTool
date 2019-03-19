@@ -30,7 +30,8 @@ namespace MyTool
                 if (FileNameExtension == ".xls" || FileNameExtension == ".xlsx")
                 {
                     //打开excel
-                    eo.OpenExcel(openFileDialog1.FileName);
+                    FileStream fileStream = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read);
+                    eo.OpenExcel(fileStream, openFileDialog1.FileName);
                     MessageBox.Show("打开excel成功。");
                 }
                 else

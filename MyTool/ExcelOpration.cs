@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Excel;
 using System.Windows.Forms;
 using System.IO;
+using NPOI.SS.UserModel;
+using NPOI.HSSF.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace MyTool
 {
@@ -13,6 +16,8 @@ namespace MyTool
         public Workbook wb;
         public Worksheet ws;
         public Range rng;
+        public IWorkbook workbook;
+        public ISheet sheet;
 
         //表头长度
         public static int nLuaShopLength = 20;
@@ -24,7 +29,20 @@ namespace MyTool
             app = new Excel.Application();
             wbs = app.Workbooks;
             wb = wbs.Add(FileName);
-            //app.Visible = true;
+            app.Visible = true;
+        }
+        //用npoi打开excel文件
+        public void OpenExcel(FileStream fs, string FileName)
+        {
+            //打开excel
+            if (FileName.IndexOf(".xlsx") > 0)
+            {
+                workbook = new XSSFWorkbook(fs);
+            }
+            else if (FileName.IndexOf(".xls") > 0)
+            {
+                workbook = new HSSFWorkbook(fs);
+            }
         }
 
         //关闭Excel
@@ -113,12 +131,12 @@ namespace MyTool
             return i;
         }
 
-        //返回单行内容 参数2行数 参数3每行长度 参数4类型(0表示过滤非数字字符加引号)
+        //返回单行内容 参数2行数 参数3每行长度 参数4类型(0表示过滤非数字字符用于加引号)
         public List<String> GetRowValues(Worksheet ws, int nRows, int Length, bool IsNumber)
         {
             List<String> sRowValues = new List<String>();
             int i = 1;
-            if (Length != -1)
+            if (Length >= 1)
             {
                 //行的第一个内容不为空
                 for (int index = 1; index < Length; index++)
@@ -149,21 +167,12 @@ namespace MyTool
                     i++;
                 }
             }
-            else if (Length == -1)
+            else
             {
-                while (ws.Cells[nRows, i].Text.ToString() != "")
-                {
-                    if (ws.Cells[nRows, i].Text == "")
-                    {
-                        sRowValues.Add("\"\"");
-                    }
-                    else
-                    {
-                        sRowValues.Add(ws.Cells[nRows, i].Text.ToString());
-                    }
-                    i++;
-                }
+                MessageBox.Show("行数小于1。");
+                return null;
             }
+
             if (i == 1)
             {
                 MessageBox.Show("该行无数据。");
@@ -177,7 +186,7 @@ namespace MyTool
         {
             List<String> sRowValues = new List<String>();
             int i = 1;
-            if (Length != -1)
+            if (Length >= 1)
             {
                 //行的第一个内容不为空
                 for (int index = 1; index < Length; index++)
@@ -193,21 +202,12 @@ namespace MyTool
                     i++;
                 }
             }
-            else if (Length == -1)
+            else
             {
-                while (ws.Cells[nRows, i].Text.ToString() != "")
-                {
-                    if (ws.Cells[nRows, i].Text == "")
-                    {
-                        sRowValues.Add("\"\"");
-                    }
-                    else
-                    {
-                        sRowValues.Add(ws.Cells[nRows, i].Text.ToString());
-                    }
-                    i++;
-                }
+                MessageBox.Show("行数小于1。");
+                return null;
             }
+
             if (i == 1)
             {
                 MessageBox.Show("该行无数据。");

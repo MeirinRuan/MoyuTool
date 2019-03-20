@@ -6,6 +6,7 @@ using System.IO;
 using NPOI.SS.UserModel;
 using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
+using System.Text.RegularExpressions;
 
 namespace MyTool
 {
@@ -18,11 +19,16 @@ namespace MyTool
         public Range rng;
         public IWorkbook workbook;
         public ISheet sheet;
+        public IRow cells;
+        
 
         //表头长度
         public static int nLuaShopLength = 20;
 
-        //打开excel文件
+        /// <summary>
+        /// 基于excel.dll打开excel文件
+        /// </summary>
+        /// <param name="FileName">文件名</param>
         public void OpenExcel(string FileName)
         {
             //打开excel
@@ -31,7 +37,13 @@ namespace MyTool
             wb = wbs.Add(FileName);
             app.Visible = true;
         }
-        //用npoi打开excel文件
+
+        /// <summary>
+        /// 基于npoi打开excel文件
+        /// </summary>
+        /// <param name="fs">文件流</param>
+        /// <param name="FileName">文件名</param>
+        /// <returns></returns>
         public void OpenExcel(FileStream fs, string FileName)
         {
             //打开excel
@@ -237,6 +249,20 @@ namespace MyTool
             {
                 MessageBox.Show("该行无数据。");
                 return null;
+            }
+
+            return sRowValues;
+        }
+
+
+        public List<String> GetRowValues(ISheet sheet, int nRows)
+        {
+            List<String> sRowValues = new List<String>();
+
+            IRow cells = sheet.GetRow(nRows);
+            for (int i = 0;i< cells.LastCellNum; i++)
+            {
+
             }
 
             return sRowValues;
@@ -498,7 +524,23 @@ namespace MyTool
 
         }
 
+        /// <summary>
+        /// 将excel中字符列转换为数字
+        /// </summary>
+        /// <param name="columnName">字母列名称</param>
+        /// <returns></returns>
+        public int ToIndex(string columnName)
+        {
+            if (!Regex.IsMatch(columnName.ToUpper(), @"[A-Z]+")) { throw new Exception("invalid parameter"); }
 
 
+            int index = 0;
+            char[] chars = columnName.ToUpper().ToCharArray();
+            for (int i = 0; i < chars.Length; i++)
+            {
+                index += ((int)chars[i] - (int)'A' + 1) * (int)Math.Pow(26, chars.Length - i - 1);
+            }
+            return index - 1;
+        }
     }
 }

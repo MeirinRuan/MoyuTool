@@ -30,7 +30,7 @@ namespace MyTool
                 if (FileNameExtension == ".xls" || FileNameExtension == ".xlsx")
                 {
                     //打开excel
-                    FileStream fileStream = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read);
+                    FileStream fileStream = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.ReadWrite);
                     eo.OpenExcel(fileStream, openFileDialog1.FileName);
                     MessageBox.Show("打开excel成功。");
                 }
@@ -46,10 +46,18 @@ namespace MyTool
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             //表格索引
-            int SheetIndex = Convert.ToInt32(sheetindex_textBox.Text);
+            int SheetIndex = Convert.ToInt32(sheetindex_textBox.Text) - 1;
             string TableNameIndex = tablename_textBox.Text;
 
-            if (eo.wb.Worksheets[SheetIndex] == null)
+            //if (eo.wb.Worksheets[SheetIndex] == null)
+            //{
+            //    MessageBox.Show("不存在该sheet。");
+            //    return;
+            //}
+
+            eo.sheet = eo.workbook.GetSheetAt(SheetIndex);
+
+            if (eo.sheet == null)
             {
                 MessageBox.Show("不存在该sheet。");
                 return;
@@ -59,17 +67,20 @@ namespace MyTool
             progressBar1.Value = 0;
             progressBar1.Step = 1;
 
-            eo.ws = eo.wb.Worksheets[SheetIndex];
+            //eo.ws = eo.wb.Worksheets[SheetIndex];
 
             string TableNameColumnStart = TableNameIndex.Substring(0, 1).ToUpper();
-            int TableNameColumnEnd = Convert.ToInt32(TableNameIndex.Substring(1));
+            int TableNameColumnEnd = Convert.ToInt32(TableNameIndex.Substring(1)) - 1;
 
-            string TableName = eo.ws.Cells[TableNameColumnEnd, TableNameColumnStart].Text;
+            //string TableName = eo.ws.Cells[TableNameColumnEnd, TableNameColumnStart].Text;
+
+            string TableName = eo.sheet.GetRow(TableNameColumnEnd).GetCell(eo.ToIndex(TableNameColumnStart)).ToString();
 
             //表字段起始位置
             int TableValueColumn = TableNameColumnEnd + 1;
-            int Length = eo.GetRowLength(eo.ws, TableValueColumn);
-            List<string> TableValue = eo.GetRowValues(eo.ws, TableValueColumn, Length);
+            //int Length = eo.GetRowLength(eo.ws, TableValueColumn);
+            int Length = eo.sheet.GetRow(TableValueColumn).LastCellNum;
+            List<string> TableValue = eo.GetRowValues(eo.sheet, TableValueColumn);
 
             string Str = "Insert Into " + TableName + " (" + string.Join(",", TableValue) + ")Values\r\n";
 

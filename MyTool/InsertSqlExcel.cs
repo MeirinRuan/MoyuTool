@@ -30,7 +30,7 @@ namespace MyTool
                 if (FileNameExtension == ".xls" || FileNameExtension == ".xlsx")
                 {
                     //打开excel
-                    FileStream fileStream = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.ReadWrite);
+                    FileStream fileStream = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read,FileShare.ReadWrite);
                     eo.OpenExcel(fileStream, openFileDialog1.FileName);
                     MessageBox.Show("打开excel成功。");
                 }
@@ -80,9 +80,9 @@ namespace MyTool
             int TableValueColumn = TableNameColumnEnd + 1;
             //int Length = eo.GetRowLength(eo.ws, TableValueColumn);
             int Length = eo.sheet.GetRow(TableValueColumn).LastCellNum;
-            List<string> TableValue = eo.GetRowValues(eo.sheet, TableValueColumn);
+            List<string> TableField = eo.GetRowValues(eo.sheet, TableValueColumn);
 
-            string Str = "Insert Into " + TableName + " (" + string.Join(",", TableValue) + ")Values\r\n";
+            string Str = "Insert Into " + TableName + " (" + string.Join(",", TableField) + ")Values\r\n";
 
             progressBar1.Value += 10;
 
@@ -91,7 +91,8 @@ namespace MyTool
             List<List<string>> ValueList = new List<List<string>>();
 
             //行数
-            int Rows = eo.ws.UsedRange.Rows.Count - ValueStartIndex + 1;
+            //int Rows = eo.ws.UsedRange.Rows.Count - ValueStartIndex + 1;
+            int Rows = eo.sheet.LastRowNum - ValueStartIndex + 1;
 
             progressBar1.Value += 5;
 
@@ -99,7 +100,7 @@ namespace MyTool
             int CurStep = 1;
             for (int i = 0; i < Rows; i++)
             {
-                List<string> values = eo.GetRowValues(eo.ws, i + ValueStartIndex, Length, true);
+                List<string> values = eo.GetRowValues(eo.sheet, i + ValueStartIndex, TableField.Count);
                 ValueList.Add(values);
                 
                 if ( i == Math.Ceiling(Convert.ToDecimal((CurStep / CurValue) * Rows)))

@@ -171,9 +171,9 @@ namespace MyTool
                 //检测sql文件中的字段值长度是否和表字段长度一致
                 foreach (var list in SqlValue)
                 {
-                    if (list.Value.Count != TargetSqlField.Count)
+                    if (list.Value.Count != SqlField.Count)
                     {
-                        MessageBox.Show("请先检查sql字段是否匹配");
+                        MessageBox.Show("请先检查"+ SqlTableName + "字段是否匹配！字段数：" + SqlField.Count+"字段值：" + list.Value.Count);
                         return;
                     }
                 }
@@ -315,7 +315,7 @@ namespace MyTool
 
             NewStr = NewFileText;
             
-            File.WriteAllText(@Deskdir + "\\" + NewFileName + ".sql", NewStr);
+            File.WriteAllText(@Deskdir + "\\" + NewFileName + ".sql", NewStr, Encoding.Default);
             System.Diagnostics.Process.Start(Deskdir);
         }
 

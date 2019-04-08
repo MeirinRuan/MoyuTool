@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Sql_button = new System.Windows.Forms.Button();
             this.LuaShop_button = new System.Windows.Forms.Button();
             this.TenBox_button = new System.Windows.Forms.Button();
@@ -35,6 +36,7 @@
             this.Activity_button = new System.Windows.Forms.Button();
             this.update_button = new System.Windows.Forms.Button();
             this.insert_button = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // Sql_button
@@ -54,6 +56,7 @@
             this.LuaShop_button.Size = new System.Drawing.Size(86, 72);
             this.LuaShop_button.TabIndex = 2;
             this.LuaShop_button.Text = "筹码币商店模板生成";
+            this.toolTip1.SetToolTip(this.LuaShop_button, "请用中鸣工具");
             this.LuaShop_button.UseVisualStyleBackColor = true;
             this.LuaShop_button.Click += new System.EventHandler(this.LuaShop_button_Click);
             // 
@@ -67,6 +70,7 @@
             this.TenBox_button.Size = new System.Drawing.Size(86, 72);
             this.TenBox_button.TabIndex = 3;
             this.TenBox_button.Text = "十连抽模板生成";
+            this.toolTip1.SetToolTip(this.TenBox_button, "请用中鸣工具");
             this.TenBox_button.UseVisualStyleBackColor = true;
             this.TenBox_button.Click += new System.EventHandler(this.TenBox_button_Click);
             // 
@@ -139,6 +143,7 @@
         private System.Windows.Forms.Button Activity_button;
         private System.Windows.Forms.Button update_button;
         private System.Windows.Forms.Button insert_button;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

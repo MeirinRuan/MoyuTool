@@ -143,7 +143,14 @@ namespace MyTool
             return i;
         }
 
-        //返回单行内容 参数2行数 参数3每行长度 参数4类型(0表示过滤非数字字符用于加引号)
+        /// <summary>
+        /// 返回单行内容
+        /// </summary>
+        /// <param name="ws">Worksheet</param>
+        /// <param name="nRows">行数</param>
+        /// <param name="Length">每行长度</param>
+        /// <param name="IsNumber">类型(0表示过滤非数字字符用于加引号)</param>
+        /// <returns></returns>
         public List<String> GetRowValues(Worksheet ws, int nRows, int Length, bool IsNumber)
         {
             List<String> sRowValues = new List<String>();
@@ -254,15 +261,79 @@ namespace MyTool
             return sRowValues;
         }
 
-
-        public List<String> GetRowValues(ISheet sheet, int nRows)
+        /// <summary>
+        /// 返回单行内容根据长度 基于NPOI
+        /// </summary>
+        /// <param name="sheet">ISheet</param>
+        /// <param name="nRow">行数</param>
+        /// <param name="Length">长度</param>
+        /// <returns></returns>
+        public List<String> GetRowValues(ISheet sheet, int nRow, int Length)
         {
             List<String> sRowValues = new List<String>();
 
-            IRow cells = sheet.GetRow(nRows);
-            for (int i = 0;i< cells.LastCellNum; i++)
+            IRow cells = sheet.GetRow(nRow);
+            if (cells != null)
             {
+                for (int i = 0; i < Length; i++)
+                {
+                    if (cells.GetCell(i) == null)
+                    {
+                        sRowValues.Add("\"\"");
+                    }
+                    else
+                    {
+                        //如果是含有公式的格子
+                        if (cells.GetCell(i).CellType == CellType.Formula)
+                        {
+                            XSSFFormulaEvaluator eva = new XSSFFormulaEvaluator(workbook);
+                            if (eva.Evaluate(cells.GetCell(i)).CellType == CellType.Numeric)
+                            {
+                                sRowValues.Add(eva.Evaluate(cells.GetCell(i)).NumberValue.ToString());
+                            }
+                            else
+                            {
+                                sRowValues.Add("\"" + eva.Evaluate(cells.GetCell(i)).StringValue + "\"");
+                            }
+                                
+                        }
+                        else
+                        {
+                            MyRegularExpression mre = new MyRegularExpression();
+                            if (mre.IsNumber(cells.GetCell(i).ToString()))
+                            {
+                                sRowValues.Add(cells.GetCell(i).ToString());
+                            }
+                            else
+                            {
+                                sRowValues.Add("\"" + cells.GetCell(i).ToString() + "\"");
+                            }
+                        }
+                    }
+                    
+                }
+            }
 
+            return sRowValues;
+        }
+
+        /// <summary>
+        /// 返回单行内容 基于NPOI
+        /// </summary>
+        /// <param name="sheet">ISheet</param>
+        /// <param name="nRow">行数</param>
+        /// <returns></returns>
+        public List<String> GetRowValues(ISheet sheet, int nRow)
+        {
+            List<String> sRowValues = new List<String>();
+
+            IRow cells = sheet.GetRow(nRow);
+            if (cells != null)
+            {
+                for (int i = 0;i < cells.LastCellNum; i++)
+                {
+                    sRowValues.Add(cells.GetCell(i).ToString());
+                }
             }
 
             return sRowValues;

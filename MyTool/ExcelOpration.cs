@@ -19,7 +19,6 @@ namespace MyTool
         public Range rng;
         public IWorkbook workbook;
         public ISheet sheet;
-        public IRow cells;
         
 
         //表头长度
@@ -613,5 +612,34 @@ namespace MyTool
             }
             return index - 1;
         }
+
+        /// <summary>
+        /// 根据单元格内容查找指定内容单元格所在位置
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <param name="str">单元格内容</param>
+        /// <returns></returns>
+        public int[] GetRowAndColumn(ISheet sheet, string str)
+        {
+            int RowRange = sheet.LastRowNum;
+
+            for (int i = 0; i < RowRange; i++)
+            {
+                int ColumnRange = sheet.GetRow(i).LastCellNum;
+                for (int j = 0; j < ColumnRange; j++)
+                {
+                    IRow cells = sheet.GetRow(i);
+                    if (cells != null)
+                    {
+                        if (cells.GetCell(j) != null && cells.GetCell(j).ToString() == str)
+                        {
+                            return new int[2] { i, j };
+                        }
+                    }
+                }
+            }
+            return new int[2] {0, 0};
+        }
+
     }
 }

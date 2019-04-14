@@ -121,6 +121,7 @@
     <Compile Include="ScratchDrawForm.Designer.cs">
       <DependentUpon>ScratchDrawForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ScratchDrawSettings.cs" />
     <Compile Include="SqlForm.cs">
       <SubType>Form</SubType>
     </Compile>

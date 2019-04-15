@@ -16,10 +16,6 @@ namespace MyTool
     {
         ExcelOpration eo = new ExcelOpration();
 
-        //表名
-        public static string rwTable = "rwScratchDraw";
-
-
         public ScratchDrawForm()
         {
             InitializeComponent();
@@ -73,32 +69,119 @@ namespace MyTool
                 return;
             }
 
+            MyRegularExpression mre = new MyRegularExpression();
+            if (!mre.IsNumber(LuaDataType_textBox.Text) ||
+                !mre.IsNumber(TaskId_textBox.Text) ||
+                !mre.IsNumber(LogId_textBox.Text) ||
+                !mre.IsNumber(LogId_XSJ_textBox.Text)
+                )
+            {
+                MessageBox.Show("请在基础数据中填入数值。");
+                return;
+            }
+            
+            //起始掩码id
+            int nTaskId = Convert.ToInt32(TaskId_textBox.Text);
+            int nLuaDataType = Convert.ToInt32(LuaDataType_textBox.Text);
+
+            //抽奖表
+            ScratchDraw scratchDraw = new ScratchDraw();
+            scratchDraw.nLuaDataType = nLuaDataType;
+
+
             //基础配置
             ScratchDrawBaseData baseData = new ScratchDrawBaseData();
-            baseData.nLuaDataType = Convert.ToInt32(LuaDataType_textBox.Text);
-            baseData.nTaskId = Convert.ToInt32(TaskId_textBox.Text);
+            baseData.nLuaDataType = nLuaDataType;
+            baseData.nTaskId = nTaskId;
             baseData.nLogId = Convert.ToInt32(LogId_textBox.Text);
             baseData.nLogId_XSJ = Convert.ToInt32(LogId_XSJ_textBox.Text);
 
             //规则配置
-            ScratchDrawOption Optin = new ScratchDrawOption();
+            ScratchDrawOption Op = new ScratchDrawOption();
 
-            //消耗的筹码币
-            ScratchDrawOptionCost OptionCost = new ScratchDrawOptionCost();
 
+            //基础配置所在位置
             int[] vs = eo.GetRowAndColumn(eo.sheet, "活动时间");
+            int BaseRow = vs[0]+1;
+            int BaseColumn = vs[1];
 
-            string time = eo.sheet.GetRow(vs[0] + 1).GetCell(vs[1]).ToString();
+            //活动时间
+            string time = eo.sheet.GetRow(BaseRow).GetCell(BaseColumn).ToString();
             string sStartTime = DateTime.Parse(time.Substring(0, time.IndexOf("-"))).ToString("yyyy-MM-dd 10:00");
             string sEndTime = DateTime.Parse(time.Substring(time.IndexOf("-")+1, time.Length-time.IndexOf("-")-1)).ToString("yyyy-MM-dd 23:59");
+            Op.sStartTime = sStartTime;
+            Op.sEndTime = sEndTime;
 
-            Optin.sStartTime = sStartTime;
-            Optin.sEndTime = sEndTime;
+            //OptionCost
+            //消耗的筹码币
+            ScratchDrawOptionCost OptionCost = new ScratchDrawOptionCost();
+            int OptionCostItemType = Convert.ToInt32(eo.sheet.GetRow(BaseRow).GetCell(BaseColumn + 2).ToString());
+            int OptionCostItemNum= Convert.ToInt32(eo.sheet.GetRow(BaseRow).GetCell(BaseColumn + 3).ToString());
+            OptionCost.nItemType = OptionCostItemType;
+            OptionCost.nItemNum = OptionCostItemNum;
+            Op.OptionCost = OptionCost;
 
-            Optin.OptionCost = OptionCost;
+            //OptionAward
+            //不一致的奖励
+            ScratchDrawOptionAward OptionAward = new ScratchDrawOptionAward();
+            int OptionAwardItemType = Convert.ToInt32(eo.sheet.GetRow(BaseRow).GetCell(BaseColumn + 6).ToString());
+            int OptionAwardItemNum = Convert.ToInt32(eo.sheet.GetRow(BaseRow).GetCell(BaseColumn + 7).ToString());
+            int OptionAwardItemMonpoly = Convert.ToInt32(eo.CharBindConvert(eo.sheet.GetRow(BaseRow).GetCell(BaseColumn + 8).ToString()));
+            OptionAward.nItemType = OptionAwardItemType;
+            OptionAward.nItemNum = OptionAwardItemNum;
+            OptionAward.nItemMonpoly = OptionAwardItemMonpoly; 
+            Op.OptionAward = OptionAward;
 
-            //Console.WriteLine(sStartTime + " " + sEndTime);
+            //ResetAllDraw
+            //重置奖池的配置
+            ScratchDrawResetAllDraw ResetAllDraw = new ScratchDrawResetAllDraw();
+            int ResetAllDrawItemType = OptionCostItemType;
+            int ResetAllDrawItemNum = Convert.ToInt32(eo.sheet.GetRow(BaseRow).GetCell(BaseColumn + 4).ToString());
+            ResetAllDraw.nTaskId = nTaskId + 1;
+            ResetAllDraw.nItemType = ResetAllDrawItemType;
+            ResetAllDraw.nItemNum = ResetAllDrawItemNum;
+            Op.ResetAllDraw = ResetAllDraw;
 
+            //ReasetItem
+            //重置物品的配置
+            ScratchDrawResetItem ResetItem = new ScratchDrawResetItem();
+            int ResetItemItemNum = Convert.ToInt32(eo.sheet.GetRow(BaseRow).GetCell(BaseColumn + 5).ToString());
+            ResetItem.ResetItemValue = new List<ScratchDrawResetItemValue>();
+            for (int i = 0; i < 3; i ++)
+            {
+                ScratchDrawResetItemValue ResetItemValue = new ScratchDrawResetItemValue();
+                ResetItemValue.nTaskId = nTaskId + 2 + i;
+                ResetItemValue.nItemType = OptionCostItemType;
+                ResetItemValue.nItemNum = ResetItemItemNum;
+                ResetItem.ResetItemValue.Add(ResetItemValue);
+            }
+            Op.ResetItem = ResetItem;
+
+            //AwardList
+            ScratchDrawAwardList AwardList = new ScratchDrawAwardList();
+            ScratchDrawAwardListItem AwardListItem = new ScratchDrawAwardListItem();
+            ScratchDrawAwardListItemValue AwardListItemValue = new ScratchDrawAwardListItemValue();
+            ScratchDrawAwardListNotice Notice = new ScratchDrawAwardListNotice();
+
+            //奖励表所在位置
+            //int[] AwardListPos = eo.GetRowAndColumn(eo.sheet, "超高价值道具");
+            for (int i = 0; i < AwardList.AwardListItemName.Count; i++)
+            {
+
+            }
+            int[] AwardListItemPos = eo.GetMerGedRegionRange(eo.sheet, "超高价值道具");
+
+
+
+            scratchDraw.BaseData = baseData;
+            scratchDraw.OptionData = Op;
+
+           // Console.WriteLine(scratchDraw.GetStr());
+            //桌面路径
+            string Deskdir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            File.WriteAllText(@Deskdir + "\\刮刮卡配置.lua", scratchDraw.GetStr());
+            Process.Start(Deskdir);
+            toolStripStatusLabel.Text = "已导出至桌面！";
         }
     }
 }

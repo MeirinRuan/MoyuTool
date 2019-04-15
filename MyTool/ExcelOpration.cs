@@ -382,7 +382,7 @@ namespace MyTool
         //物品绑定字符转换
         public string CharBindConvert(string sStr)
         {
-            if (sStr.Contains("非") || sStr.Contains("0"))
+            if (sStr.Contains("非") || sStr == "1" || sStr == "可交易")
             {
                 sStr = "0";
             }
@@ -639,6 +639,25 @@ namespace MyTool
                 }
             }
             return new int[2] {0, 0};
+        }
+
+
+        public int[] GetMerGedRegionRange(ISheet sheet, string cellname)
+        {
+            int[] vs = {0,0,0,0};
+
+            for (int i = 0; i < sheet.NumMergedRegions; i++)
+            {
+                var cellrange = sheet.GetMergedRegion(i);
+                if (sheet.GetRow(cellrange.FirstColumn).GetCell(cellrange.FirstRow).ToString() == cellname)
+                {
+                    vs = new int[] { cellrange.FirstColumn, cellrange.FirstRow, cellrange.LastColumn, cellrange.LastRow};
+                }
+                //Console.WriteLine(cellrange.FirstColumn + " " + cellrange.FirstRow + " " + cellrange.LastColumn + " " + cellrange.LastRow);
+            }
+
+
+            return vs; 
         }
 
     }

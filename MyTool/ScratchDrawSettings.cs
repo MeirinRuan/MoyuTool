@@ -1,7 +1,33 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using System.IO;
+using System.Diagnostics;
+
 
 namespace MyTool
 {
+    /// <summary>
+    /// 刮刮卡表
+    /// </summary>
+    public class ScratchDraw
+    {
+        public static string rwTable = "rwScratchDraw";
+        public int nLuaDataType;
+        public ScratchDrawBaseData BaseData;
+        public ScratchDrawOption OptionData;
+
+        public string GetStr()
+        {
+            string str = "rwScratchDraw[" + nLuaDataType + "]={\r\n" +
+                BaseData.GetBaseDataStr() +
+                OptionData.GetOptionStr() +
+                "\r\n}";
+            return str;
+        }
+
+    }
+    
     /// <summary>
     /// 基础配置表
     /// </summary>
@@ -18,15 +44,16 @@ namespace MyTool
         /// <returns></returns>
         public string GetBaseDataStr()
         {
-            string str = "tBaseData=" +
-                "\r\n{\r\n" +
-                "\t" + "nLuaDataType = " + nLuaDataType + ",\r\n" +
-                "\t" + "nTaskId = " + nTaskId + ",\r\n" +
-                "\t" + "nLimitCount = 999999" + ",\r\n" +
-                "\t" + "nLogId = " + nLogId + ",\r\n" +
-                "\t" + "nLogId_XSJ = " + nLogId_XSJ + ",\r\n" +
-                "\t" + "sTitle = \"琉璃幻境\",\r\n" +
-                "},\r\n";
+            string str = "\ttBaseData=" +
+                "\r\n\t{\r\n" +
+                "\t\t" + "nLuaDataType = " + nLuaDataType + ",\r\n" +
+                "\t\t" + "nTaskId = " + nTaskId + ",\r\n" +
+                "\t\t" + "nLimitCount = 999999" + ",\r\n" +
+                "\t\t" + "nSystemHelp = " + nTaskId + ",\r\n" +
+                "\t\t" + "nLogId = " + nLogId + ",\r\n" +
+                "\t\t" + "nLogId_XSJ = " + nLogId_XSJ + ",\r\n" +
+                "\t\t" + "sTitle = \"琉璃幻境\",\r\n" +
+                "\t},\r\n";
 
             return str;
         }
@@ -40,6 +67,9 @@ namespace MyTool
         public string sStartTime;
         public string sEndTime;
         public ScratchDrawOptionCost OptionCost;
+        public ScratchDrawOptionAward OptionAward;
+        public ScratchDrawResetAllDraw ResetAllDraw;
+        public ScratchDrawResetItem ResetItem;
 
         /// <summary>
         /// 输出规则配置
@@ -47,14 +77,17 @@ namespace MyTool
         /// <returns></returns>
         public string GetOptionStr()
         {
-            string str = "tOption=" +
-                "\r\n{\r\n" +
-                "\t" + "isOpen = 1,\r\n" +
-                "\t" + "sStartTime = " + sStartTime + ",\r\n" +
-                "\t" + "sEndTime = " + sEndTime + ",\r\n" +
-                "\t" + "tServer = {0,1,2,3,10},\r\n" +
-                "\t" + OptionCost.GetOptionCostStr() +
-                "},\r\n";
+            string str = "\ttOption=" +
+                "\r\n\t{\r\n" +
+                "\t\t" + "isOpen = 1,\r\n" +
+                "\t\t" + "sStartTime = \"" + sStartTime + "\",\r\n" +
+                "\t\t" + "sEndTime = \"" + sEndTime + "\",\r\n" +
+                "\t\t" + "tServer = {0,1,2,3,10},\r\n" +
+                "\t\t" + OptionCost.GetOptionCostStr() +
+                "\t\t" + OptionAward.GetOptionAwardStr() +
+                "\t\t" + ResetAllDraw.GetResetAllDrawStr() +
+                "\t\t" + ResetItem.GetResetItemStr() +
+                "\t},\r\n";
 
             return str;
         }
@@ -67,18 +100,216 @@ namespace MyTool
     {
         public int nItemType;
         public int nItemNum;
-        public int nItemMonpoly;
 
         public string GetOptionCostStr()
         {
-            string str = "tCost=" +
-                "\r\n\t{\r\n" +
-                "\t\t" + "nItemType = " + nItemType + ",\r\n" +
-                "\t\t" + "nItemNum = " + nItemNum + ",\r\n" +
-                "\t\t" + "nItemMonpoly = " + nItemMonpoly + ",\r\n" +
-                "\t},\r\n";
+            string str = "tCost={nItemType=" + nItemType + ",nItemNum=" + nItemNum + ",nItemMonpoly=1,},\r\n";
 
             return str;
         }
     }
+
+    /// <summary>
+    /// 不一致的奖励
+    /// </summary>
+    public class ScratchDrawOptionAward
+    {
+        public int nItemType;
+        public int nItemNum;
+        public int nItemMonpoly;
+
+        public string GetOptionAwardStr()
+        {
+            string str = "tAward={nItemType=" + nItemType + ",nItemNum=" + nItemNum + ",nItemMonpoly=" + nItemMonpoly + ",},\r\n";
+
+            return str;
+        }
+    }
+
+    /// <summary>
+    /// 重置奖池配置
+    /// </summary>
+    public class ScratchDrawResetAllDraw
+    {
+        public int nTaskId;
+        public int nItemType;
+        public int nItemNum;
+
+        public string GetResetAllDrawStr()
+        {
+            string str = "tResetAllDraw={\r\n" +
+                "\t\t\t" + "nTaskId = " + nTaskId + ",\r\n" +
+                "\t\t\t" + "nFreeCount = 1,\r\n" +
+                "\t\t\t" + "nLimitCount = 999999,\r\n" +
+                "\t\t\t" + "nCurLimitCount = 999999,\r\n" +
+                "\t\t\t" + "tCost={nItemType=" + nItemType + ",nItemNum=" + nItemNum + ",nItemMonpoly=1,},\r\n" +
+                "\t\t},\r\n";
+
+            return str;
+        }
+    }
+
+    /// <summary>
+    /// 重置物品配置
+    /// </summary>
+    public class ScratchDrawResetItem
+    {
+        public List<ScratchDrawResetItemValue> ResetItemValue;
+
+
+        public string GetResetItemStr()
+        {
+            string str = "tResetItem={\r\n";
+            string strvalues = "";
+
+            for (int i = 0; i < ResetItemValue.Count; i++)
+            {
+                strvalues = strvalues +
+                "\t\t\t" + "[" + (i+1) + "]" + "=" +
+                ResetItemValue[i].GetResetItemValueStr();
+            }
+
+            str = str + strvalues + "\t\t},\r\n";
+            return str;
+        }
+
+    }
+
+    /// <summary>
+    /// 重置物品数据
+    /// </summary>
+    public class ScratchDrawResetItemValue
+    {
+        public int nTaskId;
+        public int nItemType;
+        public int nItemNum;
+
+        public string GetResetItemValueStr()
+        {
+            string str = "{\r\n" +
+                "\t\t\t\t" + "nTaskId = " + nTaskId + ",\r\n" +
+                "\t\t\t\t" + "nFreeCount = 0,\r\n" +
+                "\t\t\t\t" + "nLimitCount = 999999,\r\n" +
+                "\t\t\t\t" + "nCurLimitCount = 999999,\r\n" +
+                "\t\t\t\t" + "tCost={nItemType=" + nItemType + ",nItemNum=" + nItemNum + ",nItemMonpoly=1,},\r\n" +
+                "\t\t\t},\r\n";
+
+            return str;
+        }
+    }
+
+    /// <summary>
+    /// 奖励表
+    /// </summary>
+    public class ScratchDrawAwardList
+    {
+        public List<ScratchDrawAwardListItem> AwardListItem;
+
+        public List<string> AwardListItemName = new List<string> { "超高价值道具", "高价值道具", "普通价值道具", "填充物1", "填充物2" };
+
+
+        public string GetAwardListStr()
+        {
+            string str = "\ttAwardList={\r\n";
+            string strvalues = "";
+
+            for (int i = 0; i < AwardListItem.Count; i++)
+            {
+                strvalues = strvalues +
+                "\t\t" + "[" + (i + 1) + "]" + "=" +
+                AwardListItem[i].GetAwardListValueStr();
+            }
+
+            str = str + strvalues + "\t},\r\n";
+            return str;
+        }
+    }
+
+    /// <summary>
+    /// 奖励数据表
+    /// </summary>
+    public class ScratchDrawAwardListItem
+    {
+
+        public List<ScratchDrawAwardListItemValue> AwardListItemValue;
+
+
+
+        public string GetAwardListValueStr()
+        {
+            string str = "";
+
+            for (int i = 0; i < AwardListItemValue.Count; i++)
+            {
+                str = str + AwardListItemValue[i].GetAwardListItemValueStr();
+            }
+
+            return str;
+        }
+    }
+
+    /// <summary>
+    /// 奖励数据
+    /// </summary>
+    public class ScratchDrawAwardListItemValue
+    {
+
+        public int nChance;
+        public int nItemType;
+        public int nItemNum;
+        public int nItemMonpoly;
+        public int nIndex;
+        public int nAwardLev;
+        public int nServerLimit;
+        public ScratchDrawAwardListNotice tNotice;
+
+
+        public string GetAwardListItemValueStr()
+        {
+            string ServerStr = "nServerLimit = " + nServerLimit + ",";
+            if (nServerLimit == 0)
+            {
+                ServerStr = "";
+            }
+            string str = "\t\t\t{" +
+                "nChance=" + nChance + "," +
+                "nItemType=" + nItemType + "," +
+                "nItemNum=" + nItemNum + "," +
+                "nItemMonpoly=" + nItemMonpoly + "," +
+                "nIndex=" + nIndex + "," +
+                tNotice.GetNoticeStr() +
+                "nAwardLev=" + nAwardLev + "," +
+                ServerStr +
+                "},\r\n";
+
+            return str;
+        }
+    }
+
+    /// <summary>
+    /// 奖励广播方式
+    /// </summary>
+    public class ScratchDrawAwardListNotice
+    {
+        //=1 全服 =2 地图 =3 玩家
+        public List<int> Type;
+
+        public string GetNoticeStr()
+        {
+            string str = "tNoctice={";
+            string strvalues = "";
+
+            for (int i = 0; i < Type.Count; i++)
+            {
+                strvalues = strvalues + Type[i] + ",";
+            }
+
+            str = str + strvalues + "},";
+
+            return str;
+        }
+
+}
+
+
 }

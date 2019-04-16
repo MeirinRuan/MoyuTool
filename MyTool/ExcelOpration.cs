@@ -641,7 +641,12 @@ namespace MyTool
             return new int[2] {0, 0};
         }
 
-
+        /// <summary>
+        /// 获取合并单元格位置
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <param name="cellname">单元格内容</param>
+        /// <returns></returns>
         public int[] GetMerGedRegionRange(ISheet sheet, string cellname)
         {
             int[] vs = {0,0,0,0};
@@ -649,15 +654,30 @@ namespace MyTool
             for (int i = 0; i < sheet.NumMergedRegions; i++)
             {
                 var cellrange = sheet.GetMergedRegion(i);
-                if (sheet.GetRow(cellrange.FirstColumn).GetCell(cellrange.FirstRow).ToString() == cellname)
+                if (sheet.GetRow(cellrange.FirstRow).GetCell(cellrange.FirstColumn).ToString() == cellname)
                 {
-                    vs = new int[] { cellrange.FirstColumn, cellrange.FirstRow, cellrange.LastColumn, cellrange.LastRow};
+                    return new int[] { cellrange.FirstRow, cellrange.FirstColumn, cellrange.LastRow, cellrange.LastColumn};
                 }
                 //Console.WriteLine(cellrange.FirstColumn + " " + cellrange.FirstRow + " " + cellrange.LastColumn + " " + cellrange.LastRow);
             }
 
 
             return vs; 
+        }
+
+        /// <summary>
+        /// 获取广播类型
+        /// </summary>
+        /// <param name="cellname">单元格内容</param>
+        /// <returns></returns>
+        public int GetNoticeType(string cellname)
+        {
+            if (cellname == "全服广播")
+                return 1;
+            else if (cellname == "地图广播")
+                return 2;
+            else
+                return 3;
         }
 
     }

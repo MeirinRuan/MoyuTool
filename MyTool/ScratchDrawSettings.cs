@@ -16,12 +16,14 @@ namespace MyTool
         public int nLuaDataType;
         public ScratchDrawBaseData BaseData;
         public ScratchDrawOption OptionData;
+        public ScratchDrawAwardList AwardList;
 
         public string GetStr()
         {
             string str = "rwScratchDraw[" + nLuaDataType + "]={\r\n" +
                 BaseData.GetBaseDataStr() +
                 OptionData.GetOptionStr() +
+                AwardList.GetAwardListStr() +
                 "\r\n}";
             return str;
         }
@@ -154,7 +156,7 @@ namespace MyTool
     /// </summary>
     public class ScratchDrawResetItem
     {
-        public List<ScratchDrawResetItemValue> ResetItemValue;
+        public List<ScratchDrawResetItemValue> ResetItemValue = new List<ScratchDrawResetItemValue>();
 
 
         public string GetResetItemStr()
@@ -203,7 +205,7 @@ namespace MyTool
     /// </summary>
     public class ScratchDrawAwardList
     {
-        public List<ScratchDrawAwardListItem> AwardListItem;
+        public List<ScratchDrawAwardListItem> AwardListItem = new List<ScratchDrawAwardListItem>();
 
         public List<string> AwardListItemName = new List<string> { "超高价值道具", "高价值道具", "普通价值道具", "填充物1", "填充物2" };
 
@@ -231,18 +233,22 @@ namespace MyTool
     public class ScratchDrawAwardListItem
     {
 
-        public List<ScratchDrawAwardListItemValue> AwardListItemValue;
+        public int Length;
+        public List<ScratchDrawAwardListItemValue> AwardListItemValue = new List<ScratchDrawAwardListItemValue>();
 
 
 
         public string GetAwardListValueStr()
         {
-            string str = "";
+            string str = "{\r\n";
+            string strvalues = "";
 
             for (int i = 0; i < AwardListItemValue.Count; i++)
             {
-                str = str + AwardListItemValue[i].GetAwardListItemValueStr();
+                strvalues = strvalues + AwardListItemValue[i].GetAwardListItemValueStr();
             }
+
+            str = str + strvalues + "\t\t},\r\n";
 
             return str;
         }
@@ -292,12 +298,17 @@ namespace MyTool
     public class ScratchDrawAwardListNotice
     {
         //=1 全服 =2 地图 =3 玩家
-        public List<int> Type;
+        public List<int> Type = new List<int>();
 
         public string GetNoticeStr()
         {
             string str = "tNoctice={";
             string strvalues = "";
+
+            if (!Type.Contains(3))
+            {
+                Type.Add(3);
+            }
 
             for (int i = 0; i < Type.Count; i++)
             {

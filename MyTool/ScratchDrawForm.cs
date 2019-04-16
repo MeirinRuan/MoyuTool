@@ -146,7 +146,6 @@ namespace MyTool
             //重置物品的配置
             ScratchDrawResetItem ResetItem = new ScratchDrawResetItem();
             int ResetItemItemNum = Convert.ToInt32(eo.sheet.GetRow(BaseRow).GetCell(BaseColumn + 5).ToString());
-            ResetItem.ResetItemValue = new List<ScratchDrawResetItemValue>();
             for (int i = 0; i < 3; i ++)
             {
                 ScratchDrawResetItemValue ResetItemValue = new ScratchDrawResetItemValue();
@@ -159,25 +158,53 @@ namespace MyTool
 
             //AwardList
             ScratchDrawAwardList AwardList = new ScratchDrawAwardList();
-            ScratchDrawAwardListItem AwardListItem = new ScratchDrawAwardListItem();
-            ScratchDrawAwardListItemValue AwardListItemValue = new ScratchDrawAwardListItemValue();
-            ScratchDrawAwardListNotice Notice = new ScratchDrawAwardListNotice();
-
+            
             //奖励表所在位置
             //int[] AwardListPos = eo.GetRowAndColumn(eo.sheet, "超高价值道具");
             for (int i = 0; i < AwardList.AwardListItemName.Count; i++)
             {
+                ScratchDrawAwardListItem AwardListItem = new ScratchDrawAwardListItem();
+                int[] pos = eo.GetMerGedRegionRange(eo.sheet, AwardList.AwardListItemName[i]);
+                int Length = pos[2] - pos[0];
+                for (int j = 0; j < Length; j++)
+                {
+                    int AwardListItemValueRow = pos[0] + 1 + j;
+                    ScratchDrawAwardListItemValue AwardListItemValue = new ScratchDrawAwardListItemValue();
+                    ScratchDrawAwardListNotice Notice = new ScratchDrawAwardListNotice();
+                    AwardListItemValue.nItemType = Convert.ToInt32(eo.sheet.GetRow(AwardListItemValueRow).GetCell(pos[1] + 2).ToString());
+                    AwardListItemValue.nItemMonpoly = Convert.ToInt32(eo.CharBindConvert(eo.sheet.GetRow(AwardListItemValueRow).GetCell(pos[1] + 3).ToString()));
+                    AwardListItemValue.nItemNum = Convert.ToInt32(eo.sheet.GetRow(AwardListItemValueRow).GetCell(pos[1] + 4).ToString());
+                    AwardListItemValue.nChance = Convert.ToInt32(Convert.ToDouble(eo.sheet.GetRow(AwardListItemValueRow).GetCell(pos[1] + 5).NumericCellValue)*10000);
+                    AwardListItemValue.nIndex = j + 1;
+                    AwardListItemValue.nAwardLev = AwardList.AwardListItemName.Count - i;
 
+                    string nServerLimit = eo.sheet.GetRow(AwardListItemValueRow).GetCell(pos[1] + 6).ToString();
+                    if (string.IsNullOrWhiteSpace(nServerLimit))
+                    {
+                        AwardListItemValue.nServerLimit = 0;
+                    }
+                    else
+                    {
+                        AwardListItemValue.nServerLimit = Convert.ToInt32(nServerLimit);
+                    }
+
+                    Notice.Type.Add(eo.GetNoticeType(eo.sheet.GetRow(AwardListItemValueRow).GetCell(pos[1] + 7).ToString()));
+
+                    AwardListItemValue.tNotice = Notice;
+                    AwardListItem.AwardListItemValue.Add(AwardListItemValue);
+                }
+                AwardList.AwardListItem.Add(AwardListItem);
             }
-            int[] AwardListItemPos = eo.GetMerGedRegionRange(eo.sheet, "超高价值道具");
+            //int[] AwardListItemPos = eo.GetMerGedRegionRange(eo.sheet, "超高价值道具");
 
 
 
             scratchDraw.BaseData = baseData;
             scratchDraw.OptionData = Op;
+            scratchDraw.AwardList = AwardList;
 
            // Console.WriteLine(scratchDraw.GetStr());
-            //桌面路径
+           //桌面路径
             string Deskdir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             File.WriteAllText(@Deskdir + "\\刮刮卡配置.lua", scratchDraw.GetStr());
             Process.Start(Deskdir);

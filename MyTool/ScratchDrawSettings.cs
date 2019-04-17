@@ -367,7 +367,7 @@ namespace MyTool
 
             for (int i = 0 ;i < Chance.Count; i++)
             {
-                strvalues = strvalues + "\t\t\t[" + (i + 1) + "]=" + Chance[i] + ",\r\n";
+                strvalues = strvalues + "\t\t\t[" + (i + 1) + "]={nChance=" + Chance[i] + ",},\r\n";
             }
 
             str = str + strvalues + "\t\t},\r\n";

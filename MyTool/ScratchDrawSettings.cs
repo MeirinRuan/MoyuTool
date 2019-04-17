@@ -17,6 +17,8 @@ namespace MyTool
         public ScratchDrawBaseData BaseData;
         public ScratchDrawOption OptionData;
         public ScratchDrawAwardList AwardList;
+        public ScratchDrawResetItemRandom RandomList;
+        public ScratchDrawBroadCastMsg BroadCast;
 
         public string GetStr()
         {
@@ -24,6 +26,8 @@ namespace MyTool
                 BaseData.GetBaseDataStr() +
                 OptionData.GetOptionStr() +
                 AwardList.GetAwardListStr() +
+                RandomList.GetResetItemRandomStr() +
+                BroadCast.GetBroadCastMsg() +
                 "\r\n}";
             return str;
         }
@@ -320,7 +324,83 @@ namespace MyTool
             return str;
         }
 
-}
+    }
+
+    /// <summary>
+    /// 刮奖概率
+    /// </summary>
+    public class ScratchDrawResetItemRandom
+    {
+        public List<ScratchDrawResetItemValueRandom> ScratchDrawResetItemValueRandom = new List<ScratchDrawResetItemValueRandom>();
+
+        public List<string> RandomListItemName = new List<string> { "刮中奖励1", "刮中奖励2", "刮中奖励3" };
+
+
+        public string GetResetItemRandomStr()
+        {
+            string str = "\ttScratchList={\r\n";
+            string strvalues = "";
+
+            for (int i = 0; i < ScratchDrawResetItemValueRandom.Count; i++)
+            {
+                strvalues = strvalues +
+                "\t\t" + "[" + (i + 1) + "]" + "=" +
+                ScratchDrawResetItemValueRandom[i].GetRandomList();
+            }
+
+            str = str + strvalues + "\t},\r\n";
+            return str;
+        }
+    }
+
+    /// <summary>
+    /// 刮奖概率数据
+    /// </summary>
+    public class ScratchDrawResetItemValueRandom
+    {
+        public List<int> Chance = new List<int>();
+
+        public string GetRandomList()
+        {
+            string str = "{\r\n";
+            string strvalues = "";
+
+            for (int i = 0 ;i < Chance.Count; i++)
+            {
+                strvalues = strvalues + "\t\t\t[" + (i + 1) + "]=" + Chance[i] + ",\r\n";
+            }
+
+            str = str + strvalues + "\t\t},\r\n";
+
+            return str;
+
+
+        }
+    }
+
+    /// <summary>
+    /// 广播内容
+    /// </summary>
+    public class ScratchDrawBroadCastMsg
+    {
+        public List<string> BroadCastMsg = new List<string>();
+        public string DefalutMsg = "%s获得了%s";
+
+        public string GetBroadCastMsg()
+        {
+            string str = "\ttTips={\r\n";
+            string strvalues = "";
+
+            for (int i = 0; i < BroadCastMsg.Count; i++)
+            {
+                strvalues = strvalues + BroadCastMsg[i];
+            }
+
+            str = str + strvalues + "\t},\r\n";
+
+            return str;
+        }
+    }
 
 
 }

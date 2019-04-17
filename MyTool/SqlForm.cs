@@ -207,10 +207,9 @@ namespace MyTool
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    MessageBox.Show(ex.ToString());
-                    throw ex;
+                    throw;
                 }
 
                 //不同字段插入目标表的默认值

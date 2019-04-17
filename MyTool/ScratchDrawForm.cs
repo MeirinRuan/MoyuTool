@@ -158,6 +158,8 @@ namespace MyTool
 
             //AwardList
             ScratchDrawAwardList AwardList = new ScratchDrawAwardList();
+            //广播内容
+            ScratchDrawBroadCastMsg BroadCast = new ScratchDrawBroadCastMsg();
             
             //奖励表所在位置
             //int[] AwardListPos = eo.GetRowAndColumn(eo.sheet, "超高价值道具");
@@ -194,14 +196,40 @@ namespace MyTool
                     AwardListItem.AwardListItemValue.Add(AwardListItemValue);
                 }
                 AwardList.AwardListItem.Add(AwardListItem);
+
+                string BroadCastMsg = eo.sheet.GetRow(pos[0] + 1).GetCell(pos[1] + 8).ToString();
+                if (string.IsNullOrWhiteSpace(BroadCastMsg))
+                {
+                    BroadCastMsg = BroadCast.DefalutMsg;
+                }
+                BroadCast.BroadCastMsg.Add("\t\t[" + (i + 1) + "]={\r\n\t\t\tsAward=\"" + BroadCastMsg + "\",\r\n\t\t},\r\n");
+                
+
             }
             //int[] AwardListItemPos = eo.GetMerGedRegionRange(eo.sheet, "超高价值道具");
 
 
+            //tScratchList
+            ScratchDrawResetItemRandom RandomList = new ScratchDrawResetItemRandom();
+            for (int i = 0; i < RandomList.RandomListItemName.Count; i++)
+            {
+                ScratchDrawResetItemValueRandom RandomListValues = new ScratchDrawResetItemValueRandom();
+                int[] pos = eo.GetRowAndColumn(eo.sheet, RandomList.RandomListItemName[i]);
+                int randomrow = pos[0] + 2;
+                int randomcolumn = pos[1] + 1;
+                for (int j = 0; j < AwardList.AwardListItemName.Count; j++)
+                {
+                    int Chance = Convert.ToInt32(Convert.ToDouble(eo.sheet.GetRow(randomrow + j).GetCell(randomcolumn).NumericCellValue) * 100000);
+                    RandomListValues.Chance.Add(Chance);
+                }
+                RandomList.ScratchDrawResetItemValueRandom.Add(RandomListValues);
+            }
 
             scratchDraw.BaseData = baseData;
             scratchDraw.OptionData = Op;
             scratchDraw.AwardList = AwardList;
+            scratchDraw.RandomList = RandomList;
+            scratchDraw.BroadCast = BroadCast;
 
            // Console.WriteLine(scratchDraw.GetStr());
            //桌面路径

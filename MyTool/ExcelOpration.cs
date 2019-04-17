@@ -625,11 +625,11 @@ namespace MyTool
 
             for (int i = 0; i < RowRange; i++)
             {
-                int ColumnRange = sheet.GetRow(i).LastCellNum;
-                for (int j = 0; j < ColumnRange; j++)
+                IRow cells = sheet.GetRow(i);
+                if (cells != null)
                 {
-                    IRow cells = sheet.GetRow(i);
-                    if (cells != null)
+                    int ColumnRange = sheet.GetRow(i).LastCellNum;
+                    for (int j = 0; j < ColumnRange; j++)
                     {
                         if (cells.GetCell(j) != null && cells.GetCell(j).ToString() == str)
                         {
@@ -637,6 +637,7 @@ namespace MyTool
                         }
                     }
                 }
+                    
             }
             return new int[2] {0, 0};
         }
@@ -649,8 +650,6 @@ namespace MyTool
         /// <returns></returns>
         public int[] GetMerGedRegionRange(ISheet sheet, string cellname)
         {
-            int[] vs = {0,0,0,0};
-
             for (int i = 0; i < sheet.NumMergedRegions; i++)
             {
                 var cellrange = sheet.GetMergedRegion(i);
@@ -661,8 +660,7 @@ namespace MyTool
                 //Console.WriteLine(cellrange.FirstColumn + " " + cellrange.FirstRow + " " + cellrange.LastColumn + " " + cellrange.LastRow);
             }
 
-
-            return vs; 
+            return new int[] { 0, 0, 0, 0 }; 
         }
 
         /// <summary>

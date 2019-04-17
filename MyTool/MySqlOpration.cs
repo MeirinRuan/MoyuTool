@@ -57,9 +57,9 @@ namespace MyTool
                 command.Fill(ds);
                 return ds;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
             finally
             {
@@ -85,9 +85,9 @@ namespace MyTool
 
                 return str;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
             finally
             {
@@ -117,9 +117,9 @@ namespace MyTool
 
                 return str;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
             finally
             {

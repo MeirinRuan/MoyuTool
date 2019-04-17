@@ -13,7 +13,7 @@ namespace MyTool
          {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-             Application.Run(new ScratchDrawForm());
+             Application.Run(new Form1());
         }
     }
 }

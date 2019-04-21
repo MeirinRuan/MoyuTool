@@ -23,13 +23,17 @@ namespace MyTool
         //sql文件表数据
         List <SqlFileInfoStruct> TableInfo = new List<SqlFileInfoStruct>();
 
+        //读取本地配置目录
+        DirectoryInfo ConfigRoot = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Config");
+        Dictionary<string, List<string>> ClientConfig = new Dictionary<string, List<string>>();
+
         //连接数据库的初始化信息
         public string[] SqlInitInfo = new string[4]
         {
-            "192.168.19.38",
+            "127.0.0.1",
             "root",
             "aaa",
-            "sjmy27",
+            "sjmy",
         };
 
         MySqlOpration myso = new MySqlOpration();
@@ -56,6 +60,14 @@ namespace MyTool
 
             //设置默认选择项
             SetListBoxSelectItem(SqlInitInfo[3]);
+
+            //读取客户单配置文件数量
+            for (int i = 0; i < ConfigRoot.GetFiles().Length; i++)
+            {
+                string filename = ConfigRoot.GetFiles()[i].Name.Substring(0, ConfigRoot.GetFiles()[i].Name.IndexOf("_config"));
+                ClientConfig.Add(filename, new List<string>());
+            }
+
         }
 
 
@@ -160,6 +172,22 @@ namespace MyTool
 
                 //目标表
                 string TargetSqlTableName = SqlTableName;
+
+                //客户端配置
+                bool IsConfigFlag = false;
+                FileStream fs = null;
+                List<string> configtxt = new List<string>();
+                string clientconfig = "";
+                string[] strvalues = { };
+                if (IsConfig(i) != null)
+                {
+                    IsConfigFlag = true;
+                    fs = new FileStream(IsConfig(i), FileMode.Open, FileAccess.Read);
+                    StreamReader sr = new StreamReader(fs, Encoding.Default);
+                    clientconfig = sr.ReadLine();
+                    strvalues = clientconfig.Split('\t');
+                }
+
                 List<string> TargetSqlField = myso.MySqlCommand_GetAllField(SqlInitInfo, string.Format("select *from {0}", SqlTableName));
                 Dictionary<int, List<string>> TargetValue = new Dictionary<int, List<string>>();
                 for (int l = 0; l < SqlValue.Count; l++)
@@ -178,38 +206,58 @@ namespace MyTool
                     }
                 }
 
-                try
+                //比对字段
+                for (int j = 0; j < TargetSqlField.Count; j++)
                 {
-                    //比对字段
-                    for (int j = 0; j < TargetSqlField.Count; j++)
+                    //写写客户端配置
+                    bool IsConfigFieldFlag = false;
+                    if (IsConfigFlag)
                     {
-                        for (int k = 0; k < SqlField.Count;)
+                        foreach (var v in strvalues)
                         {
-                            if (TargetSqlField[j] == SqlField[k])
+                            if (TargetSqlField[j] == v)
                             {
-                                //插入相同字段的值
-                                for (int m = 0; m < TargetValue.Count; m++)
-                                {
-                                    TargetValue[m].Insert(j, SqlValue[m][k]);
-                                    //Console.WriteLine(TargetValue[m][j]);
-                                }
-
+                                IsConfigFieldFlag = true;
                                 break;
                             }
-                            k++;
-                            if (k == SqlField.Count)
+                        }
+                    }
+
+                    for (int k = 0; k < SqlField.Count;)
+                    {
+                        if (TargetSqlField[j] == SqlField[k])
+                        {
+                            //插入相同字段的值
+                            for (int m = 0; m < TargetValue.Count; m++)
                             {
-                                for (int m = 0; m < TargetValue.Count; m++)
+                                TargetValue[m].Insert(j, SqlValue[m][k]);
+                                if (IsConfigFieldFlag)
                                 {
-                                    TargetValue[m].Insert(j, "");
+                                    configtxt.Add(SqlValue[m][k]);
+                                }
+                                //Console.WriteLine(TargetValue[m][j]);
+                            }
+
+                            break;
+                        }
+                        k++;
+                        if (k == SqlField.Count)
+                        {
+                            for (int m = 0; m < TargetValue.Count; m++)
+                            {
+                                TargetValue[m].Insert(j, "");
+                                if (IsConfigFieldFlag)
+                                {
+                                    configtxt.Add("");
                                 }
                             }
                         }
                     }
                 }
-                catch (Exception)
+
+                if (IsConfigFlag)
                 {
-                    throw;
+                    ClientConfig.Add(SqlTableName, configtxt);
                 }
 
                 //不同字段插入目标表的默认值
@@ -273,6 +321,12 @@ namespace MyTool
                     );
 
             }
+
+            foreach (var v in ClientConfig)
+            {
+                Console.WriteLine(v.Key);
+            }
+
             //写入文件
             OutPutSqlFile(InsertText);
             FileText_textBox.Text += "\r\n\r\n-------------已导出至桌面--------------";
@@ -318,6 +372,32 @@ namespace MyTool
             System.Diagnostics.Process.Start(Deskdir);
         }
 
+        private void button_client_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 是否存在客户端配置信息
+        /// </summary>
+        /// <param name="index">表索引</param>
+        /// <returns></returns>
+        public string IsConfig(int index)
+        {
+            foreach (var file in ConfigRoot.GetFiles())
+            {
+                string filename = file.Name.Substring(0, file.Name.IndexOf("_config"));
+                //获取sql文件中的sql表
+                if (TableInfo[index].TableName.Contains(filename))
+                {
+                    //根据服务端配置写客户端配置
+                    return file.FullName;
+                    //Console.WriteLine(filename);
+                }
+            }
+
+            return null;
+        }
 
     }
 }

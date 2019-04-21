@@ -1,0 +1,10 @@
+
+*.ide-shm
+*.cache
+*.ide-shm
+*.cache
+*.cache
+MyTool/obj/Debug/MyTool.csproj.CoreCompileInputs.cache
+MyTool/obj/Debug/MyTool.csproj.ResolveComReference.cache
+MyTool/.vs/MyTool/v15/.suo
+MyTool/.vs/MyTool/v15/Server/sqlite3/storage.ide-shm

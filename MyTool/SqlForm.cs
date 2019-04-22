@@ -33,10 +33,10 @@ namespace MyTool
         //连接数据库的初始化信息
         public string[] SqlInitInfo = new string[4]
         {
-            "127.0.0.1",
+            "192.168.19.38",
             "root",
             "aaa",
-            "sjmy",
+            "sjmy27",
         };
 
         MySqlOpration myso = new MySqlOpration();

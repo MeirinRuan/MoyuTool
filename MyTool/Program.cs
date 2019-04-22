@@ -13,7 +13,7 @@ namespace MyTool
          {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-             Application.Run(new SqlForm());
+             Application.Run(new Form1());
         }
     }
 }

@@ -89,6 +89,7 @@
     <Compile Include="MyFilesOpration.cs" />
     <Compile Include="MyLuaOpration.cs" />
     <Compile Include="MyRegularExpression.cs" />
+    <Compile Include="MySqlClientClass.cs" />
     <Compile Include="MySqlOpration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,7 +111,6 @@
     <EmbeddedResource Include="SqlForm.resx">
       <DependentUpon>SqlForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -161,9 +161,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

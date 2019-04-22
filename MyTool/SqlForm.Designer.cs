@@ -81,7 +81,7 @@
             // 
             // button_client
             // 
-            this.button_client.Location = new System.Drawing.Point(157, 290);
+            this.button_client.Location = new System.Drawing.Point(156, 290);
             this.button_client.Name = "button_client";
             this.button_client.Size = new System.Drawing.Size(151, 121);
             this.button_client.TabIndex = 6;

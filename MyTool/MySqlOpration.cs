@@ -171,7 +171,7 @@ namespace MyTool
 
             if (match_tablename.Success)
             {
-                sqlFileInfoStruct.TableName = match_tablename.Value;
+                sqlFileInfoStruct.TableName = match_tablename.Value.Replace(" ","");
             }
             //表字段
             Match match_field = regex_field.Match(Text);
@@ -214,8 +214,6 @@ namespace MyTool
 
         //表字段值集合
         public Dictionary<int,List<string>> Value = new Dictionary<int, List<string>>();
-
-
 
     }
 }

@@ -1,1 +1,0 @@
-id	lookface	name	szEffect	szNpcNote	szNpcAniTitle	nZoomPercent	nChangeDir	nTalkMode	size_front	size_back	size_left	size_right	nBeAttackType	yNameOff	nStandByAction

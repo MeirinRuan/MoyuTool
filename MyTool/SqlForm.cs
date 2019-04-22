@@ -23,6 +23,13 @@ namespace MyTool
         //sql文件表数据
         List <SqlFileInfoStruct> TableInfo = new List<SqlFileInfoStruct>();
 
+        //读取本地配置目录
+        DirectoryInfo ConfigRoot = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Config");
+        Dictionary<string, List<List<string>>> ClientConfig = new Dictionary<string, List<List<string>>>();
+        ClinetConfig cc = new ClinetConfig();
+
+
+
         //连接数据库的初始化信息
         public string[] SqlInitInfo = new string[4]
         {
@@ -56,6 +63,7 @@ namespace MyTool
 
             //设置默认选择项
             SetListBoxSelectItem(SqlInitInfo[3]);
+
         }
 
 
@@ -160,6 +168,7 @@ namespace MyTool
 
                 //目标表
                 string TargetSqlTableName = SqlTableName;
+
                 List<string> TargetSqlField = myso.MySqlCommand_GetAllField(SqlInitInfo, string.Format("select *from {0}", SqlTableName));
                 Dictionary<int, List<string>> TargetValue = new Dictionary<int, List<string>>();
                 for (int l = 0; l < SqlValue.Count; l++)
@@ -178,39 +187,34 @@ namespace MyTool
                     }
                 }
 
-                try
+                //比对字段
+                for (int j = 0; j < TargetSqlField.Count; j++)
                 {
-                    //比对字段
-                    for (int j = 0; j < TargetSqlField.Count; j++)
+                    for (int k = 0; k < SqlField.Count;)
                     {
-                        for (int k = 0; k < SqlField.Count;)
+                        if (TargetSqlField[j] == SqlField[k])
                         {
-                            if (TargetSqlField[j] == SqlField[k])
+                            //插入相同字段的值
+                            for (int m = 0; m < TargetValue.Count; m++)
                             {
-                                //插入相同字段的值
-                                for (int m = 0; m < TargetValue.Count; m++)
-                                {
-                                    TargetValue[m].Insert(j, SqlValue[m][k]);
-                                    //Console.WriteLine(TargetValue[m][j]);
-                                }
-
-                                break;
+                                TargetValue[m].Insert(j, SqlValue[m][k]);
+                                //Console.WriteLine(TargetValue[m][j]);
                             }
-                            k++;
-                            if (k == SqlField.Count)
+
+                            break;
+                        }
+                        k++;
+                        if (k == SqlField.Count)
+                        {
+                            for (int m = 0; m < TargetValue.Count; m++)
                             {
-                                for (int m = 0; m < TargetValue.Count; m++)
-                                {
-                                    TargetValue[m].Insert(j, "");
-                                }
+                                TargetValue[m].Insert(j, "");
                             }
                         }
                     }
                 }
-                catch (Exception)
-                {
-                    throw;
-                }
+
+                
 
                 //不同字段插入目标表的默认值
                 //List<string> TargetSqlFieldType = myso.MySqlCommand_GetAllField(SqlInitInfo,
@@ -238,6 +242,8 @@ namespace MyTool
                     }
 
                 }
+
+
 
                 //表字段字符串
                 string targetfields = string.Join(",", TargetSqlField);
@@ -273,6 +279,7 @@ namespace MyTool
                     );
 
             }
+
             //写入文件
             OutPutSqlFile(InsertText);
             FileText_textBox.Text += "\r\n\r\n-------------已导出至桌面--------------";
@@ -318,6 +325,123 @@ namespace MyTool
             System.Diagnostics.Process.Start(Deskdir);
         }
 
+        //生成客户端配置
+        private void button_client_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < TableInfo.Count; i++)
+            {
+                //bool IsConfigFlag = false;
+                FileStream fs = null;
+                List<List<string>> configs = new List<List<string>>();
+                string[] strvalues = { };
+                string root = IsConfig(i);
+                string filename = cc.GetKey(TableInfo[i].TableName);
+
+                if (root != null)
+                {
+                    //IsConfigFlag = true;
+                    fs = new FileStream(root, FileMode.Open, FileAccess.Read);
+                    StreamReader sr = new StreamReader(fs, Encoding.Default);
+                    strvalues = sr.ReadLine().Split('\t');
+
+                    foreach (var list in TableInfo[i].Value)
+                    {
+                        List<string> configvalues = new List<string>();
+                        foreach (var v in strvalues)
+                        {
+                            for (int j = 0; j < TableInfo[i].Field.Count;)
+                            {
+                                if (v == TableInfo[i].Field[j])
+                                {
+                                    string str = Regex.Replace(TableInfo[i].Value[list.Key][j], @"\W", "");
+                                    configvalues.Add(str);
+                                    break;
+                                }
+                                j++;
+                                if (j == TableInfo[i].Field.Count)
+                                {
+                                    if (v.Contains("sz"))
+                                        configvalues.Add("NULL");
+                                    else
+                                        configvalues.Add("0");
+                                    break;
+                                }
+                            }
+                            
+                        }
+                        configs.Add(configvalues);
+                        
+                    }
+                    if (!string.IsNullOrWhiteSpace(filename))
+                    {
+                        if (!ClientConfig.ContainsKey(filename))
+                        {
+                            ClientConfig[filename] = configs;
+                        }
+                        else
+                        {
+                            ClientConfig[filename].AddRange(configs);
+                        }
+                    }
+                }
+
+            }
+
+            //输出客户端配置
+            OutputClientConfig();
+        }
+
+        /// <summary>
+        /// 是否存在客户端配置信息
+        /// </summary>
+        /// <param name="index">表索引</param>
+        /// <returns></returns>
+        public string IsConfig(int index)
+        {
+            foreach (var file in ConfigRoot.GetFiles())
+            {
+                string filename = file.Name.Substring(0, file.Name.IndexOf("_config"));
+                //获取sql文件中的sql表
+                if (cc.IsConfig(filename, TableInfo[index].TableName))
+                //if (TableInfo[index].TableName == filename)
+                {
+                    //根据服务端配置写客户端配置
+                    return file.FullName;
+                    //Console.WriteLine(filename);
+                }
+            }
+
+            return null;
+        }
+
+
+        /// <summary>
+        /// 输出客户端配置
+        /// </summary>
+        public void OutputClientConfig()
+        {
+            string Deskdir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+            //输出目录
+            DirectoryInfo directoryInfo = new DirectoryInfo(@Deskdir + "\\+ini");
+            if (!directoryInfo.Exists)
+            {
+                directoryInfo.Create();
+            }
+
+            foreach (var v in ClientConfig)
+            {
+                string str = "";
+                foreach (var list in v.Value)
+                {
+                    str = str + string.Join("\t", list) + "\r\n";
+                }
+                File.WriteAllText(@Deskdir + "\\+ini\\+" + v.Key + ".txt", str, Encoding.Default);
+            }
+
+            
+            System.Diagnostics.Process.Start(Deskdir);
+        }
 
     }
 }

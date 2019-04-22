@@ -29,6 +29,7 @@ namespace MyTool
         ClinetConfig cc = new ClinetConfig();
 
 
+
         //连接数据库的初始化信息
         public string[] SqlInitInfo = new string[4]
         {

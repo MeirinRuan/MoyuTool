@@ -18,6 +18,7 @@ namespace MyTool
             ["npc"] = new List<string>() { "cq_npc", "cq_dynanpc" },
             ["monster"] = new List<string>() { "cq_monstertype" },
 
+
         };
 
         /// <summary>

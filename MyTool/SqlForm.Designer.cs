@@ -32,7 +32,6 @@
             this.SqlDatabase_ListBox = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button_output = new System.Windows.Forms.Button();
-            this.button_client = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // FileText_textBox
@@ -79,22 +78,11 @@
             this.button_output.UseVisualStyleBackColor = true;
             this.button_output.Click += new System.EventHandler(this.button_output_Click);
             // 
-            // button_client
-            // 
-            this.button_client.Location = new System.Drawing.Point(157, 290);
-            this.button_client.Name = "button_client";
-            this.button_client.Size = new System.Drawing.Size(151, 121);
-            this.button_client.TabIndex = 6;
-            this.button_client.Text = "生成客户端配置";
-            this.button_client.UseVisualStyleBackColor = true;
-            this.button_client.Click += new System.EventHandler(this.button_client_Click);
-            // 
             // SqlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(510, 423);
-            this.Controls.Add(this.button_client);
             this.Controls.Add(this.button_output);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.SqlDatabase_ListBox);
@@ -116,6 +104,5 @@
         private System.Windows.Forms.ListBox SqlDatabase_ListBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button_output;
-        private System.Windows.Forms.Button button_client;
     }
 }

@@ -23,12 +23,15 @@ namespace MyTool
         //sql文件表数据
         List <SqlFileInfoStruct> TableInfo = new List<SqlFileInfoStruct>();
 
+<<<<<<< HEAD
         //读取本地配置目录
         DirectoryInfo ConfigRoot = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Config");
         Dictionary<string, List<List<string>>> ClientConfig = new Dictionary<string, List<List<string>>>();
         ClinetConfig cc = new ClinetConfig();
 
 
+=======
+>>>>>>> parent of 38e557e... update
         //连接数据库的初始化信息
         public string[] SqlInitInfo = new string[4]
         {
@@ -62,7 +65,10 @@ namespace MyTool
 
             //设置默认选择项
             SetListBoxSelectItem(SqlInitInfo[3]);
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 38e557e... update
         }
 
 
@@ -167,7 +173,10 @@ namespace MyTool
 
                 //目标表
                 string TargetSqlTableName = SqlTableName;
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 38e557e... update
                 List<string> TargetSqlField = myso.MySqlCommand_GetAllField(SqlInitInfo, string.Format("select *from {0}", SqlTableName));
                 Dictionary<int, List<string>> TargetValue = new Dictionary<int, List<string>>();
                 for (int l = 0; l < SqlValue.Count; l++)
@@ -186,9 +195,9 @@ namespace MyTool
                     }
                 }
 
-                //比对字段
-                for (int j = 0; j < TargetSqlField.Count; j++)
+                try
                 {
+<<<<<<< HEAD
                     for (int k = 0; k < SqlField.Count;)
                     {
                         if (TargetSqlField[j] == SqlField[k])
@@ -199,21 +208,48 @@ namespace MyTool
                                 TargetValue[m].Insert(j, SqlValue[m][k]);
                                 //Console.WriteLine(TargetValue[m][j]);
                             }
-
-                            break;
-                        }
-                        k++;
-                        if (k == SqlField.Count)
+=======
+                    //比对字段
+                    for (int j = 0; j < TargetSqlField.Count; j++)
+                    {
+                        for (int k = 0; k < SqlField.Count;)
                         {
-                            for (int m = 0; m < TargetValue.Count; m++)
+                            if (TargetSqlField[j] == SqlField[k])
                             {
+                                //插入相同字段的值
+                                for (int m = 0; m < TargetValue.Count; m++)
+                                {
+                                    TargetValue[m].Insert(j, SqlValue[m][k]);
+                                    //Console.WriteLine(TargetValue[m][j]);
+                                }
+>>>>>>> parent of 38e557e... update
+
+                                break;
+                            }
+                            k++;
+                            if (k == SqlField.Count)
+                            {
+<<<<<<< HEAD
                                 TargetValue[m].Insert(j, "");
+=======
+                                for (int m = 0; m < TargetValue.Count; m++)
+                                {
+                                    TargetValue[m].Insert(j, "");
+                                }
+>>>>>>> parent of 38e557e... update
                             }
                         }
                     }
                 }
+<<<<<<< HEAD
 
                 
+=======
+                catch (Exception)
+                {
+                    throw;
+                }
+>>>>>>> parent of 38e557e... update
 
                 //不同字段插入目标表的默认值
                 //List<string> TargetSqlFieldType = myso.MySqlCommand_GetAllField(SqlInitInfo,
@@ -278,7 +314,10 @@ namespace MyTool
                     );
 
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 38e557e... update
             //写入文件
             OutPutSqlFile(InsertText);
             FileText_textBox.Text += "\r\n\r\n-------------已导出至桌面--------------";
@@ -324,6 +363,7 @@ namespace MyTool
             System.Diagnostics.Process.Start(Deskdir);
         }
 
+<<<<<<< HEAD
         //生成客户端配置
         private void button_client_Click(object sender, EventArgs e)
         {
@@ -412,6 +452,8 @@ namespace MyTool
 
             return null;
         }
+=======
+>>>>>>> parent of 38e557e... update
 
 
         /// <summary>

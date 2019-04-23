@@ -1,5 +1,5 @@
 # MoyuTool
 
-### 源码在MyTool文件夹中。
-### 下载在Download文件夹中。
-### 开发版本在moyutool分支中。
+### 源码在MyTool中。
+### 下载在Download中。
+### 实例文档在Template中。

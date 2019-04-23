@@ -33,7 +33,7 @@ namespace MyTool
             {
                 conn.Close();
                 //错误信息
-                MessageBox.Show("连接数据库失败！");
+                MessageBox.Show("连接数据库失败！" + ex.Message);
                 return null;
                 throw;
             }
@@ -80,15 +80,12 @@ namespace MyTool
         {
             string ConnectText = GetMySqlConnectstring(Sqlinfo);
             MySqlConnection conn = new MySqlConnection(ConnectText);
-
-            string str = "";
-
             try
             {
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand("select *from " + SqlText, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
-                str = reader.GetName(Index);
+                string str = reader.GetName(Index);
 
                 return str;
             }

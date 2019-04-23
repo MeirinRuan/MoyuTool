@@ -53,10 +53,9 @@ namespace MyTool
                 //MessageBox.Show("连接数据库失败。");
                 return;
             }
-            DataSet ds = new DataSet();
             //string sText = "show databases";
             //读取数据库列表
-            ds = myso.MySqlCommand_GetDataSet(SqlInitInfo, "show databases");
+            DataSet ds = myso.MySqlCommand_GetDataSet(SqlInitInfo, "show databases");
 
             SqlDatabase_ListBox.DataSource = ds.Tables[0];
             SqlDatabase_ListBox.DisplayMember = ds.Tables[0].Columns[0].ToString();
@@ -219,8 +218,7 @@ namespace MyTool
                 //不同字段插入目标表的默认值
                 //List<string> TargetSqlFieldType = myso.MySqlCommand_GetAllField(SqlInitInfo,
                 //    string.Format("select DATA_TYPE from INFORMATION_SCHEMA.COLUMNS where table_name = '{0}'", SqlTableName));
-                DataSet ds = new DataSet();
-                ds = myso.MySqlCommand_GetDataSet(SqlInitInfo, "desc " + TargetSqlTableName);
+                DataSet ds = myso.MySqlCommand_GetDataSet(SqlInitInfo, "desc " + TargetSqlTableName);
 
 
                 for (int n = 0; n < TargetValue.Count; n++)
@@ -331,18 +329,16 @@ namespace MyTool
             for (int i = 0; i < TableInfo.Count; i++)
             {
                 //bool IsConfigFlag = false;
-                FileStream fs = null;
                 List<List<string>> configs = new List<List<string>>();
-                string[] strvalues = { };
                 string root = IsConfig(i);
                 string filename = cc.GetKey(TableInfo[i].TableName);
 
                 if (root != null)
                 {
                     //IsConfigFlag = true;
-                    fs = new FileStream(root, FileMode.Open, FileAccess.Read);
+                    FileStream fs = new FileStream(root, FileMode.Open, FileAccess.Read);
                     StreamReader sr = new StreamReader(fs, Encoding.Default);
-                    strvalues = sr.ReadLine().Split('\t');
+                    string[]  strvalues = sr.ReadLine().Split('\t');
 
                     foreach (var list in TableInfo[i].Value)
                     {

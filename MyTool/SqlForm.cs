@@ -24,28 +24,36 @@ namespace MyTool
         List <SqlFileInfoStruct> TableInfo = new List<SqlFileInfoStruct>();
 
         //读取本地配置目录
-        DirectoryInfo ConfigRoot = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Config");
-        Dictionary<string, List<List<string>>> ClientConfig = new Dictionary<string, List<List<string>>>();
-        ClinetConfig cc = new ClinetConfig();
+        readonly DirectoryInfo ConfigRoot = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Config");
+        readonly Dictionary<string, List<List<string>>> ClientConfig = new Dictionary<string, List<List<string>>>();
+        readonly ClinetConfig cc = new ClinetConfig();
 
 
 
         //连接数据库的初始化信息
         public string[] SqlInitInfo = new string[4]
         {
-            "192.168.19.38",
+            "127.0.0.1",
             "root",
             "aaa",
-            "sjmy27",
+            "sjmy",
         };
 
         MySqlOpration myso = new MySqlOpration();
 
         public SqlForm()
         {
-
-            //初始化界面
             InitializeComponent();
+        }
+
+        private void SqlForm_Load(object sender, EventArgs e)
+        {
+
+            //读取下ini配置
+            IniFiles ini = new IniFiles();
+
+            
+
 
             //连接数据库
             if (myso.MySqlConncet(SqlInitInfo) == null)
@@ -62,10 +70,7 @@ namespace MyTool
 
             //设置默认选择项
             SetListBoxSelectItem(SqlInitInfo[3]);
-
         }
-
-
 
         private void FileText_textBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -391,7 +396,7 @@ namespace MyTool
         /// 是否存在客户端配置信息
         /// </summary>
         /// <param name="index">表索引</param>
-        /// <returns></returns>
+        /// <returns>返回该配置路径</returns>
         public string IsConfig(int index)
         {
             foreach (var file in ConfigRoot.GetFiles())
@@ -401,7 +406,6 @@ namespace MyTool
                 if (cc.IsConfig(filename, TableInfo[index].TableName))
                 //if (TableInfo[index].TableName == filename)
                 {
-                    //根据服务端配置写客户端配置
                     return file.FullName;
                     //Console.WriteLine(filename);
                 }
@@ -439,5 +443,10 @@ namespace MyTool
             System.Diagnostics.Process.Start(Deskdir);
         }
 
+        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SqlConfigForm sqlConfigForm = new SqlConfigForm();
+            sqlConfigForm.ShowDialog();
+        }
     }
 }

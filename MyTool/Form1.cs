@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,12 @@ namespace MyTool
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + @"\ini"))
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\ini");
         }
 
         //sql字段补全功能界面
@@ -61,5 +68,7 @@ namespace MyTool
             InsertSqlExcel insertsqlexcelform = new InsertSqlExcel();
             insertsqlexcelform.ShowDialog();
         }
+
+
     }
 }

@@ -140,6 +140,12 @@
       <DependentUpon>ScratchDrawForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ScratchDrawSettings.cs" />
+    <Compile Include="SqlConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SqlConfigForm.Designer.cs">
+      <DependentUpon>SqlConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SqlForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,6 +194,9 @@
     </Compile>
     <EmbeddedResource Include="ScratchDrawForm.resx">
       <DependentUpon>ScratchDrawForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SqlConfigForm.resx">
+      <DependentUpon>SqlConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SqlForm.resx">
       <DependentUpon>SqlForm.cs</DependentUpon>
@@ -270,5 +279,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

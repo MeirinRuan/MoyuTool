@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.Sql_button = new System.Windows.Forms.Button();
             this.LuaShop_button = new System.Windows.Forms.Button();
             this.TenBox_button = new System.Windows.Forms.Button();
@@ -172,10 +173,12 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupbox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "MyTool";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupbox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);

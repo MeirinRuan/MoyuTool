@@ -43,7 +43,7 @@ namespace MyTool
                 string FileNameExtension = Path.GetExtension(openFileDialog1.FileName);
                 string FileName = Path.GetFileName(openFileDialog1.FileName);
 
-                GamePath = mfo.GetGamePath(openFileDialog1.FileName);
+                GamePath = mfo.GetGamePathByScript(openFileDialog1.FileName);
 
                 //判断是否是50046_data
                 if (FileNameExtension == ".lua" && FileName == "50046_data.lua")

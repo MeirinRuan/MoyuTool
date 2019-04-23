@@ -17,7 +17,7 @@ namespace MyTool
         }
 
         //连接数据库
-        public bool MySqlConncet(string[] Sqlinfo)
+        public MySqlConnection MySqlConncet(string[] Sqlinfo)
         {
             string ConnectText = GetMySqlConnectstring(Sqlinfo);
             MySqlConnection conn = new MySqlConnection(ConnectText);
@@ -27,31 +27,38 @@ namespace MyTool
                 //{
                 conn.Open();
                 //}
-                return true;
+                return conn;
             }
             catch (Exception ex)
             {
                 conn.Close();
                 //错误信息
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("连接数据库失败！");
+                return null;
                 throw;
             }
-            finally
-            {
-                //关闭连接
-                conn.Close();
-            }
+            //finally
+            //{
+            //    //关闭连接
+            //    conn.Close();
+            //}
         }
 
         //执行语句 用于返回dataset
         public DataSet MySqlCommand_GetDataSet(string[] Sqlinfo,string sText)
         {
-            string ConnectText = GetMySqlConnectstring(Sqlinfo);
-            MySqlConnection conn = new MySqlConnection(ConnectText);
+            //string ConnectText = GetMySqlConnectstring(Sqlinfo);
+            //MySqlConnection conn = new MySqlConnection(ConnectText);
+            MySqlConnection conn = MySqlConncet(Sqlinfo);
 
             try
             {
-                conn.Open();
+                //conn.Open();          
+                if (MySqlConncet(Sqlinfo) == null)
+                {
+                    //MessageBox.Show("数据库连接失败");
+                    return null;
+                }
                 DataSet ds = new DataSet();
                 MySqlDataAdapter command = new MySqlDataAdapter(sText, conn);
                 command.Fill(ds);

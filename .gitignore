@@ -7,6 +7,8 @@
 *.userosscache
 *.sln.docstates
 !/bin/Debug/MySql.Data.dll
+!/bin/Debug/lua51.dll
+!/bin/Debug/LuaInterface.dll
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

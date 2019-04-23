@@ -48,9 +48,9 @@ namespace MyTool
             InitializeComponent();
 
             //连接数据库
-            if (!myso.MySqlConncet(SqlInitInfo))
+            if (myso.MySqlConncet(SqlInitInfo) == null)
             {
-                MessageBox.Show("连接数据库失败。");
+                //MessageBox.Show("连接数据库失败。");
                 return;
             }
             DataSet ds = new DataSet();
@@ -108,9 +108,9 @@ namespace MyTool
             TargetDatabase = SqlDatabase_ListBox.GetItemText(SqlDatabase_ListBox.SelectedItem);
             SqlInitInfo[3] = TargetDatabase;
             //切换数据库连接
-            if (!myso.MySqlConncet(SqlInitInfo))
+            if (myso.MySqlConncet(SqlInitInfo) == null)
             {
-                MessageBox.Show("连接数据库失败。");
+                //MessageBox.Show("连接数据库失败。");
                 return;
             }
 

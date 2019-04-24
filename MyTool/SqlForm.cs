@@ -31,12 +31,13 @@ namespace MyTool
 
 
         //连接数据库的初始化信息
-        public string[] SqlInitInfo = new string[4]
+        public List<string> SqlInitInfo = new List<string>
         {
             "127.0.0.1",
             "root",
             "aaa",
             "sjmy",
+            "3306",
         };
 
         MySqlOpration myso = new MySqlOpration();
@@ -443,10 +444,5 @@ namespace MyTool
             System.Diagnostics.Process.Start(Deskdir);
         }
 
-        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            SqlConfigForm sqlConfigForm = new SqlConfigForm();
-            sqlConfigForm.ShowDialog();
-        }
     }
 }

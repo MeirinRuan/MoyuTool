@@ -29,46 +29,50 @@ namespace MyTool
         private void Sql_button_Click(object sender, EventArgs e)
         {
             SqlForm sqlform = new SqlForm();
-            sqlform.ShowDialog();
+            sqlform.Show();
         }
 
         //筹码币商店功能界面
         private void LuaShop_button_Click(object sender, EventArgs e)
         {
             LuaShopForm luashopform = new LuaShopForm();
-            luashopform.ShowDialog();
+            luashopform.Show();
         }
 
         private void TenBox_button_Click(object sender, EventArgs e)
         {
             TenRollForm tenrollform = new TenRollForm();
-            tenrollform.ShowDialog();
+            tenrollform.Show();
         }
 
         private void ScratchDraw_button_Click(object sender, EventArgs e)
         {
             ScratchDrawForm scratchDrawForm = new ScratchDrawForm();
-            scratchDrawForm.ShowDialog();
+            scratchDrawForm.Show();
         }
 
         private void Activity_button_Click(object sender, EventArgs e)
         {
             ActivityForm activityform = new ActivityForm();
-            activityform.ShowDialog();
+            activityform.Show();
         }
 
         private void update_button_Click(object sender, EventArgs e)
         {
             UpdateSqlExcel updatesqlexcelform = new UpdateSqlExcel();
-            updatesqlexcelform.ShowDialog();
+            updatesqlexcelform.Show();
         }
 
         private void insert_button_Click(object sender, EventArgs e)
         {
             InsertSqlExcel insertsqlexcelform = new InsertSqlExcel();
-            insertsqlexcelform.ShowDialog();
+            insertsqlexcelform.Show();
         }
 
-
+        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SqlConfigForm sqlConfigForm = new SqlConfigForm();
+            sqlConfigForm.ShowDialog();
+        }
     }
 }

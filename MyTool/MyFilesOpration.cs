@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -59,6 +60,10 @@ namespace MyTool
         private static extern int GetPrivateProfileString(string section, string key,
             string def, StringBuilder retVal, int size, string filePath);
 
+        [DllImport("kernel32", EntryPoint = "GetPrivateProfileString")]
+        private static extern uint GetPrivateProfileStringA(string section, string key,
+            string def, byte[] retVal, int size, string filePath);
+
         public IniFiles(string INIPath)
         {
             
@@ -80,6 +85,63 @@ namespace MyTool
             return temp.ToString();
         }
 
+        /// <summary>
+        /// 读取全部section
+        /// </summary>
+        /// <param name="iniFilename"></param>
+        /// <returns></returns>
+        public List<string> ReadSections()
+        {
+            List<string> result = new List<string>();
+            byte[] buf = new byte[65536];
+            uint len = GetPrivateProfileStringA(null, null, null, buf, buf.Length, inipath);
+            int j = 0;
+            for (int i = 0; i < len; i++)
+                if (buf[i] == 0)
+                {
+                    result.Add(Encoding.Default.GetString(buf, j, i - j));
+                    j = i + 1;
+                }
+            return result;
+        }
+
+        /// <summary>
+        /// 读取section下全部key
+        /// </summary>
+        /// <param name="SectionName"></param>
+        /// <returns></returns>
+        public List<string> ReadKeys(string Section)
+        {
+            List<string> result = new List<string>();
+            Byte[] buf = new Byte[65536];
+            uint len = GetPrivateProfileStringA(Section, null, null, buf, buf.Length, inipath);
+            int j = 0;
+            for (int i = 0; i < len; i++)
+                if (buf[i] == 0)
+                {
+                    result.Add(Encoding.Default.GetString(buf, j, i - j));
+                    j = i + 1;
+                }
+            return result;
+        }
+
+        /// <summary>
+        /// 读取全部value
+        /// </summary>
+        /// <param name="Section"></param>
+        /// <returns></returns>
+        public List<string> ReadValues(string Section)
+        {
+            List<string> result = new List<string>();
+            List<string> keys = ReadKeys(Section);
+
+            for (int i = 0; i < keys.Count; i++)
+            {
+                result.Add(IniReadValue(Section, keys[i]));
+            }
+
+            return result;
+        }
 
         /// <summary> 
         /// 写入INI文件 
@@ -90,6 +152,23 @@ namespace MyTool
         public void IniWriteValue(string Section, string Key, string Value)
         {
             WritePrivateProfileString(Section, Key, Value, inipath);
+        }
+
+        /// <summary>
+        /// 根据名称删除
+        /// </summary>
+        /// <param name="section"></param>
+        public void DeleteSection(string section)
+        {
+            WritePrivateProfileString(section, null, null, inipath);
+        }
+
+        /// <summary>
+        /// 删除全部
+        /// </summary>
+        public void DeleteAllSection()
+        {
+            WritePrivateProfileString(null, null, null, inipath);
         }
 
 

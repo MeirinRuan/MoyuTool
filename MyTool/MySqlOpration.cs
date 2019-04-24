@@ -10,14 +10,14 @@ namespace MyTool
     class MySqlOpration
     {
         //连接数据库字符串
-        public string GetMySqlConnectstring(string[] Sqlinfo)
+        public string GetMySqlConnectstring(List<string> Sqlinfo)
         {
-            string ConnectText = string.Format("Server={0};Uid={1};Pwd={2};Database={3};Port=3306;",Sqlinfo[0], Sqlinfo[1], Sqlinfo[2], Sqlinfo[3]);
+            string ConnectText = string.Format("Server={0};Uid={1};Pwd={2};Database={3};Port={4};",Sqlinfo[0], Sqlinfo[1], Sqlinfo[2], Sqlinfo[3], Sqlinfo[4]);
             return ConnectText;
         }
 
         //连接数据库
-        public MySqlConnection MySqlConncet(string[] Sqlinfo)
+        public MySqlConnection MySqlConncet(List<string> Sqlinfo)
         {
             string ConnectText = GetMySqlConnectstring(Sqlinfo);
             MySqlConnection conn = new MySqlConnection(ConnectText);
@@ -45,7 +45,7 @@ namespace MyTool
         }
 
         //执行语句 用于返回dataset
-        public DataSet MySqlCommand_GetDataSet(string[] Sqlinfo,string sText)
+        public DataSet MySqlCommand_GetDataSet(List<string> Sqlinfo,string sText)
         {
             //string ConnectText = GetMySqlConnectstring(Sqlinfo);
             //MySqlConnection conn = new MySqlConnection(ConnectText);
@@ -76,7 +76,7 @@ namespace MyTool
         }
 
         //执行语句 用于返回单个表第几个字段信息的查询结果
-        public string MySqlCommand_GetNameIndex(string[] Sqlinfo, string SqlText, int Index)
+        public string MySqlCommand_GetNameIndex(List<string> Sqlinfo, string SqlText, int Index)
         {
             string ConnectText = GetMySqlConnectstring(Sqlinfo);
             MySqlConnection conn = new MySqlConnection(ConnectText);
@@ -101,7 +101,7 @@ namespace MyTool
         }
 
         //执行语句 用于返回单个表全部字段信息的查询结果
-        public List<string> MySqlCommand_GetAllField(string[] Sqlinfo, string SqlText)
+        public List<string> MySqlCommand_GetAllField(List<string> Sqlinfo, string SqlText)
         {
             string ConnectText = GetMySqlConnectstring(Sqlinfo);
             MySqlConnection conn = new MySqlConnection(ConnectText);

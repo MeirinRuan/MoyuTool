@@ -58,7 +58,7 @@
             this.Sql_button.Name = "Sql_button";
             this.Sql_button.Size = new System.Drawing.Size(86, 72);
             this.Sql_button.TabIndex = 1;
-            this.Sql_button.Text = "SQL字段检测补全";
+            this.Sql_button.Text = "SQL平移工具";
             this.Sql_button.UseVisualStyleBackColor = true;
             this.Sql_button.Click += new System.EventHandler(this.Sql_button_Click);
             // 
@@ -188,7 +188,7 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem1.Text = "数据库配置";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 

@@ -1,1 +1,0 @@
-id	name	nNameOff	nZoomPercent	life	level	nWhiteBlack	nBattleLev	nSort	szDisappearEffect	szDisappearSound	extra_exp	bIgnoreBattleLev	attack_user	lookface	szAttackEffect	szEffect	szDescribe	pierce_shield_type	pierce_shield_value	critical_rate	critical_damage	tenacity	holy_damage	nExpType	run_speed	move_speed	nShowLife	nCanSelect

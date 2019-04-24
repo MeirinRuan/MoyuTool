@@ -28,6 +28,19 @@ namespace MyTool
         //sql字段补全功能界面
         private void Sql_button_Click(object sender, EventArgs e)
         {
+            //读取下ini配置
+            IniFiles ini = new IniFiles(Directory.GetCurrentDirectory() + @"\ini\mysqlconfig.ini");
+
+            List<string> SqlInitInfo = ini.GetSelectedSqlConfig();
+
+            if (SqlInitInfo == null)
+            {
+                MessageBox.Show("请先添加数据库配置！");
+                SqlConfigForm sqlConfigForm = new SqlConfigForm();
+                sqlConfigForm.Show();
+                return;
+            }
+
             SqlForm sqlform = new SqlForm();
             sqlform.Show();
         }

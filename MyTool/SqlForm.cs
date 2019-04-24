@@ -31,14 +31,7 @@ namespace MyTool
 
 
         //连接数据库的初始化信息
-        public List<string> SqlInitInfo = new List<string>
-        {
-            "127.0.0.1",
-            "root",
-            "aaa",
-            "sjmy",
-            "3306",
-        };
+        public List<string> SqlInitInfo = new List<string>();
 
         MySqlOpration myso = new MySqlOpration();
 
@@ -51,10 +44,17 @@ namespace MyTool
         {
 
             //读取下ini配置
-            IniFiles ini = new IniFiles();
+            IniFiles ini = new IniFiles(Directory.GetCurrentDirectory() + @"\ini\mysqlconfig.ini");
 
-            
+            SqlInitInfo = ini.GetSelectedSqlConfig();
 
+            if (SqlInitInfo == null)
+            {
+                MessageBox.Show("请先添加数据库配置！");
+                SqlConfigForm sqlConfigForm = new SqlConfigForm();
+                sqlConfigForm.Show();
+                return;
+            }
 
             //连接数据库
             if (myso.MySqlConncet(SqlInitInfo) == null)

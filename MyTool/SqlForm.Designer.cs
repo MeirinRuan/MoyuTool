@@ -92,7 +92,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SqlForm";
-            this.Text = "sql字段检测";
+            this.Text = "平移工具";
             this.Load += new System.EventHandler(this.SqlForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FileText_textBox_KeyDown);
             this.ResumeLayout(false);

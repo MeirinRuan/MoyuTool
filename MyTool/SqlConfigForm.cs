@@ -117,14 +117,12 @@ namespace MyTool
             if (ini.ExistINIFile())
             {
                 if (mso.MySqlConncet(SqlInitInfo) != null)
-                {
                     MessageBox.Show("连接成功!");
-                }
                 else
-                {
-                    MessageBox.Show("请先保存配置！");
-                }
+                    return;
             }
+            else
+                MessageBox.Show("请先保存配置！");
         }
 
         //应用

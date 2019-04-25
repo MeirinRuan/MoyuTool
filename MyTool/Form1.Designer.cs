@@ -39,13 +39,13 @@
             this.insert_button = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupbox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupbox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -136,6 +136,17 @@
             this.groupbox1.TabStop = false;
             this.groupbox1.Text = "脚本相关";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(102, 20);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(86, 72);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Lua脚本Log提取";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.LuaShop_button);
@@ -193,16 +204,6 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem1.Text = "数据库配置";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(102, 20);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(86, 72);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Lua脚本Log提取";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // Form1
             // 

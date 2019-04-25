@@ -19,10 +19,11 @@ namespace MyTool
         //连接数据库
         public MySqlConnection MySqlConncet(List<string> Sqlinfo)
         {
-            string ConnectText = GetMySqlConnectstring(Sqlinfo);
-            MySqlConnection conn = new MySqlConnection(ConnectText);
+            
             try
             {
+                string ConnectText = GetMySqlConnectstring(Sqlinfo);
+                MySqlConnection conn = new MySqlConnection(ConnectText);
                 //if (!myConnection.Ping())
                 //{
                 conn.Open();
@@ -31,17 +32,11 @@ namespace MyTool
             }
             catch (Exception ex)
             {
-                conn.Close();
+                //conn.Close();
                 //错误信息
-                MessageBox.Show("连接数据库失败！" + ex.Message);
+                Console.WriteLine("连接数据库失败！\n" + ex.Message);
                 return null;
-                throw;
             }
-            //finally
-            //{
-            //    //关闭连接
-            //    conn.Close();
-            //}
         }
 
         //执行语句 用于返回dataset

@@ -55,6 +55,7 @@ namespace MyTool
                     }
                 }
                 textBox7.Text = section[0];
+                listBox1.SetSelected(0, true);
             }
             else
             {
@@ -75,54 +76,32 @@ namespace MyTool
                 return;
             }
 
-            //写入ini
-            Values = new List<string>()
+            if (IsConnectSucess())
             {
-                textBox1.Text,
-                textBox2.Text,
-                textBox3.Text,
-                textBox4.Text,
-                textBox5.Text,
-            };
-
-            for (int i = 0; i < 5; i ++)
-            {
-                ini.IniWriteValue(textBox7.Text, Keys[i], Values[i]);
+                SaveConfig();
+                MessageBox.Show("保存成功!");
             }
-
-            //同时保存到listbox中
-            if (listBox1.Items.Count > 0 && listBox1.SelectedItem.ToString() == "请添加新的配置")
-                listBox1.Items[listBox1.SelectedIndex] = textBox7.Text;
             else
-                listBox1.Items.Add(textBox7.Text);
-            ini.IniWriteValue(textBox7.Text, "Checked", "0");
-
-            MessageBox.Show("保存成功！");
+            {
+                DialogResult dr = MessageBox.Show("当前配置无法在当前环境连接数据库\n是否保存？", "提示", MessageBoxButtons.YesNo);
+                if (dr == DialogResult.Yes)
+                    SaveConfig();
+                else
+                    return;
+            }
         }
 
         //测试连接
         private void Button2_Click(object sender, EventArgs e)
         {
-            MySqlOpration mso = new MySqlOpration();
-
-            List<string> SqlInitInfo = new List<string>()
-            {
-                textBox1.Text,
-                textBox2.Text,
-                textBox3.Text,
-                textBox4.Text,
-                textBox5.Text,
-            };
-
-            if (ini.ExistINIFile())
-            {
-                if (mso.MySqlConncet(SqlInitInfo) != null)
-                    MessageBox.Show("连接成功!");
-                else
-                    return;
-            }
+            if (IsConnectSucess())
+                MessageBox.Show("连接成功!");
             else
-                MessageBox.Show("请先保存配置！");
+            {
+                MessageBox.Show("连接数据库失败！");
+                return;
+            }
+                
         }
 
         //应用
@@ -141,6 +120,13 @@ namespace MyTool
                     MessageBox.Show("不存在" + listBox1.SelectedItem.ToString() + "的配置，请先保存！");
                     return;
                 }
+                //连接成功才能应用
+                if (!IsConnectSucess())
+                { 
+                    MessageBox.Show("连接数据库失败，无法应用当前配置！");
+                    return;
+                }
+
                 //其他的要变成0
                 for (int i = 0; i < section.Count; i++)
                 {
@@ -214,6 +200,65 @@ namespace MyTool
 
         }
 
+        /// <summary>
+        /// 是否连接成功
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConnectSucess()
+        {
+            MySqlOpration mso = new MySqlOpration();
+
+            List<string> SqlInitInfo = new List<string>()
+            {
+                textBox1.Text,
+                textBox2.Text,
+                textBox3.Text,
+                textBox4.Text,
+                textBox5.Text,
+            };
+
+            if (mso.MySqlConncet(SqlInitInfo) != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void SaveConfig()
+        {
+            //写入ini
+            Values = new List<string>()
+            {
+                textBox1.Text,
+                textBox2.Text,
+                textBox3.Text,
+                textBox4.Text,
+                textBox5.Text,
+            };
+
+            for (int i = 0; i < 5; i++)
+            {
+                ini.IniWriteValue(textBox7.Text, Keys[i], Values[i]);
+            }
+
+            //同时保存到listbox中
+            if (listBox1.Items.Count > 0 && listBox1.SelectedItem.ToString() == "请添加新的配置")
+                listBox1.Items[listBox1.SelectedIndex] = textBox7.Text;
+            else if (listBox1.Items.Contains(textBox7.Text))
+            {
+
+            }
+            else
+            {
+                listBox1.Items.Add(textBox7.Text);
+            }
+
+            ini.IniWriteValue(textBox7.Text, "Checked", "0");
+            listBox1.SetSelected(listBox1.Items.Count - 1, true);
+        }
 
     }
 }

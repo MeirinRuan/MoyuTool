@@ -31,11 +31,19 @@ namespace MyTool
             //读取下ini配置
             IniFiles ini = new IniFiles(Directory.GetCurrentDirectory() + @"\ini\mysqlconfig.ini");
 
+            if (ini.ReadSections().Count == 0)
+            {
+                MessageBox.Show("请先添加数据库配置！");
+                SqlConfigForm sqlConfigForm = new SqlConfigForm();
+                sqlConfigForm.Show();
+                return;
+            }
+
             List<string> SqlInitInfo = ini.GetSelectedSqlConfig();
 
             if (SqlInitInfo == null)
             {
-                MessageBox.Show("请先添加数据库配置！");
+                MessageBox.Show("请先应用一个数据库配置！");
                 SqlConfigForm sqlConfigForm = new SqlConfigForm();
                 sqlConfigForm.Show();
                 return;

@@ -59,7 +59,7 @@ namespace MyTool
             //连接数据库
             if (myso.MySqlConncet(SqlInitInfo) == null)
             {
-                //MessageBox.Show("连接数据库失败。");
+                MessageBox.Show("连接数据库失败，请检查数据库配置是否正确。");
                 return;
             }
             //string sText = "show databases";

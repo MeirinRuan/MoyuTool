@@ -48,7 +48,7 @@ namespace MyTool
             string ExcelSetEnd = ExcelEndSet_textBox.Text;
             string SetFieldStr = SetField_textBox.Text;
             string WhereFieldStr = WhereField_textBox.Text;
-            eo.CreateUpdateSql(eo.wb.Worksheets[1], ExcelRangeStart, ExcelRangeEnd, ExcelSetStart, ExcelSetEnd, UpdateStr, SetFieldStr, WhereFieldStr);
+            eo.CreateUpdateSql(ExcelRangeStart, ExcelRangeEnd, ExcelSetStart, ExcelSetEnd, UpdateStr, SetFieldStr, WhereFieldStr);
         }
     }
 }

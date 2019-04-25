@@ -73,7 +73,8 @@ namespace MyTool
         {
             for (int i = 0; i < wb.Worksheets.Count;)
             {
-                ws = wb.Worksheets[i + 1];
+                
+                ws = (Worksheet)wb.Worksheets[i + 1];
                 string sSheetName = ws.Name;
                 if (sSheetName == SheetName)
                 {
@@ -98,9 +99,9 @@ namespace MyTool
             //遍历第一行表头的数据判断是否有该内容的表头
             int nColumns = 0;
             int i = 1;
-            while (ws.Cells[1, i].Text.ToString() != "")
+            while (ws.Cells[1, i].ToString() != "")
             {
-                if (ws.Cells[1, i].Text.ToString() == ColumnName)
+                if (ws.Cells[1, i].ToString() == ColumnName)
                 {
                     nColumns = i;
                     break;
@@ -116,9 +117,9 @@ namespace MyTool
 
             //根据该内容的单元格所在列返回该列表格内容
             int j = 2;
-            while (ws.Cells[j, nColumns].Text.ToString() != "")
+            while (ws.Cells[j, nColumns].ToString() != "")
             {
-                sColumnsValues.Add(ws.Cells[j, nColumns].Text.ToString());
+                sColumnsValues.Add(ws.Cells[j, nColumns].ToString());
                 j++;
             }
             if (j == 2)
@@ -134,7 +135,7 @@ namespace MyTool
         public int GetRowLength(Worksheet ws, int nRows)
         {
             int i = 1;
-            while (ws.Cells[nRows, i].Text.ToString() != "")
+            while (ws.Cells[nRows, i].ToString() != "")
             {
                 i ++;
             }
@@ -159,7 +160,7 @@ namespace MyTool
                 //行的第一个内容不为空
                 for (int index = 1; index < Length; index++)
                 {
-                    if (ws.Cells[nRows, index].Text == "")
+                    if (ws.Cells[nRows, index].ToString() == "")
                     {
                         sRowValues.Add("\"\"");
                     }
@@ -168,18 +169,18 @@ namespace MyTool
                         if (IsNumber)
                         {
                             MyRegularExpression mre = new MyRegularExpression();
-                            if (mre.IsNumber(ws.Cells[nRows, index].Text))
+                            if (mre.IsNumber(ws.Cells[nRows, index].ToString()))
                             {
-                                sRowValues.Add(ws.Cells[nRows, index].Text.ToString());
+                                sRowValues.Add(ws.Cells[nRows, index].ToString());
                             }
                             else
                             {
-                                sRowValues.Add("\"" + ws.Cells[nRows, index].Text.ToString() + "\"");
+                                sRowValues.Add("\"" + ws.Cells[nRows, index].ToString() + "\"");
                             }
                         }
                         else
                         {
-                            sRowValues.Add(ws.Cells[nRows, index].Text.ToString());
+                            sRowValues.Add(ws.Cells[nRows, index].ToString());
                         }
                     }
                     i++;
@@ -209,13 +210,13 @@ namespace MyTool
                 //行的第一个内容不为空
                 for (int index = 1; index < Length; index++)
                 {
-                    if (ws.Cells[nRows, index].Text == "")
+                    if (ws.Cells[nRows, index].ToString() == "")
                     {
                         sRowValues.Add("\"\"");
                     }
                     else
                     {
-                        sRowValues.Add(ws.Cells[nRows, index].Text.ToString());
+                        sRowValues.Add(ws.Cells[nRows, index].ToString());
                     }
                     i++;
                 }
@@ -239,15 +240,15 @@ namespace MyTool
         {
             List<String> sRowValues = new List<String>();
             int i = 1;
-            while (ws.Cells[nRows, i].Text.ToString() != "")
+            while (ws.Cells[nRows, i].ToString() != "")
             {
-                if (ws.Cells[nRows, i].Text == "")
+                if (ws.Cells[nRows, i].ToString() == "")
                 {
                     sRowValues.Add("\"\"");
                 }
                 else
                 {
-                    sRowValues.Add(ws.Cells[nRows, i].Text.ToString());
+                    sRowValues.Add(ws.Cells[nRows, i].ToString());
                 }
                 i++;
             }
@@ -343,7 +344,7 @@ namespace MyTool
         {
             int nRows = 2;
             //行的第一个内容不为空
-            while (ws.Cells[nRows, 1].Text.ToString() != "")
+            while (ws.Cells[nRows, 1].ToString() != "")
             {
                 nRows++;
             }
@@ -402,7 +403,7 @@ namespace MyTool
         {
             int nRows = 2;
             //内容不为空
-            while (ws.Cells[nRows, 6].Text.ToString() != "")
+            while (ws.Cells[nRows, 6].ToString() != "")
             {
                 nRows++;
             }
@@ -423,10 +424,10 @@ namespace MyTool
             for (int i = 1; i <= nRows; i++)
             {
                 AwardList al = new AwardList();
-                al.ALI.ItemId = Convert.ToInt32(ws.Cells[i + 1, 6].Text.ToString());//物品id
-                al.ALI.IsBind = Convert.ToInt32(CharBindConvert(ws.Cells[i + 1, 3].Text.ToString()));//绑定
-                al.ALI.Count = Convert.ToInt32(ws.Cells[i + 1, 5].Text.ToString());//数量
-                al.ALI.Chance = Convert.ToInt32(ws.Cells[i + 1, 7].Value*10000);//概率
+                al.ALI.ItemId = Convert.ToInt32(ws.Cells[i + 1, 6].ToString());//物品id
+                al.ALI.IsBind = Convert.ToInt32(CharBindConvert(ws.Cells[i + 1, 3].ToString()));//绑定
+                al.ALI.Count = Convert.ToInt32(ws.Cells[i + 1, 5].ToString());//数量
+                al.ALI.Chance = Convert.ToInt32(ws.Cells[i + 1, 7]) * 10000;//概率
                 //播报
                 //全服产出
 
@@ -529,7 +530,7 @@ namespace MyTool
             int nRowNum = GetRowNum(ws);
 
             //获取npcid
-            string sNpcId = ws.Cells[2, 11].Text.ToString();
+            string sNpcId = ws.Cells[2, 11].ToString();
 
             string sItemsCode = "";
 
@@ -558,10 +559,10 @@ namespace MyTool
             string sItem = "";
 
             //获取掩码
-            int nTaskId = Convert.ToInt32(ws.Cells[nRow, 12].Text);
+            int nTaskId = Convert.ToInt32(ws.Cells[nRow, 12].ToString());
 
             //获取个人限购数量
-            int nTotalAmount = Convert.ToInt32(ws.Cells[nRow, 7].Text);
+            int nTotalAmount = Convert.ToInt32(ws.Cells[nRow, 7].ToString());
 
             sItem = string.Format("[{0}]={{\r\n\t\tTotalAmount={1},\r\n\t\tResetDay=1,\r\n\t\tResetAmount=true,\r\n\t\tTaskId={2},\r\n\t}},", nTaskId, nTotalAmount, nTaskId);
 
@@ -570,7 +571,7 @@ namespace MyTool
         }
 
         //生成update语句
-        public void CreateUpdateSql(Worksheet ws, string ExcelRangeStart, string ExcelRangeEnd, string ExcelSetStart, string ExcelSetEnd,string UpdateStr, string SetFieldStr, string WHereFieldStr)
+        public void CreateUpdateSql(string ExcelRangeStart, string ExcelRangeEnd, string ExcelSetStart, string ExcelSetEnd,string UpdateStr, string SetFieldStr, string WHereFieldStr)
         {
             string RangeColumnStart = ExcelRangeStart.Substring(0, 1).ToUpper();
             string SetColumnStart = ExcelSetStart.Substring(0, 1).ToUpper();
@@ -579,10 +580,12 @@ namespace MyTool
             int RangeRowEnd = Convert.ToInt32(ExcelRangeEnd.Substring(1, 2));
             string newstr = "";
 
+            ws = (Worksheet)wb.Worksheets[1];
+
             for (int i = RangeRowStart; i <= RangeRowEnd; i++)
             {
-                string Rangestr = ws.Cells[i, RangeColumnStart].Text;
-                string Setstr = ws.Cells[i, SetColumnStart].Text;
+                string Rangestr = ws.Cells[i, RangeColumnStart].ToString();
+                string Setstr = ws.Cells[i, SetColumnStart].ToString();
                 newstr += "Update " + UpdateStr + " set " + SetFieldStr + " = " + Setstr + " where " + WHereFieldStr + " = " + Rangestr + ";\r\n"; 
                 
                 //Console.WriteLine(newstr);

@@ -48,14 +48,16 @@ namespace MyTool
         //筹码币商店功能界面
         private void LuaShop_button_Click(object sender, EventArgs e)
         {
-            LuaShopForm luashopform = new LuaShopForm();
-            luashopform.Show();
+            MessageBox.Show("请用中鸣工具。");
+            //LuaShopForm luashopform = new LuaShopForm();
+            //luashopform.Show();
         }
 
         private void TenBox_button_Click(object sender, EventArgs e)
         {
-            TenRollForm tenrollform = new TenRollForm();
-            tenrollform.Show();
+            MessageBox.Show("请用中鸣工具。");
+            //TenRollForm tenrollform = new TenRollForm();
+            //tenrollform.Show();
         }
 
         private void ScratchDraw_button_Click(object sender, EventArgs e)

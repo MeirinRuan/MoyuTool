@@ -52,11 +52,11 @@
     </Reference>
     <Reference Include="Interop.Excel">
       <HintPath>.\Interop.Excel.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.Office">
       <HintPath>.\Interop.Office.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="lua51">
       <HintPath>.\lua51.dll</HintPath>

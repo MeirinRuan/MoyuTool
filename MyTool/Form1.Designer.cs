@@ -45,6 +45,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupbox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -58,7 +59,7 @@
             this.Sql_button.Name = "Sql_button";
             this.Sql_button.Size = new System.Drawing.Size(86, 72);
             this.Sql_button.TabIndex = 1;
-            this.Sql_button.Text = "SQL平移工具";
+            this.Sql_button.Text = "平移工具";
             this.Sql_button.UseVisualStyleBackColor = true;
             this.Sql_button.Click += new System.EventHandler(this.Sql_button_Click);
             // 
@@ -126,13 +127,14 @@
             // 
             // groupbox1
             // 
+            this.groupbox1.Controls.Add(this.button1);
             this.groupbox1.Controls.Add(this.Sql_button);
             this.groupbox1.Location = new System.Drawing.Point(12, 33);
             this.groupbox1.Name = "groupbox1";
             this.groupbox1.Size = new System.Drawing.Size(415, 175);
             this.groupbox1.TabIndex = 8;
             this.groupbox1.TabStop = false;
-            this.groupbox1.Text = "SQL相关";
+            this.groupbox1.Text = "脚本相关";
             // 
             // groupBox2
             // 
@@ -192,6 +194,16 @@
             this.toolStripMenuItem1.Text = "数据库配置";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(102, 20);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(86, 72);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Lua脚本Log提取";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -236,6 +248,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

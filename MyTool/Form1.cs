@@ -89,5 +89,11 @@ namespace MyTool
             SqlConfigForm sqlConfigForm = new SqlConfigForm();
             sqlConfigForm.ShowDialog();
         }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            ScriptLogForm getScriptLogForm = new ScriptLogForm();
+            getScriptLogForm.Show();
+        }
     }
 }

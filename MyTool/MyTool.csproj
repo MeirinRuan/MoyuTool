@@ -115,108 +115,108 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivityForm.cs">
+    <Compile Include="ActivityForm\ActivityForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActivityForm.Designer.cs">
+    <Compile Include="ActivityForm\ActivityForm.Designer.cs">
       <DependentUpon>ActivityForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ActivityItemDetailForm.cs">
+    <Compile Include="ActivityForm\ActivityItemDetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActivityItemDetailForm.Designer.cs">
+    <Compile Include="ActivityForm\ActivityItemDetailForm.Designer.cs">
       <DependentUpon>ActivityItemDetailForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ActivityItemForm.cs">
+    <Compile Include="ActivityForm\ActivityItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActivityItemForm.Designer.cs">
+    <Compile Include="ActivityForm\ActivityItemForm.Designer.cs">
       <DependentUpon>ActivityItemForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExcelOpration.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="MyClass\ExcelOpration.cs" />
+    <Compile Include="MainForm\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="MainForm\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ScriptLogForm.cs">
+    <Compile Include="ScriptLogForm\ScriptLogForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ScriptLogForm.Designer.cs">
+    <Compile Include="ScriptLogForm\ScriptLogForm.Designer.cs">
       <DependentUpon>ScriptLogForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InsertSqlExcel.cs">
+    <Compile Include="InsertSqlForm\InsertSqlExcel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InsertSqlExcel.Designer.cs">
+    <Compile Include="InsertSqlForm\InsertSqlExcel.Designer.cs">
       <DependentUpon>InsertSqlExcel.cs</DependentUpon>
     </Compile>
-    <Compile Include="LuaShopForm.cs">
+    <Compile Include="LuaShopForm\LuaShopForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LuaShopForm.Designer.cs">
+    <Compile Include="LuaShopForm\LuaShopForm.Designer.cs">
       <DependentUpon>LuaShopForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyCustomClass.cs" />
-    <Compile Include="MyFilesOpration.cs" />
-    <Compile Include="MyLuaOpration.cs" />
-    <Compile Include="MyRegularExpression.cs" />
-    <Compile Include="MySqlClientClass.cs" />
-    <Compile Include="MySqlOpration.cs" />
+    <Compile Include="MyClass\MyCustomClass.cs" />
+    <Compile Include="MyClass\MyFilesOpration.cs" />
+    <Compile Include="MyClass\MyLuaOpration.cs" />
+    <Compile Include="MyClass\MyRegularExpression.cs" />
+    <Compile Include="MyClass\MySqlClientClass.cs" />
+    <Compile Include="MyClass\MySqlOpration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScratchDrawForm.cs">
+    <Compile Include="ScratchDrawForm\ScratchDrawForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ScratchDrawForm.Designer.cs">
+    <Compile Include="ScratchDrawForm\ScratchDrawForm.Designer.cs">
       <DependentUpon>ScratchDrawForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ScratchDrawSettings.cs" />
-    <Compile Include="SqlConfigForm.cs">
+    <Compile Include="ScratchDrawForm\ScratchDrawSettings.cs" />
+    <Compile Include="SqlForm\SqlConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SqlConfigForm.Designer.cs">
+    <Compile Include="SqlForm\SqlConfigForm.Designer.cs">
       <DependentUpon>SqlConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SqlForm.cs">
+    <Compile Include="SqlForm\SqlForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SqlForm.Designer.cs">
+    <Compile Include="SqlForm\SqlForm.Designer.cs">
       <DependentUpon>SqlForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TenRollForm.cs">
+    <Compile Include="TenRollForm\TenRollForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TenRollForm.Designer.cs">
+    <Compile Include="TenRollForm\TenRollForm.Designer.cs">
       <DependentUpon>TenRollForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TenRollSettings.cs" />
-    <Compile Include="UpdateSqlExcel.cs">
+    <Compile Include="TenRollForm\TenRollSettings.cs" />
+    <Compile Include="UpdateSqlForm\UpdateSqlExcel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UpdateSqlExcel.Designer.cs">
+    <Compile Include="UpdateSqlForm\UpdateSqlExcel.Designer.cs">
       <DependentUpon>UpdateSqlExcel.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ActivityForm.resx">
+    <EmbeddedResource Include="ActivityForm\ActivityForm.resx">
       <DependentUpon>ActivityForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ActivityItemDetailForm.resx">
+    <EmbeddedResource Include="ActivityForm\ActivityItemDetailForm.resx">
       <DependentUpon>ActivityItemDetailForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ActivityItemForm.resx">
+    <EmbeddedResource Include="ActivityForm\ActivityItemForm.resx">
       <DependentUpon>ActivityItemForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="MainForm\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ScriptLogForm.resx">
+    <EmbeddedResource Include="ScriptLogForm\ScriptLogForm.resx">
       <DependentUpon>ScriptLogForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InsertSqlExcel.resx">
+    <EmbeddedResource Include="InsertSqlForm\InsertSqlExcel.resx">
       <DependentUpon>InsertSqlExcel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LuaShopForm.resx">
+    <EmbeddedResource Include="LuaShopForm\LuaShopForm.resx">
       <DependentUpon>LuaShopForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -228,19 +228,19 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ScratchDrawForm.resx">
+    <EmbeddedResource Include="ScratchDrawForm\ScratchDrawForm.resx">
       <DependentUpon>ScratchDrawForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SqlConfigForm.resx">
+    <EmbeddedResource Include="SqlForm\SqlConfigForm.resx">
       <DependentUpon>SqlConfigForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SqlForm.resx">
+    <EmbeddedResource Include="SqlForm\SqlForm.resx">
       <DependentUpon>SqlForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TenRollForm.resx">
+    <EmbeddedResource Include="TenRollForm\TenRollForm.resx">
       <DependentUpon>TenRollForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UpdateSqlExcel.resx">
+    <EmbeddedResource Include="UpdateSqlForm\UpdateSqlExcel.resx">
       <DependentUpon>UpdateSqlExcel.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

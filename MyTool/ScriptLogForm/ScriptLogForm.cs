@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,7 +10,7 @@ namespace MyTool
     public partial class ScriptLogForm : Form
     {
         List<string> FileName = new List<string>();
-        
+
 
         public ScriptLogForm()
         {

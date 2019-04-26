@@ -23,6 +23,8 @@ namespace MyTool
         {
             if (!Directory.Exists(Directory.GetCurrentDirectory() + @"\ini"))
                 Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\ini");
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\输出目录"))
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\输出目录");
         }
 
         //sql字段补全功能界面

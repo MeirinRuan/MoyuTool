@@ -286,7 +286,7 @@ namespace MyTool
 
             //写入文件
             OutPutSqlFile(InsertText);
-            FileText_textBox.Text += "\r\n\r\n-------------已导出至桌面--------------";
+            FileText_textBox.Text += "\r\n\r\n-------------已导出!--------------";
         }
 
         //导出文件
@@ -324,9 +324,11 @@ namespace MyTool
             }
 
             NewStr = NewFileText;
-            
-            File.WriteAllText(@Deskdir + "\\" + NewFileName + ".sql", NewStr, Encoding.Default);
-            System.Diagnostics.Process.Start(Deskdir);
+
+            string Targetroot = Directory.GetCurrentDirectory() + "\\输出目录\\" + FileName + "\\刷库sql";
+            CreateOutPutDirectoryExist(Targetroot);
+            File.WriteAllText(Targetroot + "\\" + NewFileName + ".sql", NewStr, Encoding.Default);
+            System.Diagnostics.Process.Start(Directory.GetCurrentDirectory() + "\\输出目录");
         }
 
         //生成客户端配置
@@ -424,11 +426,8 @@ namespace MyTool
             string Deskdir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
             //输出目录
-            DirectoryInfo directoryInfo = new DirectoryInfo(@Deskdir + "\\+ini");
-            if (!directoryInfo.Exists)
-            {
-                directoryInfo.Create();
-            }
+            string Targetroot = Directory.GetCurrentDirectory() + "\\输出目录\\" + FileName + "\\+ini";
+            CreateOutPutDirectoryExist(Targetroot);
 
             foreach (var v in ClientConfig)
             {
@@ -437,11 +436,18 @@ namespace MyTool
                 {
                     str = str + string.Join("\t", list) + "\r\n";
                 }
-                File.WriteAllText(@Deskdir + "\\+ini\\+" + v.Key + ".txt", str, Encoding.Default);
+                File.WriteAllText(Targetroot + "\\+" + v.Key + ".txt", str, Encoding.Default);
             }
 
             
-            System.Diagnostics.Process.Start(Deskdir);
+            System.Diagnostics.Process.Start(Directory.GetCurrentDirectory() + "\\输出目录");
+        }
+
+        public void CreateOutPutDirectoryExist(string TargetDirectory)
+        {
+            if (!Directory.Exists(TargetDirectory))
+                Directory.CreateDirectory(TargetDirectory);
+
         }
 
     }

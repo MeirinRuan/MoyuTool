@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using LuaInterface;
-using System.Text.RegularExpressions;
 using System.IO;
+using System.Text;
+using System.Windows.Forms;
 
 namespace MyTool
 {
@@ -39,7 +32,7 @@ namespace MyTool
             //成功
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                
+
                 string FileNameExtension = Path.GetExtension(openFileDialog1.FileName);
                 string FileName = Path.GetFileName(openFileDialog1.FileName);
 
@@ -67,7 +60,7 @@ namespace MyTool
 
                         //更新文本
                         TabConfig = TabConfig.Substring(strinfo.Item2, TabConfig.Length - strinfo.Item2);
-                        
+
                     }
 
                     //放入combobox中

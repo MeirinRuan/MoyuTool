@@ -9,6 +9,32 @@ namespace MyTool
 {
     class MySqlOpration
     {
+        private static List<string> SqlFieldKeywords = new List<string>()
+        {
+            "SELECT",
+            "INSERT",
+            "DELETE",
+            "UPDATE",
+            "CREATE",
+            "DROP",
+            "ALTER",
+            "GRANT",
+            "DENY",
+            "REVOKE",
+            "COMMIT",
+            "ROLLBACK",
+            "SET",
+            "DECLARE",
+            "EXPLAN",
+            "OPEN",
+            "FETCH",
+            "CLOSE",
+            "PREPARE",
+            "EXECUTE",
+            "DESCRIBE",
+            "DESC",
+        };
+
         //连接数据库字符串
         public string GetMySqlConnectstring(List<string> Sqlinfo)
         {
@@ -111,7 +137,7 @@ namespace MyTool
                 int j = reader.FieldCount;
                 for (int i = 0; i < j; i ++)
                 {
-                    str.Add(reader.GetName(i));
+                    str.Add(GetFiledKeywords(reader.GetName(i)));
                 }
 
                 return str;
@@ -195,6 +221,20 @@ namespace MyTool
                 }
                 sqlFileInfoStruct.Value.Add(i, values);
             }
+        }
+
+        //过滤sql关键字
+        public string GetFiledKeywords(string field)
+        {
+            foreach (var str in SqlFieldKeywords)
+            {
+                if (Regex.IsMatch(str, field, RegexOptions.IgnoreCase))
+                {
+                    field = "`" + field + "`";
+                }
+            }
+
+            return field;
         }
 
     }

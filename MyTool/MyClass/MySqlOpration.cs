@@ -4,6 +4,9 @@ using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MyTool
 {
@@ -197,7 +200,52 @@ namespace MyTool
             }
         }
 
+        /// <summary>
+        /// 判断field中是否有关键字，给他加``符号
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public List<string> GetFieldKeyWords(List<string> list)
+        {
+            FileStream fs = new FileStream(Directory.GetCurrentDirectory() + "\\ini\\SqlKeywords.ini", FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(fs, Encoding.Default);
+            var keywords = sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            var NewList = CreateDeepCopy(list);
+            foreach (var keyword in keywords)
+            {
+                foreach (var field in list)
+                {
+                    if (string.Equals(field, keyword, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        NewList[list.IndexOf(field)] = "`" + field + "`";
+                    }
+                }
+            }
+
+            return NewList;
+        }
+
+
+        /// <summary>
+        /// clone
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static T CreateDeepCopy<T>(T obj)
+        {
+            T t;
+            MemoryStream memoryStream = new MemoryStream();
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(memoryStream, obj);
+            memoryStream.Position = 0;
+            t = (T)formatter.Deserialize(memoryStream);
+            return t;
+        }
     }
+
+
+
 
     //sql文件的类 用于存插入表的信息
     class SqlFileInfoStruct

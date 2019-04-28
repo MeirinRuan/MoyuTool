@@ -247,11 +247,12 @@ namespace MyTool
 
                 }
 
-
+                //过滤下sql关键字
+                TargetSqlField = myso.GetFieldKeyWords(TargetSqlField);
 
                 //表字段字符串
                 string targetfields = string.Join(",", TargetSqlField);
-
+                
 
                 //表字段值字符串
                 string targetvalues = "";

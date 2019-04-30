@@ -12,7 +12,6 @@ namespace MyTool
     public partial class SqlForm : Form
     {
         //目标数据库
-        public string TargetDatabase = "";
 
         //sql文本
         string AllTexts = "";
@@ -25,7 +24,7 @@ namespace MyTool
 
         //读取本地配置目录
         readonly DirectoryInfo ConfigRoot = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Config");
-        readonly Dictionary<string, List<List<string>>> ClientConfig = new Dictionary<string, List<List<string>>>();
+        Dictionary<string, List<List<string>>> ClientConfig = new Dictionary<string, List<List<string>>>();
         readonly ClinetConfig cc = new ClinetConfig();
 
 
@@ -101,17 +100,28 @@ namespace MyTool
 
                 FileText_textBox.Text += "\r\n\r\n-------------请按导出按钮--------------";
             }
+            else if (Directory.Exists(sPath))
+            {
+                //获取目录下所有文件
+                var filenames = Directory.GetFileSystemEntries(sPath);
+
+                foreach (var str in filenames)
+                {
+                    
+                    Console.WriteLine(str);
+                }
+            }
+
             else
             {
-                MessageBox.Show("请拖入sql文件。");
+                MessageBox.Show("请拖入sql文件或文件夹。");
             }
         }
 
         private void SqlDatabase_ListBox_DoubleClick(object sender, EventArgs e)
         {
             //获取目标库名称
-            TargetDatabase = SqlDatabase_ListBox.GetItemText(SqlDatabase_ListBox.SelectedItem);
-            SqlInitInfo[3] = TargetDatabase;
+            SqlInitInfo[3] = SqlDatabase_ListBox.GetItemText(SqlDatabase_ListBox.SelectedItem);
             //切换数据库连接
             if (myso.MySqlConncet(SqlInitInfo) == null)
             {
@@ -119,7 +129,7 @@ namespace MyTool
                 return;
             }
 
-            FileText_textBox.Text += "\r\n\r\n------------已切换数据库:" + TargetDatabase + "------------------";
+            FileText_textBox.Text += "\r\n\r\n------------已切换数据库:" + SqlInitInfo[3] + "------------------";
             //string str = myso.MySqlCommand_GetNameIndex(SqlInitInfo, "cq_user", 0);
             //MessageBox.Show(str);
         }
@@ -293,19 +303,9 @@ namespace MyTool
         //导出文件
         public void OutPutSqlFile(string NewStr)
         {
-            string Deskdir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            string NewFileName = FileName;
-            string NewFileText = AllTexts;
-            if (TargetDatabase.Contains("xsj"))
-            {
-                NewFileName = Regex.Replace(NewFileName, "手机魔域", "魔域手游");
-                NewFileText = Regex.Replace(NewFileText, @"\[手机魔域\]", "[魔域手游]");
-            }
-            else
-            {
-                NewFileName = Regex.Replace(NewFileName, "魔域手游", "手机魔域");
-                NewFileText = Regex.Replace(NewFileText, @"\[魔域手游\]", "[手机魔域]");
-            }
+            string NewFileName = RepalceNewText(FileName);
+            string NewFileText = RepalceNewText(AllTexts);
+            
 
             //表内容替换
             Regex regex = new Regex(@"insert into[\s\S]+?;", RegexOptions.IgnoreCase);
@@ -326,7 +326,7 @@ namespace MyTool
 
             NewStr = NewFileText;
 
-            string Targetroot = Directory.GetCurrentDirectory() + "\\输出目录\\" + FileName + "\\刷库sql";
+            string Targetroot = Directory.GetCurrentDirectory() + "\\输出目录\\" + NewFileName + "\\刷库sql";
             CreateOutPutDirectoryExist(Targetroot);
             File.WriteAllText(Targetroot + "\\" + NewFileName + ".sql", NewStr, Encoding.Default);
             System.Diagnostics.Process.Start(Directory.GetCurrentDirectory() + "\\输出目录");
@@ -335,6 +335,9 @@ namespace MyTool
         //生成客户端配置
         private void button_client_Click(object sender, EventArgs e)
         {
+            //每次都清空下
+            ClientConfig.Clear();
+
             for (int i = 0; i < TableInfo.Count; i++)
             {
                 //bool IsConfigFlag = false;
@@ -344,10 +347,12 @@ namespace MyTool
 
                 if (root != null)
                 {
-                    //IsConfigFlag = true;
+                    //读取ini配置
                     FileStream fs = new FileStream(root, FileMode.Open, FileAccess.Read);
                     StreamReader sr = new StreamReader(fs, Encoding.Default);
-                    string[]  strvalues = sr.ReadLine().Split('\t');
+
+                    var configlist = sr.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                    string[]  strvalues = configlist[cc.GetConfigVersion(SqlInitInfo[3])].Split('\t');
 
                     foreach (var list in TableInfo[i].Value)
                     {
@@ -427,7 +432,8 @@ namespace MyTool
             string Deskdir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
             //输出目录
-            string Targetroot = Directory.GetCurrentDirectory() + "\\输出目录\\" + FileName + "\\+ini";
+            string NewFileName = RepalceNewText(FileName);
+            string Targetroot = Directory.GetCurrentDirectory() + "\\输出目录\\" + NewFileName + "\\+ini";
             CreateOutPutDirectoryExist(Targetroot);
 
             foreach (var v in ClientConfig)
@@ -439,16 +445,37 @@ namespace MyTool
                 }
                 File.WriteAllText(Targetroot + "\\+" + v.Key + ".txt", str, Encoding.Default);
             }
-
             
             System.Diagnostics.Process.Start(Directory.GetCurrentDirectory() + "\\输出目录");
         }
 
+        /// <summary>
+        /// 创建目录
+        /// </summary>
+        /// <param name="TargetDirectory"></param>
         public void CreateOutPutDirectoryExist(string TargetDirectory)
         {
             if (!Directory.Exists(TargetDirectory))
                 Directory.CreateDirectory(TargetDirectory);
             
+        }
+
+
+        /// <summary>
+        /// 根据选择的数据库替换命名
+        /// </summary>
+        /// <param name="Text"></param>
+        /// <returns></returns>
+        public string RepalceNewText(string Text)
+        {
+            if (SqlInitInfo[3].Contains("xsj"))
+            {
+                return Regex.Replace(Text, @"\[手机魔域\]", "[魔域手游]");
+            }
+            else
+            {
+                return Regex.Replace(Text, @"\[魔域手游\]", "[手机魔域]");
+            }
         }
 
     }

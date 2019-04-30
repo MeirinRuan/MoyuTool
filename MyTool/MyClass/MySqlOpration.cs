@@ -1,28 +1,35 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
-using MySql.Data.MySqlClient;
-using System.Windows.Forms;
 using System.Data;
-using System.Text.RegularExpressions;
 using System.IO;
-using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MyTool
 {
     class MySqlOpration
     {
-        //连接数据库字符串
+        /// <summary>
+        /// 连接数据库字符串
+        /// </summary>
+        /// <param name="Sqlinfo">sql连接</param>
+        /// <returns></returns>
         public string GetMySqlConnectstring(List<string> Sqlinfo)
         {
-            string ConnectText = string.Format("Server={0};Uid={1};Pwd={2};Database={3};Port={4};",Sqlinfo[0], Sqlinfo[1], Sqlinfo[2], Sqlinfo[3], Sqlinfo[4]);
+            string ConnectText = string.Format("Server={0};Uid={1};Pwd={2};Database={3};Port={4};", Sqlinfo[0], Sqlinfo[1], Sqlinfo[2], Sqlinfo[3], Sqlinfo[4]);
             return ConnectText;
         }
 
-        //连接数据库
+        /// <summary>
+        /// 连接数据库
+        /// </summary>
+        /// <param name="Sqlinfo">sql连接</param>
+        /// <returns></returns>
         public MySqlConnection MySqlConncet(List<string> Sqlinfo)
         {
-            
+
             try
             {
                 string ConnectText = GetMySqlConnectstring(Sqlinfo);
@@ -42,8 +49,13 @@ namespace MyTool
             }
         }
 
-        //执行语句 用于返回dataset
-        public DataSet MySqlCommand_GetDataSet(List<string> Sqlinfo,string sText)
+        /// <summary>
+        /// 执行语句 用于返回dataset
+        /// </summary>
+        /// <param name="Sqlinfo">sql连接</param>
+        /// <param name="sText">sql语句</param>
+        /// <returns></returns>
+        public DataSet MySqlCommand_GetDataSet(List<string> Sqlinfo, string sText)
         {
             //string ConnectText = GetMySqlConnectstring(Sqlinfo);
             //MySqlConnection conn = new MySqlConnection(ConnectText);
@@ -73,7 +85,13 @@ namespace MyTool
             }
         }
 
-        //执行语句 用于返回单个表第几个字段信息的查询结果
+        /// <summary>
+        /// 执行语句 用于返回单个表第几个字段信息的查询结果
+        /// </summary>
+        /// <param name="Sqlinfo">sql连接</param>
+        /// <param name="SqlText">tablename</param>
+        /// <param name="Index">table中第几个字段</param>
+        /// <returns></returns>
         public string MySqlCommand_GetNameIndex(List<string> Sqlinfo, string SqlText, int Index)
         {
             string ConnectText = GetMySqlConnectstring(Sqlinfo);
@@ -98,7 +116,12 @@ namespace MyTool
             }
         }
 
-        //执行语句 用于返回单个表全部字段信息的查询结果
+        /// <summary>
+        /// 执行语句 用于返回单个表全部字段信息的查询结果
+        /// </summary>
+        /// <param name="Sqlinfo">sql连接</param>
+        /// <param name="SqlText">sql语句</param>
+        /// <returns></returns>
         public List<string> MySqlCommand_GetAllField(List<string> Sqlinfo, string SqlText)
         {
             string ConnectText = GetMySqlConnectstring(Sqlinfo);
@@ -112,7 +135,7 @@ namespace MyTool
                 MySqlCommand cmd = new MySqlCommand(SqlText, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 int j = reader.FieldCount;
-                for (int i = 0; i < j; i ++)
+                for (int i = 0; i < j; i++)
                 {
                     str.Add(reader.GetName(i));
                 }
@@ -130,7 +153,11 @@ namespace MyTool
             }
         }
 
-        //读取sql文件,返回插入的表信息
+        /// <summary>
+        /// 读取sql文件,返回插入的表信息
+        /// </summary>
+        /// <param name="AllTexts">sql文本</param>
+        /// <returns></returns>
         public List<SqlFileInfoStruct> GetTableInfo(string AllTexts)
         {
             //string[] AllLines = File.ReadAllLines(sPath, Encoding.Default);
@@ -161,7 +188,11 @@ namespace MyTool
         }
 
 
-        //匹配sql字段数据
+        /// <summary>
+        /// 匹配sql字段数据
+        /// </summary>
+        /// <param name="sqlFileInfoStruct">sql文件类</param>
+        /// <param name="Text">tablename</param>
         public void GetOtherTableInfo(SqlFileInfoStruct sqlFileInfoStruct, string Text)
         {
             Regex regex_tablename = new Regex(@"(?<=insert into).*?(?=\()", RegexOptions.IgnoreCase);
@@ -189,7 +220,7 @@ namespace MyTool
             }
             //表字段值
             MatchCollection mc_value = regex_value.Matches(Text);
-            for (int i= 0; i < mc_value.Count; i++)
+            for (int i = 0; i < mc_value.Count; i++)
             {
                 List<string> values = new List<string>();
                 foreach (string str in mc_value[i].Value.Split(','))
@@ -247,7 +278,9 @@ namespace MyTool
 
 
 
-    //sql文件的类 用于存插入表的信息
+    /// <summary>
+    /// sql文件类 用于存插入表的信息
+    /// </summary>
     class SqlFileInfoStruct
     {
         //表
@@ -260,7 +293,7 @@ namespace MyTool
         public List<string> Field = new List<string>();
 
         //表字段值集合
-        public Dictionary<int,List<string>> Value = new Dictionary<int, List<string>>();
+        public Dictionary<int, List<string>> Value = new Dictionary<int, List<string>>();
 
 
 

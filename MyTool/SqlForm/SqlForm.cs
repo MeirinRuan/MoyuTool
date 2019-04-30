@@ -429,7 +429,6 @@ namespace MyTool
         /// </summary>
         public void OutputClientConfig()
         {
-            string Deskdir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
             //输出目录
             string NewFileName = RepalceNewText(FileName);

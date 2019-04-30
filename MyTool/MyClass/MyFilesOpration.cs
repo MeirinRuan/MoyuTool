@@ -20,7 +20,7 @@ namespace MyTool
         //读取control.ani的文本
         public string GetControlText(string GamePath)
         {
-            GamePath = GamePath + "\\ani\\control.ani";
+            GamePath += "\\ani\\control.ani";
             string FileText = File.ReadAllText(GamePath, Encoding.Default);
 
             return FileText;

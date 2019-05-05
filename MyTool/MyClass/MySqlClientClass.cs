@@ -87,5 +87,27 @@ namespace MyTool
 
             return "";
         }
+
+        /// <summary>
+        /// 根据客户端默认值的ini配置填入
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public string SetDefaultFieldByClientIni(string value)
+        {
+            IniFiles ini = new IniFiles(inipath);
+            if (ini.ExistINIFile())
+            {
+                var DefaultField = ini.ReadKeys("defaultfield");
+                foreach (var v in DefaultField)
+                {
+                    if (value.Contains(v))
+                        return ini.IniReadValue("defaultfield", v);
+                }
+                return "0";
+            }
+            else
+                return "0";
+        }
     }
 }

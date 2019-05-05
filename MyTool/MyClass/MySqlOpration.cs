@@ -22,6 +22,7 @@ namespace MyTool
             return ConnectText;
         }
 
+
         /// <summary>
         /// 连接数据库
         /// </summary>

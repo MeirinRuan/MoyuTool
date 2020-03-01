@@ -370,10 +370,8 @@ namespace MyTool
                                 j++;
                                 if (j == TableInfo[i].Field.Count)
                                 {
-                                    if (v.Contains("sz"))
-                                        configvalues.Add("NULL");
-                                    else
-                                        configvalues.Add("0");
+                                    //读取下ini配置下的默认值 
+                                    configvalues.Add(cc.SetDefaultFieldByClientIni(v));
                                     break;
                                 }
                             }

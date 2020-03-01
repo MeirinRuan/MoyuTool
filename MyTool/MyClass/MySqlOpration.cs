@@ -22,6 +22,7 @@ namespace MyTool
             return ConnectText;
         }
 
+
         /// <summary>
         /// 连接数据库
         /// </summary>
@@ -222,8 +223,10 @@ namespace MyTool
             MatchCollection mc_value = regex_value.Matches(Text);
             for (int i = 0; i < mc_value.Count; i++)
             {
+                //过滤下字符串，如果字符串中包含","需要处理
+                var strlist = SplitStringWithComma(mc_value[i].Value);
                 List<string> values = new List<string>();
-                foreach (string str in mc_value[i].Value.Split(','))
+                foreach (var str in strlist)
                 {
                     values.Add(str);
                 }
@@ -273,6 +276,68 @@ namespace MyTool
             t = (T)formatter.Deserialize(memoryStream);
             return t;
         }
+
+        /// <summary>
+        /// 以逗号拆分字符串
+        /// 若字段中包含逗号(备注：包含逗号的字段必须有单引号引用)则对其进行拼接处理
+        /// 最后在去除其字段的双引号
+        /// </summary>
+        /// <param name="splitStr"></param>
+        /// <returns></returns>
+        public static string[] SplitStringWithComma(string splitStr)
+        {
+            var newstr = string.Empty;
+            var sList = new List<string>();
+
+            var isSplice = false;
+            var array = splitStr.Split(new char[] { ',' });
+            foreach (var str in array)
+            {
+                if (!string.IsNullOrEmpty(str) && str.IndexOf('\'') > -1)
+                {
+                    var firstchar = str.Substring(0, 1);
+                    var lastchar = string.Empty;
+                    if (str.Length > 0)
+                    {
+                        lastchar = str.Substring(str.Length - 1, 1);
+                    }
+                    if (firstchar.Equals("\'") && !lastchar.Equals("\'"))
+                    {
+                        isSplice = true;
+                    }
+                    if (lastchar.Equals("\'"))
+                    {
+                        if (!isSplice)
+                            newstr += str;
+                        else
+                            newstr = newstr + "," + str;
+
+                        isSplice = false;
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(newstr))
+                        newstr += str;
+                }
+
+                if (isSplice)
+                {
+                    //添加因拆分时丢失的逗号
+                    if (string.IsNullOrEmpty(newstr))
+                        newstr += str;
+                    else
+                        newstr = newstr + "," + str;
+                }
+                else
+                {
+                    sList.Add(newstr.Trim());//去除字符中的单引号和首尾空格
+                    newstr = string.Empty;
+                }
+            }
+            return sList.ToArray();
+        }
+
     }
 
 

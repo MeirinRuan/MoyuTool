@@ -105,5 +105,11 @@ namespace MyTool
             ScriptLogForm getScriptLogForm = new ScriptLogForm();
             getScriptLogForm.Show();
         }
+
+        private void EmoneyShop_button_Click(object sender, EventArgs e)
+        {
+            EmoneyShopForm emoneyShopForm = new EmoneyShopForm();
+            emoneyShopForm.Show();
+        }
     }
 }

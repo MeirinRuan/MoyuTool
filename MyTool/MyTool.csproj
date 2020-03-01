@@ -124,47 +124,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivityForm\ActivityForm.cs">
+    <Compile Include="FormActivityPanel\ActivityForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActivityForm\ActivityForm.Designer.cs">
+    <Compile Include="FormActivityPanel\ActivityForm.Designer.cs">
       <DependentUpon>ActivityForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ActivityForm\ActivityItemDetailForm.cs">
+    <Compile Include="FormActivityPanel\ActivityItemDetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActivityForm\ActivityItemDetailForm.Designer.cs">
+    <Compile Include="FormActivityPanel\ActivityItemDetailForm.Designer.cs">
       <DependentUpon>ActivityItemDetailForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ActivityForm\ActivityItemForm.cs">
+    <Compile Include="FormActivityPanel\ActivityItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActivityForm\ActivityItemForm.Designer.cs">
+    <Compile Include="FormActivityPanel\ActivityItemForm.Designer.cs">
       <DependentUpon>ActivityItemForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyClass\ExcelOpration.cs" />
-    <Compile Include="MainForm\Form1.cs">
+    <Compile Include="FormEmoneyShop\EmoneyShopForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm\Form1.Designer.cs">
+    <Compile Include="FormEmoneyShop\EmoneyShopForm.Designer.cs">
+      <DependentUpon>EmoneyShopForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyClass\ExcelOpration.cs" />
+    <Compile Include="FormMain\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ScriptLogForm\ScriptLogForm.cs">
+    <Compile Include="FormScriptLog\ScriptLogForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ScriptLogForm\ScriptLogForm.Designer.cs">
+    <Compile Include="FormScriptLog\ScriptLogForm.Designer.cs">
       <DependentUpon>ScriptLogForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InsertSqlForm\InsertSqlExcel.cs">
+    <Compile Include="FormInsertSql\InsertSqlExcel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InsertSqlForm\InsertSqlExcel.Designer.cs">
+    <Compile Include="FormInsertSql\InsertSqlExcel.Designer.cs">
       <DependentUpon>InsertSqlExcel.cs</DependentUpon>
     </Compile>
-    <Compile Include="LuaShopForm\LuaShopForm.cs">
+    <Compile Include="FormLuaShop\LuaShopForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LuaShopForm\LuaShopForm.Designer.cs">
+    <Compile Include="FormLuaShop\LuaShopForm.Designer.cs">
       <DependentUpon>LuaShopForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyClass\MyCustomClass.cs" />
@@ -175,57 +181,60 @@
     <Compile Include="MyClass\MySqlOpration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScratchDrawForm\ScratchDrawForm.cs">
+    <Compile Include="FormScratchDraw\ScratchDrawForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ScratchDrawForm\ScratchDrawForm.Designer.cs">
+    <Compile Include="FormScratchDraw\ScratchDrawForm.Designer.cs">
       <DependentUpon>ScratchDrawForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ScratchDrawForm\ScratchDrawSettings.cs" />
-    <Compile Include="SqlForm\SqlConfigForm.cs">
+    <Compile Include="FormScratchDraw\ScratchDrawSettings.cs" />
+    <Compile Include="FormSql\SqlConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SqlForm\SqlConfigForm.Designer.cs">
+    <Compile Include="FormSql\SqlConfigForm.Designer.cs">
       <DependentUpon>SqlConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SqlForm\SqlForm.cs">
+    <Compile Include="FormSql\SqlForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SqlForm\SqlForm.Designer.cs">
+    <Compile Include="FormSql\SqlForm.Designer.cs">
       <DependentUpon>SqlForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TenRollForm\TenRollForm.cs">
+    <Compile Include="FormTenRoll\TenRollForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TenRollForm\TenRollForm.Designer.cs">
+    <Compile Include="FormTenRoll\TenRollForm.Designer.cs">
       <DependentUpon>TenRollForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TenRollForm\TenRollSettings.cs" />
-    <Compile Include="UpdateSqlForm\UpdateSqlExcel.cs">
+    <Compile Include="FormTenRoll\TenRollSettings.cs" />
+    <Compile Include="FormUpdateSql\UpdateSqlExcel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UpdateSqlForm\UpdateSqlExcel.Designer.cs">
+    <Compile Include="FormUpdateSql\UpdateSqlExcel.Designer.cs">
       <DependentUpon>UpdateSqlExcel.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ActivityForm\ActivityForm.resx">
+    <EmbeddedResource Include="FormActivityPanel\ActivityForm.resx">
       <DependentUpon>ActivityForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ActivityForm\ActivityItemDetailForm.resx">
+    <EmbeddedResource Include="FormActivityPanel\ActivityItemDetailForm.resx">
       <DependentUpon>ActivityItemDetailForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ActivityForm\ActivityItemForm.resx">
+    <EmbeddedResource Include="FormActivityPanel\ActivityItemForm.resx">
       <DependentUpon>ActivityItemForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm\Form1.resx">
+    <EmbeddedResource Include="FormEmoneyShop\EmoneyShopForm.resx">
+      <DependentUpon>EmoneyShopForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMain\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ScriptLogForm\ScriptLogForm.resx">
+    <EmbeddedResource Include="FormScriptLog\ScriptLogForm.resx">
       <DependentUpon>ScriptLogForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InsertSqlForm\InsertSqlExcel.resx">
+    <EmbeddedResource Include="FormInsertSql\InsertSqlExcel.resx">
       <DependentUpon>InsertSqlExcel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LuaShopForm\LuaShopForm.resx">
+    <EmbeddedResource Include="FormLuaShop\LuaShopForm.resx">
       <DependentUpon>LuaShopForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -237,19 +246,19 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ScratchDrawForm\ScratchDrawForm.resx">
+    <EmbeddedResource Include="FormScratchDraw\ScratchDrawForm.resx">
       <DependentUpon>ScratchDrawForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SqlForm\SqlConfigForm.resx">
+    <EmbeddedResource Include="FormSql\SqlConfigForm.resx">
       <DependentUpon>SqlConfigForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SqlForm\SqlForm.resx">
+    <EmbeddedResource Include="FormSql\SqlForm.resx">
       <DependentUpon>SqlForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TenRollForm\TenRollForm.resx">
+    <EmbeddedResource Include="FormTenRoll\TenRollForm.resx">
       <DependentUpon>TenRollForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UpdateSqlForm\UpdateSqlExcel.resx">
+    <EmbeddedResource Include="FormUpdateSql\UpdateSqlExcel.resx">
       <DependentUpon>UpdateSqlExcel.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="MyLua51\Main.lua">
@@ -322,6 +331,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Data\Pic\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

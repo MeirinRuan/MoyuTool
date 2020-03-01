@@ -46,6 +46,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.EmoneyShop_button = new System.Windows.Forms.Button();
             this.groupbox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -65,7 +66,8 @@
             // 
             // LuaShop_button
             // 
-            this.LuaShop_button.Location = new System.Drawing.Point(98, 20);
+            this.LuaShop_button.Enabled = false;
+            this.LuaShop_button.Location = new System.Drawing.Point(234, 97);
             this.LuaShop_button.Name = "LuaShop_button";
             this.LuaShop_button.Size = new System.Drawing.Size(86, 72);
             this.LuaShop_button.TabIndex = 2;
@@ -76,7 +78,8 @@
             // 
             // TenBox_button
             // 
-            this.TenBox_button.Location = new System.Drawing.Point(190, 20);
+            this.TenBox_button.Enabled = false;
+            this.TenBox_button.Location = new System.Drawing.Point(326, 97);
             this.TenBox_button.Name = "TenBox_button";
             this.TenBox_button.Size = new System.Drawing.Size(86, 72);
             this.TenBox_button.TabIndex = 3;
@@ -149,6 +152,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.EmoneyShop_button);
             this.groupBox2.Controls.Add(this.LuaShop_button);
             this.groupBox2.Controls.Add(this.TenBox_button);
             this.groupBox2.Controls.Add(this.ScratchDraw_button);
@@ -205,6 +209,16 @@
             this.toolStripMenuItem1.Text = "数据库配置";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 
+            // EmoneyShop_button
+            // 
+            this.EmoneyShop_button.Location = new System.Drawing.Point(98, 20);
+            this.EmoneyShop_button.Name = "EmoneyShop_button";
+            this.EmoneyShop_button.Size = new System.Drawing.Size(86, 72);
+            this.EmoneyShop_button.TabIndex = 5;
+            this.EmoneyShop_button.Text = "官方魔石商店生成";
+            this.EmoneyShop_button.UseVisualStyleBackColor = true;
+            this.EmoneyShop_button.Click += new System.EventHandler(this.EmoneyShop_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -250,6 +264,7 @@
         private System.Windows.Forms.ToolStripMenuItem 配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button EmoneyShop_button;
     }
 }
 

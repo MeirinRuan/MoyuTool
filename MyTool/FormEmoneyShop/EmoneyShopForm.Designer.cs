@@ -1,4 +1,4 @@
-﻿namespace MyTool
+﻿namespace MyTool.FormEmoneyShop
 {
     partial class EmoneyShopForm
     {
@@ -28,49 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.FileText_textBox = new System.Windows.Forms.TextBox();
-            this.ReadFile_button = new System.Windows.Forms.Button();
+            this.flowLayoutPanel_combolist = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel_wnd = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
-            // FileText_textBox
+            // flowLayoutPanel_combolist
             // 
-            this.FileText_textBox.AllowDrop = true;
-            this.FileText_textBox.Location = new System.Drawing.Point(277, 12);
-            this.FileText_textBox.Multiline = true;
-            this.FileText_textBox.Name = "FileText_textBox";
-            this.FileText_textBox.ReadOnly = true;
-            this.FileText_textBox.Size = new System.Drawing.Size(279, 222);
-            this.FileText_textBox.TabIndex = 2;
-            this.FileText_textBox.Text = "把sql文件拖进来";
-            this.FileText_textBox.TextChanged += new System.EventHandler(this.FileText_textBox_TextChanged);
+            this.flowLayoutPanel_combolist.BackColor = System.Drawing.Color.White;
+            this.flowLayoutPanel_combolist.Location = new System.Drawing.Point(12, 12);
+            this.flowLayoutPanel_combolist.Name = "flowLayoutPanel_combolist";
+            this.flowLayoutPanel_combolist.Size = new System.Drawing.Size(183, 175);
+            this.flowLayoutPanel_combolist.TabIndex = 0;
             // 
-            // ReadFile_button
+            // flowLayoutPanel_wnd
             // 
-            this.ReadFile_button.Location = new System.Drawing.Point(158, 12);
-            this.ReadFile_button.Name = "ReadFile_button";
-            this.ReadFile_button.Size = new System.Drawing.Size(113, 63);
-            this.ReadFile_button.TabIndex = 3;
-            this.ReadFile_button.Text = "打开客户端路径";
-            this.ReadFile_button.UseVisualStyleBackColor = true;
-            this.ReadFile_button.Click += new System.EventHandler(this.ReadFile_button_Click);
+            this.flowLayoutPanel_wnd.BackColor = System.Drawing.Color.White;
+            this.flowLayoutPanel_wnd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flowLayoutPanel_wnd.Location = new System.Drawing.Point(201, 12);
+            this.flowLayoutPanel_wnd.Name = "flowLayoutPanel_wnd";
+            this.flowLayoutPanel_wnd.Size = new System.Drawing.Size(235, 175);
+            this.flowLayoutPanel_wnd.TabIndex = 1;
             // 
             // EmoneyShopForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(568, 392);
-            this.Controls.Add(this.ReadFile_button);
-            this.Controls.Add(this.FileText_textBox);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(448, 199);
+            this.Controls.Add(this.flowLayoutPanel_wnd);
+            this.Controls.Add(this.flowLayoutPanel_combolist);
             this.Name = "EmoneyShopForm";
             this.Text = "官方魔石商店生成";
+            this.Load += new System.EventHandler(this.EmoneyShopForm_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox FileText_textBox;
-        private System.Windows.Forms.Button ReadFile_button;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel_combolist;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel_wnd;
     }
 }

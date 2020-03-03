@@ -142,11 +142,35 @@
     <Compile Include="FormActivityPanel\ActivityItemForm.Designer.cs">
       <DependentUpon>ActivityItemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEmoneyShop\UserControl_CombList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormEmoneyShop\UserControl_CombList.Designer.cs">
+      <DependentUpon>UserControl_CombList.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormEmoneyShop\EmoneyShopForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormEmoneyShop\EmoneyShopForm.Designer.cs">
       <DependentUpon>EmoneyShopForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEmoneyShop\UserControl_EnterId.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormEmoneyShop\UserControl_EnterId.Designer.cs">
+      <DependentUpon>UserControl_EnterId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEmoneyShop\UserControl_OpenFile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormEmoneyShop\UserControl_OpenFile.Designer.cs">
+      <DependentUpon>UserControl_OpenFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEmoneyShop\UserControl_Output.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormEmoneyShop\UserControl_Output.Designer.cs">
+      <DependentUpon>UserControl_Output.cs</DependentUpon>
     </Compile>
     <Compile Include="MyClass\ExcelOpration.cs" />
     <Compile Include="FormMain\Form1.cs">
@@ -222,8 +246,20 @@
     <EmbeddedResource Include="FormActivityPanel\ActivityItemForm.resx">
       <DependentUpon>ActivityItemForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormEmoneyShop\UserControl_CombList.resx">
+      <DependentUpon>UserControl_CombList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormEmoneyShop\EmoneyShopForm.resx">
       <DependentUpon>EmoneyShopForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEmoneyShop\UserControl_EnterId.resx">
+      <DependentUpon>UserControl_EnterId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEmoneyShop\UserControl_OpenFile.resx">
+      <DependentUpon>UserControl_OpenFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEmoneyShop\UserControl_Output.resx">
+      <DependentUpon>UserControl_Output.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -245,6 +281,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="FormScratchDraw\ScratchDrawForm.resx">
       <DependentUpon>ScratchDrawForm.cs</DependentUpon>
@@ -261,6 +298,7 @@
     <EmbeddedResource Include="FormUpdateSql\UpdateSqlExcel.resx">
       <DependentUpon>UpdateSqlExcel.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Data\Pic\tick.jpg" />
     <Content Include="MyLua51\Main.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -276,6 +314,9 @@
     <Content Include="ini\sql2client.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="ini\ShopType.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -331,8 +372,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Pic\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

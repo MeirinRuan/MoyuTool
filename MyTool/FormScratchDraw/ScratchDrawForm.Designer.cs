@@ -37,9 +37,9 @@
             this.TaskId_textBox = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.LogId_textBox = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.LogId_XSJ_textBox = new System.Windows.Forms.TextBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -47,8 +47,8 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,18 +111,6 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "LogId";
-            this.toolTip1.SetToolTip(this.groupBox3, "需要申请5个掩码id，填入起始id即可");
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.LogId_XSJ_textBox);
-            this.groupBox4.Location = new System.Drawing.Point(7, 71);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(101, 43);
-            this.groupBox4.TabIndex = 4;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "西山居log";
-            this.toolTip1.SetToolTip(this.groupBox4, "需要申请5个掩码id，填入起始id即可");
             // 
             // groupBox5
             // 
@@ -133,7 +121,6 @@
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "官方log";
-            this.toolTip1.SetToolTip(this.groupBox5, "需要申请5个掩码id，填入起始id即可");
             // 
             // LogId_textBox
             // 
@@ -141,6 +128,16 @@
             this.LogId_textBox.Name = "LogId_textBox";
             this.LogId_textBox.Size = new System.Drawing.Size(89, 21);
             this.LogId_textBox.TabIndex = 4;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.LogId_XSJ_textBox);
+            this.groupBox4.Location = new System.Drawing.Point(7, 71);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(101, 43);
+            this.groupBox4.TabIndex = 4;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "西山居log";
             // 
             // LogId_XSJ_textBox
             // 
@@ -194,10 +191,10 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.ResumeLayout(false);

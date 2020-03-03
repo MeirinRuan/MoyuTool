@@ -108,7 +108,7 @@ namespace MyTool
 
         private void EmoneyShop_button_Click(object sender, EventArgs e)
         {
-            EmoneyShopForm emoneyShopForm = new EmoneyShopForm();
+            FormEmoneyShop.EmoneyShopForm emoneyShopForm = new FormEmoneyShop.EmoneyShopForm();
             emoneyShopForm.Show();
         }
     }

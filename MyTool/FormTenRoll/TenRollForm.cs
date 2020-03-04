@@ -135,7 +135,24 @@ namespace MyTool
                 return;
             }
             TenRollSettings trs = (TenRollSettings)propertyGrid1.SelectedObject;
-            List<AwardList> al = eo.TenRollStatementSort(eo.ws);
+
+            //排序十连抽奖励表内容
+            int nRows = eo.GetRowNumFromItemId(eo.ws);
+            List<AwardList> Statement = new List<AwardList>(nRows);
+            for (int i = 1; i <= nRows; i++)
+            {
+                AwardList al2 = new AwardList();
+                al2.ALI.ItemId = Convert.ToInt32(eo.ws.Cells[i + 1, 6].ToString());//物品id
+                al2.ALI.IsBind = Convert.ToInt32(eo.CharBindConvert(eo.ws.Cells[i + 1, 3].ToString()));//绑定
+                al2.ALI.Count = Convert.ToInt32(eo.ws.Cells[i + 1, 5].ToString());//数量
+                al2.ALI.Chance = Convert.ToInt32(eo.ws.Cells[i + 1, 7]) * 10000;//概率
+                //播报
+                //全服产出
+
+                Statement.Add(al2);
+            }
+
+            List<AwardList> al = Statement;
 
             trs.tAwardList.Clear();
 

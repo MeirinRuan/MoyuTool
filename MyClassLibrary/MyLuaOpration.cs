@@ -2,9 +2,8 @@
 using System;
 using System.IO;
 
-namespace MyTool
-{
-    class MyLuaOpration
+
+    public class MyLuaOpration
     {
         public static string BaseDirectory = "\\MyLua51";
 
@@ -42,4 +41,4 @@ namespace MyTool
         }
 
     }
-}
+

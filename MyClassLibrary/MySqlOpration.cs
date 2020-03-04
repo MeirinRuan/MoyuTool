@@ -7,9 +7,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace MyTool
-{
-    class MySqlOpration
+
+    public class MySqlOpration
     {
         /// <summary>
         /// 连接数据库字符串
@@ -346,7 +345,7 @@ namespace MyTool
     /// <summary>
     /// sql文件类 用于存插入表的信息
     /// </summary>
-    class SqlFileInfoStruct
+    public class SqlFileInfoStruct
     {
         //表
         public string Text = "";
@@ -363,4 +362,4 @@ namespace MyTool
 
 
     }
-}
+

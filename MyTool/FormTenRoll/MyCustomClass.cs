@@ -4,13 +4,12 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Globalization;
 using System.ComponentModel;
-using System.Drawing.Design;
-using System.ComponentModel.Design;
 using System.Reflection;
+using System.ComponentModel.Design;
+using System.Drawing.Design;
 
 namespace MyTool
 {
-
     //自定义的collection类
     public class AwardListCollection : List<AwardList>, ICustomTypeDescriptor
     {
@@ -65,7 +64,7 @@ namespace MyTool
             PropertyDescriptor[] props = new PropertyDescriptor[Count];
             for (int i = 0; i < Count; i++)
             {
-                props[i] = new AwardListPropertyDescriptor(this[i], attributes, i+1);
+                props[i] = new AwardListPropertyDescriptor(this[i], attributes, i + 1);
             }
             return new PropertyDescriptorCollection(props);
         }
@@ -90,7 +89,7 @@ namespace MyTool
         public AwardListPropertyDescriptor(AwardList prop, Attribute[] attrs, int Count) : base(Count.ToString(), attrs)
         {
             ali = prop.ALI;
-            
+
         }
 
         public override TypeConverter Converter
@@ -146,7 +145,7 @@ namespace MyTool
 
         public MyCollectionEditor(Type type) : base(type)
         {
-            
+
         }
 
         protected override CollectionForm CreateCollectionForm()
@@ -154,7 +153,7 @@ namespace MyTool
             //获取属性浏览对象
             CollectionForm frm = base.CreateCollectionForm();
             FieldInfo fieldInfo = frm.GetType().GetField("propertyBrower", BindingFlags.NonPublic | BindingFlags.Instance);
-            if(fieldInfo != null)
+            if (fieldInfo != null)
             {
                 PropertyGrid pgrid = fieldInfo.GetValue(frm) as PropertyGrid;
                 pgrid.PropertyValueChanged += Pgrid_PropertyValueChanged;
@@ -204,16 +203,16 @@ namespace MyTool
                 }
                 items[i] = ListItem.GetValue(listb.Items[i]);
             }
-            
+
             Items.SetValue(frm, items);
- 
+
             AfterRemove();
 
         }
 
         private void ExtendCollectionEditor_ValueChange(object sender, EventArgs e)
         {
-              SubmitChange();
+            SubmitChange();
         }
 
         private void Pgrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -229,7 +228,7 @@ namespace MyTool
 
         private void SubmitChange()
         {
-           OnValueChange?.Invoke();
+            OnValueChange?.Invoke();
         }
 
     }

@@ -112,8 +112,8 @@ namespace MyTool.FormEmoneyShop
                 return;
             }
 
-            string itemtypeId = flowLayoutPanel_wnd.Controls[0].Controls["textBox_itemtype"].Text;
-            string goodsId = flowLayoutPanel_wnd.Controls[0].Controls["textBox_goods"].Text;
+            string goodsId = flowLayoutPanel_wnd.Controls[0].Controls["textBox_itemtype"].Text;
+            string itemtypeId = flowLayoutPanel_wnd.Controls[0].Controls["textBox_goods"].Text;
 
             DateTimePicker dateTimePicker_begintime = (DateTimePicker)flowLayoutPanel_wnd.Controls[0].Controls["dateTimePicker_begintime"];
             DateTimePicker dateTimePicker_endtime = (DateTimePicker)flowLayoutPanel_wnd.Controls[0].Controls["dateTimePicker_endtime"];

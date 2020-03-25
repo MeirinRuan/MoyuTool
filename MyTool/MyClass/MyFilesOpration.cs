@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
-
-
-    public class MyFilesOpration
+namespace MyTool
+{
+    class MyFilesOpration
     {
 
         //读取游戏路径
@@ -93,7 +93,7 @@ using System.Text.RegularExpressions;
         public List<string> ReadSections()
         {
             List<string> result = new List<string>();
-            byte[] buf = new byte[1048576];
+            byte[] buf = new byte[65536];
             uint len = GetPrivateProfileStringA(null, null, null, buf, buf.Length, inipath);
             int j = 0;
             for (int i = 0; i < len; i++)
@@ -199,4 +199,4 @@ using System.Text.RegularExpressions;
 
     }
 
-
+}

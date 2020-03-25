@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-
-    public class MyRegularExpression
+namespace MyTool
+{
+    class MyRegularExpression
     {
         const string Const_Null = "无";         //无
         const string Const_Activity = "火爆";     //火爆活动
@@ -234,4 +235,4 @@ using System.Text.RegularExpressions;
         }
 
     }
-
+}

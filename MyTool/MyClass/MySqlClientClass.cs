@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 
-
+namespace MyTool
+{
     /// <summary>
     /// 客户端配置
     /// </summary>
@@ -109,4 +110,4 @@ using System.IO;
                 return "0";
         }
     }
-
+}
